@@ -27,7 +27,7 @@ public class HashTable {
     }
 
     public void addToTable(Employee addition) {
-        int toPlace = addition.getStudentNumber() % length;
+        int toPlace = addition.getEmployeeNumber() % length;
 
         for (int i = 0; i < length; i++) {
             if (!(i == toPlace)) {
@@ -41,15 +41,15 @@ public class HashTable {
 
     }
 
-    public Employee get(int studentNumber) {
-        int toRetrieve = studentNumber % length;
+    public Employee get(int employeeNumber) {
+        int toRetrieve = employeeNumber % length;
         for (int i = 0; i < length; i++) {
             if (!(i == toRetrieve)) {
                 continue;
             }
 
             for (Employee info : buckets[i]) {
-                if (info.getStudentNumber() == studentNumber) {
+                if (info.getEmployeeNumber() == employeeNumber) {
                     return info;
                 }
             }
@@ -59,14 +59,14 @@ public class HashTable {
 
     }
 
-    public void remove(int studentNumber) {
-        int toRemove = studentNumber % length;
+    public void remove(int employeeNumber) {
+        int toRemove = employeeNumber % length;
         for (int i = 0; i < length; i++) {
             if (!(i == toRemove)) {
                 continue;
             }
             for (Employee info : buckets[i]) {
-                if (info.getStudentNumber() == studentNumber) {
+                if (info.getEmployeeNumber() == employeeNumber) {
                     buckets[i].remove(info);
                     return;
 
@@ -76,6 +76,26 @@ public class HashTable {
 
         }
 
+    }
+    
+    public ArrayList<Employee> obtainSingleArrayObject() {
+        ArrayList<Employee> employeeList = new ArrayList<Employee>();
+        for (int i = 0; i < length; i++) {
+
+            System.out.println("Bucket number: " + i);
+            if (buckets[i].isEmpty()) {
+                System.out.println("Empty Bucket");
+                continue;
+            }
+
+            for (int k = 0; k < buckets[i].size(); k++) {
+                employeeList.add(buckets[i].get(k));
+
+            }
+
+        }
+        return employeeList;
+        
     }
 
     public void displayTable() {
@@ -89,7 +109,7 @@ public class HashTable {
 
             for (int k = 0; k < buckets[i].size(); k++) {
                 System.out.println(buckets[i].get(k).getFirstName() + " " + buckets[i].get(k).getLastName() + " "
-                        + buckets[i].get(k).getStudentNumber());
+                        + buckets[i].get(k).getEmployeeNumber());
 
             }
 
