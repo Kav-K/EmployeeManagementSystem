@@ -1,6 +1,9 @@
 package me.kaveenk.ems;
 
+import java.awt.Color;
 import java.util.ArrayList;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class HashTable {
 
@@ -82,9 +85,7 @@ public class HashTable {
         ArrayList<Employee> employeeList = new ArrayList<Employee>();
         for (int i = 0; i < length; i++) {
 
-            System.out.println("Bucket number: " + i);
             if (buckets[i].isEmpty()) {
-                System.out.println("Empty Bucket");
                 continue;
             }
 
@@ -95,6 +96,35 @@ public class HashTable {
 
         }
         return employeeList;
+        
+    }
+    
+    public void populateJFrameTable(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        
+         for (int i = 0; i < length; i++) {
+
+       
+            if (buckets[i].isEmpty()) {
+          
+                continue;
+            }
+
+            for (int k = 0; k < buckets[i].size(); k++) {
+                if (buckets[i].get(k) instanceof PartTimeEmployee) {
+                    PartTimeEmployee employee = (PartTimeEmployee) buckets[i].get(k);
+                    model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(),"Part Time",123});
+                } else if (buckets[i].get(k) instanceof FullTimeEmployee) {
+                    FullTimeEmployee employee = (FullTimeEmployee) buckets[i].get(k);
+                    model.addRow(new Object[]{employee.getFirstName(),employee.getLastName(),employee.getEmployeeNumber(),"Full Time",employee.getYearlySalary()});
+                } else {
+                    Employee employee = (Employee) buckets[i].get(k);
+                }    
+
+            }
+
+        }
+
         
     }
 

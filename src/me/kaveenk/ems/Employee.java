@@ -14,8 +14,8 @@ public class Employee implements Serializable {
 	private String lastName;
 	private int employeeNum;
         
-        public static EMSMain mainInstance;
-        public Employee(EMSMain instance) {
+        public static EMSMainAndLogin mainInstance;
+        public Employee(EMSMainAndLogin instance) {
             this.mainInstance = instance;
         }
         
