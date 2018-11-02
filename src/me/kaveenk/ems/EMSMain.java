@@ -16,7 +16,7 @@ public class EMSMain extends javax.swing.JFrame {
      */
     public EMSMain() {
         initComponents();
-        //VS Test
+        FullTimeEmployee employee = new FullTimeEmployee("Kaveen", "Kumarasinghe", 123, 123123);
     }
 
     /**
