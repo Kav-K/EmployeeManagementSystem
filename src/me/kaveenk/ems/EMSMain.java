@@ -5,23 +5,29 @@
  */
 package me.kaveenk.ems;
 
+import javax.swing.JOptionPane;
+
 /**
  *
- * @author kaveen
+ * @author Kaveen Kumarasinghe
+ * The password for purposes of demonstration is currently "securepassword123".
+ * 
  */
 public class EMSMain extends javax.swing.JFrame {
     public static HashTable employeeTable;
     final static int NUM_BUCKETS = 5;
+    public static final String validPassword = "dda69783f28fdf6f1c5a83e8400f2472e9300887d1dffffe12a07b92a3d0aa25";
 
     /**
      * Creates new form EMSMain
      */
     public EMSMain() {
+        
       
       new Employee(this);
       employeeTable = new HashTable(NUM_BUCKETS);
       Employee.load();
-      initComponents();
+      initComponents(); 
     }
 
     /**
@@ -36,6 +42,7 @@ public class EMSMain extends javax.swing.JFrame {
         titleLabel = new javax.swing.JLabel();
         passwordField = new javax.swing.JPasswordField();
         loginLabel = new javax.swing.JLabel();
+        loginButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("emsMain"); // NOI18N
@@ -51,12 +58,19 @@ public class EMSMain extends javax.swing.JFrame {
 
         loginLabel.setText("Please Login");
 
+        loginButton.setText("Login");
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 27, Short.MAX_VALUE)
                 .addComponent(titleLabel)
                 .addGap(43, 43, 43))
             .addGroup(layout.createSequentialGroup()
@@ -66,8 +80,11 @@ public class EMSMain extends javax.swing.JFrame {
                         .addComponent(loginLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(122, 122, 122)
-                        .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(122, Short.MAX_VALUE))
+                        .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(180, 180, 180)
+                        .addComponent(loginButton)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -78,7 +95,8 @@ public class EMSMain extends javax.swing.JFrame {
                 .addComponent(loginLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(loginButton))
         );
 
         pack();
@@ -87,6 +105,19 @@ public class EMSMain extends javax.swing.JFrame {
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordFieldActionPerformed
+
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        // TODO add your handling code here:
+        if (passwordField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "You didn't enter a password.");
+        }
+        if (!(CryptographyUtils.hash(passwordField.getText()).equals(validPassword))) {
+            JOptionPane.showMessageDialog(this, "Invalid Password.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Valid Password.");
+        }
+        
+    }//GEN-LAST:event_loginButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -124,6 +155,7 @@ public class EMSMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton loginButton;
     private javax.swing.JLabel loginLabel;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel titleLabel;
