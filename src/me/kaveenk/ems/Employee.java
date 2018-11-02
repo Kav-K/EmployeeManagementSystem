@@ -53,7 +53,7 @@ public class Employee implements Serializable {
 	}
         
         public static void serialize() {
-            try {
+         try {
          FileOutputStream fileOut = new FileOutputStream("employeeData.ser");
          ObjectOutputStream out = new ObjectOutputStream(fileOut);
          out.writeObject(mainInstance.employeeTable.obtainSingleArrayObject());
@@ -68,7 +68,7 @@ public class Employee implements Serializable {
  
         public static void load() {
       try {
-         FileInputStream fileIn = new FileInputStream("test.ser");
+         FileInputStream fileIn = new FileInputStream("employeeData.ser");
          
          ObjectInputStream in = new ObjectInputStream(fileIn);
          

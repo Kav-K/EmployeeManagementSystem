@@ -32,6 +32,8 @@ public class EMSMainMenu extends javax.swing.JFrame {
         tablePanel = new javax.swing.JPanel();
         tableScrollPane = new javax.swing.JScrollPane();
         employeeTable = new javax.swing.JTable();
+        mainLabel = new javax.swing.JLabel();
+        editToggle = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,7 +66,7 @@ public class EMSMainMenu extends javax.swing.JFrame {
             tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tablePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tableScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
+                .addComponent(tableScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
                 .addContainerGap())
         );
         tablePanelLayout.setVerticalGroup(
@@ -75,12 +77,30 @@ public class EMSMainMenu extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        mainLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        mainLabel.setText("EMS Functions");
+
+        editToggle.setText("Edit Mode");
+        editToggle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editToggleActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(202, 202, 202)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(mainLabel)
+                        .addGap(44, 44, 44))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(editToggle)
+                        .addGap(67, 67, 67)))
                 .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -88,7 +108,14 @@ public class EMSMainMenu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(mainLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(editToggle)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -99,6 +126,16 @@ public class EMSMainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_employeeTablePropertyChange
+
+    private void editToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editToggleActionPerformed
+        if (editToggle.isSelected()) {
+            System.out.println("enabled");
+            employeeTable.setEnabled(true);
+        } else {
+            employeeTable.setEnabled(false);
+            System.out.println("disabled");
+        }
+    }//GEN-LAST:event_editToggleActionPerformed
 
     /**
      * @param args the command line arguments
@@ -136,7 +173,9 @@ public class EMSMainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton editToggle;
     private javax.swing.JTable employeeTable;
+    private javax.swing.JLabel mainLabel;
     private javax.swing.JPanel tablePanel;
     private javax.swing.JScrollPane tableScrollPane;
     // End of variables declaration//GEN-END:variables

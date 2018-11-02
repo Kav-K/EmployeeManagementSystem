@@ -16,18 +16,20 @@ import javax.swing.JOptionPane;
 public class EMSMainAndLogin extends javax.swing.JFrame {
     public static HashTable employeeTable;
     final static int NUM_BUCKETS = 5;
-    public static final String validPassword = "dda69783f28fdf6f1c5a83e8400f2472e9300887d1dffffe12a07b92a3d0aa25";
+    public static final String VALID_PASSWORD = "dda69783f28fdf6f1c5a83e8400f2472e9300887d1dffffe12a07b92a3d0aa25";
 
     /**
      * Creates new form EMSMain
      */
     public EMSMainAndLogin() {
         
-      
+        
       new Employee(this);
       employeeTable = new HashTable(NUM_BUCKETS);
+      
+      
       Employee.load();
-      initComponents(); 
+      initComponents();
     }
 
     /**
@@ -111,7 +113,7 @@ public class EMSMainAndLogin extends javax.swing.JFrame {
         if (passwordField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "You didn't enter a password.");
         }
-        if (!(CryptographyUtils.hash(passwordField.getText()).equals(validPassword))) {
+        if (!(CryptographyUtils.hash(passwordField.getText()).equals(VALID_PASSWORD))) {
             JOptionPane.showMessageDialog(this, "Invalid Password.");
         } else {
             new EMSMainMenu().setVisible(true);
