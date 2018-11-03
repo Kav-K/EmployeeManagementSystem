@@ -7,6 +7,7 @@ package me.kaveenk.ems;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.JTable;
 
 /**
  *
@@ -15,15 +16,46 @@ import java.awt.Toolkit;
 public class EMSEditorFTE extends javax.swing.JFrame {
 
     private static FullTimeEmployee employee;
-
+    private static JTable employeeJTable;
     /**
      * Creates new form EMSEditorFTE
      */
-    public EMSEditorFTE(FullTimeEmployee employee) {
+    public EMSEditorFTE(FullTimeEmployee employee,JTable employeeJTable) {
         this.employee = employee;
+        this.employeeJTable = employeeJTable;
         initComponents();
         center();
+        
+        lockFields();
         setFields();
+       
+    }
+    private void unlockFields() {
+        workLocationField.setEnabled(true);
+        firstNameField.setEnabled(true);
+        lastNameField.setEnabled(true);
+        employeeNumberField.setEnabled(true);
+        yearlySalaryField.setEnabled(true);
+        maleButton.setEnabled(true);
+        femaleButton.setEnabled(true);
+    }
+    
+    private void lockFields() {
+        workLocationField.setMaximumSize(workLocationField.getPreferredScrollableViewportSize());
+        firstNameField.setMaximumSize(firstNameField.getPreferredScrollableViewportSize());
+        lastNameField.setMaximumSize(lastNameField.getPreferredScrollableViewportSize());
+        employeeNumberField.setMaximumSize(employeeNumberField.getPreferredScrollableViewportSize());
+        yearlySalaryField.setMaximumSize(yearlySalaryField.getPreferredScrollableViewportSize());
+        workLocationField.setEnabled(false);
+        firstNameField.setEnabled(false);
+        lastNameField.setEnabled(false);
+        employeeNumberField.setEnabled(false);
+        yearlySalaryField.setEnabled(false);
+        maleButton.setEnabled(false);
+        femaleButton.setEnabled(false);
+        saveButton.setVisible(false);
+        revertButton.setVisible(false);
+
     }
 
     private void setFields() {
@@ -69,11 +101,16 @@ public class EMSEditorFTE extends javax.swing.JFrame {
         yearlySalaryField = new javax.swing.JTextField();
         maleButton = new javax.swing.JRadioButton();
         femaleButton = new javax.swing.JRadioButton();
+        saveButton = new javax.swing.JButton();
+        revertButton = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
+        deleteButton = new javax.swing.JToggleButton();
+        editButton1 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         employeeEditorLabel.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        employeeEditorLabel.setText("Employee Editor (Full Time)");
+        employeeEditorLabel.setText("Employee Viewer (Full Time)");
 
         firstNameLabel.setText("First Name:");
 
@@ -88,6 +125,8 @@ public class EMSEditorFTE extends javax.swing.JFrame {
         yearlySalaryLabel.setText("Yearly Salary:");
 
         firstNameField.setText("jTextField1");
+        firstNameField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
+        firstNameField.setPreferredSize(new java.awt.Dimension(177, 33));
         firstNameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 firstNameFieldActionPerformed(evt);
@@ -95,12 +134,25 @@ public class EMSEditorFTE extends javax.swing.JFrame {
         });
 
         lastNameField.setText("jTextField2");
+        lastNameField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
+        lastNameField.setPreferredSize(new java.awt.Dimension(177, 33));
 
         employeeNumberField.setText("jTextField3");
+        employeeNumberField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
+        employeeNumberField.setPreferredSize(new java.awt.Dimension(177, 33));
 
         workLocationField.setText("jTextField5");
+        workLocationField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
+        workLocationField.setPreferredSize(new java.awt.Dimension(177, 33));
 
         yearlySalaryField.setText("jTextField6");
+        yearlySalaryField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
+        yearlySalaryField.setPreferredSize(new java.awt.Dimension(177, 33));
+        yearlySalaryField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yearlySalaryFieldActionPerformed(evt);
+            }
+        });
 
         maleButton.setText("Male");
         maleButton.addActionListener(new java.awt.event.ActionListener() {
@@ -117,6 +169,41 @@ public class EMSEditorFTE extends javax.swing.JFrame {
             }
         });
 
+        saveButton.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        saveButton.setText("Save Changes");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
+
+        revertButton.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        revertButton.setText("Revert Changes");
+        revertButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                revertButtonActionPerformed(evt);
+            }
+        });
+
+        errorLabel.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
+        errorLabel.setForeground(new java.awt.Color(255, 34, 0));
+
+        deleteButton.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
+        deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+
+        editButton1.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
+        editButton1.setText("Edit");
+        editButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -124,68 +211,93 @@ public class EMSEditorFTE extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(214, 214, 214)
-                        .addComponent(employeeEditorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(59, 59, 59)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(sexLabel)
+                            .addComponent(workLocationLabel)))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(85, 85, 85)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(59, 59, 59)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(sexLabel)
-                                    .addComponent(workLocationLabel)
-                                    .addComponent(yearlySalaryLabel)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(85, 85, 85)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lastNameLabel)
-                                    .addComponent(firstNameLabel)))
+                            .addComponent(lastNameLabel)
+                            .addComponent(firstNameLabel)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
                                 .addComponent(employeeNumberLabel)
-                                .addGap(1, 1, 1)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(maleButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(femaleButton))
-                            .addComponent(firstNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-                            .addComponent(lastNameField)
-                            .addComponent(employeeNumberField)
-                            .addComponent(workLocationField)
-                            .addComponent(yearlySalaryField))))
-                .addContainerGap(231, Short.MAX_VALUE))
+                                .addGap(1, 1, 1))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(yearlySalaryLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(maleButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(femaleButton))
+                    .addComponent(firstNameField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lastNameField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(employeeNumberField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(workLocationField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(yearlySalaryField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(employeeEditorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(saveButton)
+                                .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(errorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(editButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deleteButton)
+                        .addGap(28, 28, 28))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(employeeEditorLabel)
-                .addGap(7, 7, 7)
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(firstNameLabel))
+                    .addComponent(firstNameLabel)
+                    .addComponent(employeeEditorLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lastNameLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(employeeNumberLabel)
-                    .addComponent(employeeNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sexLabel)
-                    .addComponent(maleButton)
-                    .addComponent(femaleButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(workLocationLabel)
-                    .addComponent(workLocationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(yearlySalaryLabel)
-                    .addComponent(yearlySalaryField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lastNameLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(employeeNumberLabel)
+                            .addComponent(employeeNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(sexLabel)
+                            .addComponent(maleButton)
+                            .addComponent(femaleButton))
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(workLocationLabel)
+                            .addComponent(workLocationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(yearlySalaryLabel)
+                            .addComponent(yearlySalaryField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(deleteButton)
+                            .addComponent(editButton1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(revertButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(saveButton)
+                        .addGap(44, 44, 44))))
         );
 
         pack();
@@ -216,6 +328,83 @@ public class EMSEditorFTE extends javax.swing.JFrame {
     private void firstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_firstNameFieldActionPerformed
+    private boolean validate(String employeeNumber, String yearlySalary) {
+        int employeeNumParsed;
+        try {
+            employeeNumParsed = Integer.parseInt(employeeNumber);
+        } catch (Exception e) {
+            errorLabel.setText("Invalid employee number.");
+            return false;
+        }
+        double yearlySalaryParsed;
+        try {
+            Double.parseDouble(yearlySalary);
+        } catch (Exception e) {
+            errorLabel.setText("Invalid yearly salary.");
+            return false;
+        }
+        if ((employeeNumParsed != employee.getEmployeeNumber()) && EMSMainAndLogin.employeeTable.toArray().contains(EMSMainAndLogin.employeeTable.get(employeeNumParsed))) {
+            errorLabel.setText("Employee number already exists");
+            return false;
+            
+        }
+        return true;
+    }
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        if (validate(employeeNumberField.getText(),yearlySalaryField.getText())) {
+            
+            employee.setEmployeeNumber(Integer.parseInt(employeeNumberField.getText()));
+            employee.setFirstName(firstNameField.getText());
+            employee.setLastName(lastNameField.getText());
+            if (maleButton.isSelected()) {
+                employee.setSex(0);
+            } else {
+                employee.setSex(1);
+            }
+            employee.setWorkLocation(workLocationField.getText());
+            employee.setYearlySalary(Double.parseDouble(yearlySalaryField.getText()));
+            Employee.serialize();
+            //this.setVisible(false);
+            EMSMainAndLogin.employeeTable.populateJFrameTable(this.employeeJTable);
+            deleteButton.setEnabled(true);
+            deleteButton.setSelected(false);
+            saveButton.setVisible(false);
+            revertButton.setVisible(false);
+            deleteButton.setEnabled(true);
+            
+            lockFields();
+            setFields();
+            
+        }
+        
+        
+        
+    }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void yearlySalaryFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearlySalaryFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_yearlySalaryFieldActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+         EMSMainAndLogin.employeeTable.remove(employee.getEmployeeNumber());
+         Employee.serialize();
+         EMSMainAndLogin.employeeTable.populateJFrameTable(employeeJTable);
+         this.setVisible(false);
+            
+        
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void revertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revertButtonActionPerformed
+        setFields();
+        lockFields();
+        deleteButton.setEnabled(true);
+        deleteButton.setSelected(false);
+        deleteButton.setEnabled(true);
+    }//GEN-LAST:event_revertButtonActionPerformed
+
+    private void editButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -247,22 +436,27 @@ public class EMSEditorFTE extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EMSEditorFTE(employee).setVisible(true);
+                new EMSEditorFTE(employee,employeeJTable).setVisible(true);
 
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton deleteButton;
+    private javax.swing.JToggleButton editButton1;
     private javax.swing.JLabel employeeEditorLabel;
     private javax.swing.JTextField employeeNumberField;
     private javax.swing.JLabel employeeNumberLabel;
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JRadioButton femaleButton;
     private javax.swing.JTextField firstNameField;
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JTextField lastNameField;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JRadioButton maleButton;
+    private javax.swing.JButton revertButton;
+    private javax.swing.JButton saveButton;
     private javax.swing.JLabel sexLabel;
     private javax.swing.JTextField workLocationField;
     private javax.swing.JLabel workLocationLabel;

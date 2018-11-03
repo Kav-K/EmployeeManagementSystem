@@ -135,7 +135,7 @@ public class EMSMainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_employeeJTablePropertyChange
     private void initializeEditor(Employee employee) {
         if (employee instanceof FullTimeEmployee) {
-            new EMSEditorFTE((FullTimeEmployee) employee).setVisible(true);
+            new EMSEditorFTE((FullTimeEmployee) employee,employeeJTable).setVisible(true);
 
         }
 
