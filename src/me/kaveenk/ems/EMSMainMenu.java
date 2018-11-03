@@ -199,7 +199,8 @@ public class EMSMainMenu extends javax.swing.JFrame {
             activeEditor = true;
 
         } else if (response == 1) {
-            //Full Time
+            new EMSAdditionEditorFTE(employeeJTable).setVisible(true);
+            activeEditor = true;
         }
 
 

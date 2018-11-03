@@ -15,28 +15,27 @@ import javax.swing.JTable;
  *
  * @author kaveen
  */
-public class EMSAdditionEditorPTE extends javax.swing.JFrame {
+public class EMSAdditionEditorFTE extends javax.swing.JFrame {
 
-   
     private static JTable employeeJTable;
 
     /**
      * Creates new form EMSEditorFTE
      */
-    public EMSAdditionEditorPTE(JTable employeeJTable) {
-       
+    public EMSAdditionEditorFTE(JTable employeeJTable) {
+
         this.employeeJTable = employeeJTable;
         initComponents();
         center();
 
         lockFields();
         this.addWindowListener(new WindowAdapter() {
-        @Override
-        public void windowClosing(WindowEvent event) {
-            EMSMainMenu.activeEditor = false;
-            event.getWindow().dispose();
-        }
-    });
+            @Override
+            public void windowClosing(WindowEvent event) {
+                EMSMainMenu.activeEditor = false;
+                event.getWindow().dispose();
+            }
+        });
 
     }
 
@@ -45,9 +44,7 @@ public class EMSAdditionEditorPTE extends javax.swing.JFrame {
         firstNameField.setMaximumSize(firstNameField.getPreferredScrollableViewportSize());
         lastNameField.setMaximumSize(lastNameField.getPreferredScrollableViewportSize());
         employeeNumberField.setMaximumSize(employeeNumberField.getPreferredScrollableViewportSize());
-        hourlyWageField.setMaximumSize(hourlyWageField.getPreferredScrollableViewportSize());
-        hoursPerWeekField.setMaximumSize(hoursPerWeekField.getPreferredScrollableViewportSize());
-        weeksPerYearField.setMaximumSize(weeksPerYearField.getPreferredScrollableViewportSize());
+        yearlySalaryField.setMaximumSize(yearlySalaryField.getPreferredScrollableViewportSize());
 
     }
 
@@ -71,20 +68,16 @@ public class EMSAdditionEditorPTE extends javax.swing.JFrame {
         lastNameLabel = new javax.swing.JLabel();
         sexLabel = new javax.swing.JLabel();
         workLocationLabel = new javax.swing.JLabel();
-        hourlyWageLabel = new javax.swing.JLabel();
+        yearlySalaryLabel = new javax.swing.JLabel();
         firstNameField = new javax.swing.JTextField();
         lastNameField = new javax.swing.JTextField();
         employeeNumberField = new javax.swing.JTextField();
         workLocationField = new javax.swing.JTextField();
-        hourlyWageField = new javax.swing.JTextField();
+        yearlySalaryField = new javax.swing.JTextField();
         maleButton = new javax.swing.JRadioButton();
         femaleButton = new javax.swing.JRadioButton();
         errorLabel = new javax.swing.JLabel();
         addButton = new javax.swing.JToggleButton();
-        hoursPerWeekLabel = new javax.swing.JLabel();
-        weeksPerYearLabel = new javax.swing.JLabel();
-        hoursPerWeekField = new javax.swing.JTextField();
-        weeksPerYearField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -101,7 +94,7 @@ public class EMSAdditionEditorPTE extends javax.swing.JFrame {
 
         workLocationLabel.setText("Work Location:");
 
-        hourlyWageLabel.setText("Hourly Wage:");
+        yearlySalaryLabel.setText("Yearly Salary:");
 
         firstNameField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
         firstNameField.setPreferredSize(new java.awt.Dimension(177, 33));
@@ -120,12 +113,12 @@ public class EMSAdditionEditorPTE extends javax.swing.JFrame {
         workLocationField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
         workLocationField.setPreferredSize(new java.awt.Dimension(177, 33));
 
-        hourlyWageField.setToolTipText("");
-        hourlyWageField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
-        hourlyWageField.setPreferredSize(new java.awt.Dimension(177, 33));
-        hourlyWageField.addActionListener(new java.awt.event.ActionListener() {
+        yearlySalaryField.setToolTipText("");
+        yearlySalaryField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
+        yearlySalaryField.setPreferredSize(new java.awt.Dimension(177, 33));
+        yearlySalaryField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hourlyWageFieldActionPerformed(evt);
+                yearlySalaryFieldActionPerformed(evt);
             }
         });
 
@@ -155,26 +148,6 @@ public class EMSAdditionEditorPTE extends javax.swing.JFrame {
             }
         });
 
-        hoursPerWeekLabel.setText("Hours/Week:");
-
-        weeksPerYearLabel.setText("Weeks/Year:");
-
-        hoursPerWeekField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
-        hoursPerWeekField.setPreferredSize(new java.awt.Dimension(177, 33));
-        hoursPerWeekField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hoursPerWeekFieldActionPerformed(evt);
-            }
-        });
-
-        weeksPerYearField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
-        weeksPerYearField.setPreferredSize(new java.awt.Dimension(177, 33));
-        weeksPerYearField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                weeksPerYearFieldActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -188,14 +161,9 @@ public class EMSAdditionEditorPTE extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(weeksPerYearLabel)
-                                .addGap(15, 15, 15))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(workLocationLabel)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(hoursPerWeekLabel)
-                                        .addComponent(hourlyWageLabel)))
+                                    .addComponent(yearlySalaryLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -212,67 +180,55 @@ public class EMSAdditionEditorPTE extends javax.swing.JFrame {
                     .addComponent(lastNameField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(employeeNumberField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(workLocationField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(hourlyWageField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(hoursPerWeekField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(weeksPerYearField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(yearlySalaryField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(addButton)
-                        .addGap(112, 112, 112))
+                        .addComponent(employeeEditorLabel)
+                        .addGap(22, 22, 22))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31))
+                        .addGap(30, 30, 30))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(employeeEditorLabel)
-                        .addGap(22, 22, 22))))
+                        .addComponent(addButton)
+                        .addGap(112, 112, 112))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(firstNameLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lastNameLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(employeeNumberLabel)
-                            .addComponent(employeeNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(sexLabel)
-                            .addComponent(maleButton)
-                            .addComponent(femaleButton))
-                        .addGap(1, 1, 1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(employeeEditorLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(firstNameLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lastNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lastNameLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(employeeNumberLabel)
+                    .addComponent(employeeNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sexLabel)
+                    .addComponent(maleButton)
+                    .addComponent(femaleButton))
+                .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(workLocationLabel)
-                    .addComponent(workLocationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addButton))
+                    .addComponent(workLocationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(hourlyWageLabel)
-                    .addComponent(hourlyWageField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(hoursPerWeekLabel)
-                    .addComponent(hoursPerWeekField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(yearlySalaryLabel)
+                    .addComponent(yearlySalaryField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(employeeEditorLabel)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(weeksPerYearLabel)
-                    .addComponent(weeksPerYearField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(addButton)
+                .addGap(68, 68, 68))
         );
 
         pack();
@@ -303,7 +259,7 @@ public class EMSAdditionEditorPTE extends javax.swing.JFrame {
     private void firstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_firstNameFieldActionPerformed
-    private boolean validate(String firstName, String lastName, String workLocation, String employeeNumber, String hourlyWage, String hoursPerWeek, String weeksPerYear) {
+    private boolean validate(String firstName, String lastName, String workLocation, String employeeNumber, String yearlySalary) {
         int employeeNumParsed;
         try {
             employeeNumParsed = Integer.parseInt(employeeNumber);
@@ -325,24 +281,13 @@ public class EMSAdditionEditorPTE extends javax.swing.JFrame {
         }
 
         try {
-            Double.parseDouble(hourlyWage);
+            Double.parseDouble(yearlySalary);
         } catch (Exception e) {
-            errorLabel.setText("Invalid hourly wage.");
+            errorLabel.setText("Invalid yearly salary.");
             return false;
         }
-        try {
-            Double.parseDouble(hoursPerWeek);
-        } catch (Exception e) {
-            errorLabel.setText("Invalid hours/week.");
-            return false;
-        }
-        try {
-            Double.parseDouble(weeksPerYear);
-        } catch (Exception e) {
-            errorLabel.setText("Invalid weeks/year.");
-            return false;
-        }
-
+        
+        
         if (EMSMainAndLogin.employeeTable.toArray().contains(EMSMainAndLogin.employeeTable.get(employeeNumParsed))) {
             errorLabel.setText("Employee number already exists");
             return false;
@@ -350,20 +295,20 @@ public class EMSAdditionEditorPTE extends javax.swing.JFrame {
         }
         return true;
     }
-    private void hourlyWageFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hourlyWageFieldActionPerformed
+    private void yearlySalaryFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearlySalaryFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_hourlyWageFieldActionPerformed
+    }//GEN-LAST:event_yearlySalaryFieldActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
 
-        if (validate(firstNameField.getText(), lastNameField.getText(), workLocationField.getText(), employeeNumberField.getText(), hourlyWageField.getText(), hoursPerWeekField.getText(), weeksPerYearField.getText())) {
+        if (validate(firstNameField.getText(), lastNameField.getText(), workLocationField.getText(), employeeNumberField.getText(), yearlySalaryField.getText())) {
             int sex = 0;
             if (maleButton.isSelected()) {
                 sex = 0;
             } else {
                 sex = 1;
             }
-            PartTimeEmployee e = new PartTimeEmployee(firstNameField.getText(), lastNameField.getText(), Integer.parseInt(employeeNumberField.getText()), sex, workLocationField.getText(), Double.parseDouble(hourlyWageField.getText()), Double.parseDouble(hoursPerWeekField.getText()), Double.parseDouble(weeksPerYearField.getText()));
+            FullTimeEmployee e = new FullTimeEmployee(firstNameField.getText(), lastNameField.getText(), Integer.parseInt(employeeNumberField.getText()), sex, workLocationField.getText(), Double.parseDouble(yearlySalaryField.getText()));
             EMSMainAndLogin.employeeTable.addToTable(e);
             Employee.serialize();
             EMSMainAndLogin.employeeTable.populateJFrameTable(employeeJTable);
@@ -371,14 +316,6 @@ public class EMSAdditionEditorPTE extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_addButtonActionPerformed
-
-    private void hoursPerWeekFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hoursPerWeekFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_hoursPerWeekFieldActionPerformed
-
-    private void weeksPerYearFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_weeksPerYearFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_weeksPerYearFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -397,14 +334,18 @@ public class EMSAdditionEditorPTE extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EMSAdditionEditorPTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EMSAdditionEditorFTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EMSAdditionEditorPTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EMSAdditionEditorFTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EMSAdditionEditorPTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EMSAdditionEditorFTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EMSAdditionEditorPTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EMSAdditionEditorFTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -413,7 +354,7 @@ public class EMSAdditionEditorPTE extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EMSAdditionEditorPTE(employeeJTable).setVisible(true);
+                new EMSAdditionEditorFTE(employeeJTable).setVisible(true);
 
             }
         });
@@ -428,17 +369,13 @@ public class EMSAdditionEditorPTE extends javax.swing.JFrame {
     private javax.swing.JRadioButton femaleButton;
     private javax.swing.JTextField firstNameField;
     private javax.swing.JLabel firstNameLabel;
-    private javax.swing.JTextField hourlyWageField;
-    private javax.swing.JLabel hourlyWageLabel;
-    private javax.swing.JTextField hoursPerWeekField;
-    private javax.swing.JLabel hoursPerWeekLabel;
     private javax.swing.JTextField lastNameField;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JRadioButton maleButton;
     private javax.swing.JLabel sexLabel;
-    private javax.swing.JTextField weeksPerYearField;
-    private javax.swing.JLabel weeksPerYearLabel;
     private javax.swing.JTextField workLocationField;
     private javax.swing.JLabel workLocationLabel;
+    private javax.swing.JTextField yearlySalaryField;
+    private javax.swing.JLabel yearlySalaryLabel;
     // End of variables declaration//GEN-END:variables
 }

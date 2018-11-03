@@ -407,7 +407,8 @@ public class EMSEditorFTE extends javax.swing.JFrame {
          EMSMainAndLogin.employeeTable.remove(employee.getEmployeeNumber());
          Employee.serialize();
          EMSMainAndLogin.employeeTable.populateJFrameTable(employeeJTable);
-         this.setVisible(false);
+         EMSMainMenu.activeEditor = false;
+         this.dispose();
             
         
     }//GEN-LAST:event_deleteButtonActionPerformed

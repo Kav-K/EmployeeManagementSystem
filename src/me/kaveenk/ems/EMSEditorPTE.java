@@ -403,7 +403,7 @@ public class EMSEditorPTE extends javax.swing.JFrame {
         try {
             Double.parseDouble(hourlyWage);
         } catch (Exception e) {
-            errorLabel.setText("Invalid yearly salary.");
+            errorLabel.setText("Invalid hourly wage.");
             return false;
         }
         try {
@@ -466,7 +466,8 @@ public class EMSEditorPTE extends javax.swing.JFrame {
         EMSMainAndLogin.employeeTable.remove(employee.getEmployeeNumber());
         Employee.serialize();
         EMSMainAndLogin.employeeTable.populateJFrameTable(employeeJTable);
-        this.setVisible(false);
+        EMSMainMenu.activeEditor = false;
+        this.dispose();
 
 
     }//GEN-LAST:event_deleteButtonActionPerformed
