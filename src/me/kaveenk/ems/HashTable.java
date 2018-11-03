@@ -81,7 +81,7 @@ public class HashTable {
 
     }
     
-    public ArrayList<Employee> obtainSingleArrayObject() {
+    public ArrayList<Employee> toArray() {
         ArrayList<Employee> employeeList = new ArrayList<Employee>();
         for (int i = 0; i < length; i++) {
 
@@ -100,8 +100,9 @@ public class HashTable {
     }
     
     public void populateJFrameTable(JTable table) {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
         
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
          for (int i = 0; i < length; i++) {
 
        

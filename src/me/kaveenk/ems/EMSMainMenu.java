@@ -5,6 +5,11 @@
  */
 package me.kaveenk.ems;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+
 /**
  *
  * @author kaveen
@@ -16,8 +21,13 @@ public class EMSMainMenu extends javax.swing.JFrame {
      */
     public EMSMainMenu() {
         initComponents();
-       EMSMainAndLogin.employeeTable.populateJFrameTable(employeeTable);
-        
+        EMSMainAndLogin.employeeTable.populateJFrameTable(employeeJTable);
+        center();
+    }
+
+    private void center() {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
     }
 
     /**
@@ -31,13 +41,12 @@ public class EMSMainMenu extends javax.swing.JFrame {
 
         tablePanel = new javax.swing.JPanel();
         tableScrollPane = new javax.swing.JScrollPane();
-        employeeTable = new javax.swing.JTable();
+        employeeJTable = new javax.swing.JTable();
         mainLabel = new javax.swing.JLabel();
-        editToggle = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        employeeTable.setModel(new javax.swing.table.DefaultTableModel(
+        employeeJTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -48,17 +57,30 @@ public class EMSMainMenu extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Double.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
-        });
-        employeeTable.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                employeeTablePropertyChange(evt);
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        tableScrollPane.setViewportView(employeeTable);
+        employeeJTable.setColumnSelectionAllowed(true);
+        employeeJTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                employeeJTableMouseClicked(evt);
+            }
+        });
+        employeeJTable.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                employeeJTablePropertyChange(evt);
+            }
+        });
+        tableScrollPane.setViewportView(employeeJTable);
 
         javax.swing.GroupLayout tablePanelLayout = new javax.swing.GroupLayout(tablePanel);
         tablePanel.setLayout(tablePanelLayout);
@@ -80,27 +102,14 @@ public class EMSMainMenu extends javax.swing.JFrame {
         mainLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         mainLabel.setText("EMS Functions");
 
-        editToggle.setText("Edit Mode");
-        editToggle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editToggleActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addComponent(mainLabel)
-                        .addGap(44, 44, 44))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(editToggle)
-                        .addGap(67, 67, 67)))
+                .addGap(53, 53, 53)
+                .addComponent(mainLabel)
+                .addGap(44, 44, 44)
                 .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -113,8 +122,6 @@ public class EMSMainMenu extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(mainLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(editToggle)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -122,20 +129,27 @@ public class EMSMainMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void employeeTablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_employeeTablePropertyChange
+    private void employeeJTablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_employeeJTablePropertyChange
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_employeeTablePropertyChange
 
-    private void editToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editToggleActionPerformed
-        if (editToggle.isSelected()) {
-            System.out.println("enabled");
-            employeeTable.setEnabled(true);
-        } else {
-            employeeTable.setEnabled(false);
-            System.out.println("disabled");
+    }//GEN-LAST:event_employeeJTablePropertyChange
+    private void initializeEditor(Employee employee) {
+        if (employee instanceof FullTimeEmployee) {
+            new EMSEditorFTE((FullTimeEmployee) employee).setVisible(true);
+
         }
-    }//GEN-LAST:event_editToggleActionPerformed
+
+    }
+    private void employeeJTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_employeeJTableMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            JTable source = (JTable) evt.getSource();
+            int row = source.rowAtPoint(evt.getPoint());
+            initializeEditor(EMSMainAndLogin.employeeTable.toArray().get(row));
+
+        }
+
+    }//GEN-LAST:event_employeeJTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -173,8 +187,7 @@ public class EMSMainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton editToggle;
-    private javax.swing.JTable employeeTable;
+    private javax.swing.JTable employeeJTable;
     private javax.swing.JLabel mainLabel;
     private javax.swing.JPanel tablePanel;
     private javax.swing.JScrollPane tableScrollPane;

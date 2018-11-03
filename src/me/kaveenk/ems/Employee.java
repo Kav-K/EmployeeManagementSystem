@@ -13,16 +13,20 @@ public class Employee implements Serializable {
 	private String firstName;
 	private String lastName;
 	private int employeeNum;
+        private int sex;
+        private String workLocation;
         
         public static EMSMainAndLogin mainInstance;
         public Employee(EMSMainAndLogin instance) {
             this.mainInstance = instance;
         }
         
-	public Employee(String firstName, String lastName, int employeeNum) {
+	public Employee(String firstName, String lastName, int employeeNum,int sex, String workLocation) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.employeeNum = employeeNum;
+                this.sex = sex;
+                this.workLocation = workLocation;
 	}
         
 
@@ -39,6 +43,12 @@ public class Employee implements Serializable {
 	public int getEmployeeNumber() {
 		return this.employeeNum;
 	}
+        public int getSex() {
+            return this.sex;
+        }
+        public String getWorkLocation() {
+            return this.workLocation;
+        }
 
 	public void setEmployeeNumber(int employeeNumber) {
 		this.employeeNum = employeeNumber;
@@ -51,12 +61,18 @@ public class Employee implements Serializable {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+        public void setWorkLocation(String workLocation) {
+            this.workLocation = workLocation;
+        }
+        public void setSex(int sex) {
+            this.sex = sex;
+        }
         
         public static void serialize() {
          try {
          FileOutputStream fileOut = new FileOutputStream("employeeData.ser");
          ObjectOutputStream out = new ObjectOutputStream(fileOut);
-         out.writeObject(mainInstance.employeeTable.obtainSingleArrayObject());
+         out.writeObject(mainInstance.employeeTable.toArray());
          out.close();
          fileOut.close();
          System.out.printf("Serialized to employeeData.ser");

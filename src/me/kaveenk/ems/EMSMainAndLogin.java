@@ -5,6 +5,8 @@
  */
 package me.kaveenk.ems;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,9 +29,13 @@ public class EMSMainAndLogin extends javax.swing.JFrame {
       new Employee(this);
       employeeTable = new HashTable(NUM_BUCKETS);
       
-      
       Employee.load();
       initComponents();
+      center();
+    }
+     private void center() {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
     }
 
     /**
@@ -162,6 +168,7 @@ public class EMSMainAndLogin extends javax.swing.JFrame {
                 new EMSMainAndLogin().setVisible(true);
             }
         });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -13,8 +13,8 @@ public class FullTimeEmployee extends Employee {
 
     private double yearlySalary;
 
-    public FullTimeEmployee(String firstName, String lastName, int employeeNum, double yearlySalary) {
-        super(firstName, lastName, employeeNum);
+    public FullTimeEmployee(String firstName, String lastName, int employeeNum, int sex, String workLocation, double yearlySalary) {
+        super(firstName, lastName, employeeNum, sex, workLocation);
         this.yearlySalary = yearlySalary;
     }
 
