@@ -36,12 +36,27 @@ public class HashTable {
             if (!(i == toPlace)) {
                 continue;
             }
-
             buckets[i].add(addition);
             break;
 
         }
 
+    }
+
+    public ArrayList<Employee> getByLastName(String lastName) {
+        ArrayList<Employee> resultList = new ArrayList<Employee>();
+        for (int i = 0; i < length; i++) {
+            if (buckets[i].isEmpty()) {
+                continue;
+            }
+
+            for (Employee employee : buckets[i]) {
+                if (employee.getLastName().toLowerCase().equals(lastName.toLowerCase())) {
+                    resultList.add(employee);
+                }
+            }
+        }
+        return resultList;
     }
 
     public Employee get(int employeeNumber) {
@@ -80,7 +95,7 @@ public class HashTable {
         }
 
     }
-    
+
     public ArrayList<Employee> toArray() {
         ArrayList<Employee> employeeList = new ArrayList<Employee>();
         for (int i = 0; i < length; i++) {
@@ -96,37 +111,35 @@ public class HashTable {
 
         }
         return employeeList;
-        
+
     }
-    
+
     public void populateJFrameTable(JTable table) {
-        
+
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
-         for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) {
 
-       
             if (buckets[i].isEmpty()) {
-          
+
                 continue;
             }
 
             for (int k = 0; k < buckets[i].size(); k++) {
                 if (buckets[i].get(k) instanceof PartTimeEmployee) {
                     PartTimeEmployee employee = (PartTimeEmployee) buckets[i].get(k);
-                    model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(),"Part Time",123});
+                    model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(), "Part Time", 123});
                 } else if (buckets[i].get(k) instanceof FullTimeEmployee) {
                     FullTimeEmployee employee = (FullTimeEmployee) buckets[i].get(k);
-                    model.addRow(new Object[]{employee.getFirstName(),employee.getLastName(),employee.getEmployeeNumber(),"Full Time",employee.getYearlySalary()});
+                    model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(), "Full Time", employee.getYearlySalary()});
                 } else {
                     Employee employee = (Employee) buckets[i].get(k);
-                }    
+                }
 
             }
 
         }
 
-        
     }
 
     public void displayTable() {

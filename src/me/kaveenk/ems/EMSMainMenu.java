@@ -7,8 +7,10 @@ package me.kaveenk.ems;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,6 +19,7 @@ import javax.swing.JTable;
 public class EMSMainMenu extends javax.swing.JFrame {
 
     public static boolean activeEditor = false;
+    private static boolean searchEnabled = true;
 
     /**
      * Creates new form EMSMainMenu
@@ -44,9 +47,11 @@ public class EMSMainMenu extends javax.swing.JFrame {
         tablePanel = new javax.swing.JPanel();
         tableScrollPane = new javax.swing.JScrollPane();
         employeeJTable = new javax.swing.JTable();
+        searchField = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
         mainLabel = new javax.swing.JLabel();
         viewEditButton = new javax.swing.JButton();
-        addButton = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,7 +60,7 @@ public class EMSMainMenu extends javax.swing.JFrame {
 
             },
             new String [] {
-                "First Name", "Last Name", "Employee Number", "Status", "Yearly Salary"
+                "First Name", "Last Name", "Employee #", "Status", "Yearly Salary"
             }
         ) {
             Class[] types = new Class [] {
@@ -86,19 +91,42 @@ public class EMSMainMenu extends javax.swing.JFrame {
         });
         tableScrollPane.setViewportView(employeeJTable);
 
+        searchField.setToolTipText("Search using an employee number or by last name.");
+        searchField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchFieldActionPerformed(evt);
+            }
+        });
+
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout tablePanelLayout = new javax.swing.GroupLayout(tablePanel);
         tablePanel.setLayout(tablePanelLayout);
         tablePanelLayout.setHorizontalGroup(
             tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tablePanelLayout.createSequentialGroup()
-                .addComponent(tableScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
+            .addGroup(tablePanelLayout.createSequentialGroup()
+                .addGroup(tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tableScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
+                    .addGroup(tablePanelLayout.createSequentialGroup()
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         tablePanelLayout.setVerticalGroup(
             tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tablePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tableScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tablePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -113,11 +141,11 @@ public class EMSMainMenu extends javax.swing.JFrame {
             }
         });
 
-        addButton.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
-        addButton.setText("Add");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        jButton2.setText("Add");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -133,7 +161,7 @@ public class EMSMainMenu extends javax.swing.JFrame {
                         .addComponent(viewEditButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(128, 128, 128)
-                        .addComponent(addButton)))
+                        .addComponent(jButton2)))
                 .addGap(2, 2, 2)
                 .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -141,17 +169,17 @@ public class EMSMainMenu extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addGap(150, 150, 150)
                 .addComponent(mainLabel)
                 .addGap(18, 18, 18)
                 .addComponent(viewEditButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addButton)
+                .addComponent(jButton2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(tablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -188,7 +216,7 @@ public class EMSMainMenu extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "To view or edit an employees details, simply double click their entry in the table to the right of the main page.");
     }//GEN-LAST:event_viewEditButtonActionPerformed
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String[] options = new String[]{"Part Time", "Full Time"};
         int response = JOptionPane.showOptionDialog(null, "What type of employee would you like to add?", "Employee Addition",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
@@ -204,7 +232,83 @@ public class EMSMainMenu extends javax.swing.JFrame {
         }
 
 
-    }//GEN-LAST:event_addButtonActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchFieldActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        if (searchEnabled) {
+            String searchText = searchField.getText();
+
+            boolean isNumber = false;
+            try {
+                Integer.parseInt(searchText);
+                isNumber = true;
+            } catch (Exception e) {
+                isNumber = false;
+            }
+
+            if (isNumber) {
+                int searchNumber = Integer.parseInt(searchText);
+
+                if (EMSMainAndLogin.employeeTable.get(searchNumber) == null) {
+                    JOptionPane.showMessageDialog(null, "No results found!");
+                    return;
+                }
+
+                DefaultTableModel model = (DefaultTableModel) employeeJTable.getModel();
+                model.setRowCount(0);
+                Employee employee = EMSMainAndLogin.employeeTable.get(searchNumber);
+                if (employee instanceof PartTimeEmployee) {
+                    PartTimeEmployee e = (PartTimeEmployee) employee;
+                    model.addRow(new Object[]{e.getFirstName(), e.getLastName(), e.getEmployeeNumber(), "Part Time", 123});
+                } else if (employee instanceof FullTimeEmployee) {
+                    FullTimeEmployee e = (FullTimeEmployee) employee;
+                    model.addRow(new Object[]{e.getFirstName(), e.getLastName(), e.getEmployeeNumber(), "Full Time", e.getYearlySalary()});
+                }
+
+                searchEnabled = false;
+                searchButton.setText("Reset Table");
+                return;
+            }
+
+            //Last Name Search
+            ArrayList<Employee> resultList = EMSMainAndLogin.employeeTable.getByLastName(searchText);
+
+            if (resultList.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No results found!");
+                return;
+            } else {
+                searchEnabled = false;
+                searchButton.setText("Reset Table");
+                DefaultTableModel model = (DefaultTableModel) employeeJTable.getModel();
+                model.setRowCount(0);
+                for (Employee employee : resultList) {
+
+                    if (employee instanceof PartTimeEmployee) {
+                        PartTimeEmployee e = (PartTimeEmployee) employee;
+                        model.addRow(new Object[]{e.getFirstName(), e.getLastName(), e.getEmployeeNumber(), "Part Time", 123});
+                    } else if (employee instanceof FullTimeEmployee) {
+                        FullTimeEmployee e = (FullTimeEmployee) employee;
+                        model.addRow(new Object[]{e.getFirstName(), e.getLastName(), e.getEmployeeNumber(), "Full Time", e.getYearlySalary()});
+                    }
+
+                }
+
+            }
+
+        } else {
+            searchField.setText("");
+            searchEnabled = true;
+            searchButton.setText("Search");
+            EMSMainAndLogin.employeeTable.populateJFrameTable(employeeJTable);
+
+        }
+
+
+    }//GEN-LAST:event_searchButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -220,16 +324,24 @@ public class EMSMainMenu extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EMSMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EMSMainMenu.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EMSMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EMSMainMenu.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EMSMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EMSMainMenu.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EMSMainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EMSMainMenu.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -242,9 +354,11 @@ public class EMSMainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton;
     private javax.swing.JTable employeeJTable;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel mainLabel;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JTextField searchField;
     private javax.swing.JPanel tablePanel;
     private javax.swing.JScrollPane tableScrollPane;
     private javax.swing.JButton viewEditButton;
