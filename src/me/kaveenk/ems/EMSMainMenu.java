@@ -16,6 +16,8 @@ import javax.swing.JTable;
  */
 public class EMSMainMenu extends javax.swing.JFrame {
 
+    public static boolean activeEditor = false;
+
     /**
      * Creates new form EMSMainMenu
      */
@@ -135,9 +137,13 @@ public class EMSMainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_employeeJTablePropertyChange
     private void initializeEditor(Employee employee) {
         if (employee instanceof FullTimeEmployee) {
-            new EMSEditorFTE((FullTimeEmployee) employee,employeeJTable).setVisible(true);
-
+            new EMSEditorFTE((FullTimeEmployee) employee, employeeJTable).setVisible(true);
+            activeEditor = true;
+        } else if (employee instanceof PartTimeEmployee) {
+            new EMSEditorPTE((PartTimeEmployee) employee, employeeJTable).setVisible(true);
+            activeEditor = true;
         }
+       
 
     }
     private void employeeJTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_employeeJTableMouseClicked
@@ -145,6 +151,7 @@ public class EMSMainMenu extends javax.swing.JFrame {
         if (evt.getClickCount() == 2) {
             JTable source = (JTable) evt.getSource();
             int row = source.rowAtPoint(evt.getPoint());
+            if (!activeEditor)
             initializeEditor(EMSMainAndLogin.employeeTable.toArray().get(row));
 
         }

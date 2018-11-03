@@ -7,6 +7,8 @@ package me.kaveenk.ems;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JTable;
 
 /**
@@ -28,6 +30,15 @@ public class EMSEditorFTE extends javax.swing.JFrame {
         
         lockFields();
         setFields();
+        
+    this.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent event) {
+            EMSMainMenu.activeEditor = false;
+            event.getWindow().dispose();
+        }
+    });
+        
        
     }
     private void unlockFields() {
@@ -105,9 +116,9 @@ public class EMSEditorFTE extends javax.swing.JFrame {
         revertButton = new javax.swing.JButton();
         errorLabel = new javax.swing.JLabel();
         deleteButton = new javax.swing.JToggleButton();
-        editButton1 = new javax.swing.JToggleButton();
+        editButton = new javax.swing.JToggleButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         employeeEditorLabel.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         employeeEditorLabel.setText("Employee Viewer (Full Time)");
@@ -196,11 +207,11 @@ public class EMSEditorFTE extends javax.swing.JFrame {
             }
         });
 
-        editButton1.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
-        editButton1.setText("Edit");
-        editButton1.addActionListener(new java.awt.event.ActionListener() {
+        editButton.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
+        editButton.setText("Edit");
+        editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editButton1ActionPerformed(evt);
+                editButtonActionPerformed(evt);
             }
         });
 
@@ -245,12 +256,13 @@ public class EMSEditorFTE extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(employeeEditorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(saveButton)
-                                .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(revertButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(saveButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addComponent(errorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(editButton1)
+                        .addComponent(editButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(deleteButton)
                         .addGap(28, 28, 28))))
@@ -292,7 +304,7 @@ public class EMSEditorFTE extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(deleteButton)
-                            .addComponent(editButton1))
+                            .addComponent(editButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(revertButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -366,8 +378,8 @@ public class EMSEditorFTE extends javax.swing.JFrame {
             Employee.serialize();
             //this.setVisible(false);
             EMSMainAndLogin.employeeTable.populateJFrameTable(this.employeeJTable);
-            deleteButton.setEnabled(true);
-            deleteButton.setSelected(false);
+            editButton.setEnabled(true);
+            editButton.setSelected(false);
             saveButton.setVisible(false);
             revertButton.setVisible(false);
             deleteButton.setEnabled(true);
@@ -397,14 +409,18 @@ public class EMSEditorFTE extends javax.swing.JFrame {
     private void revertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revertButtonActionPerformed
         setFields();
         lockFields();
-        deleteButton.setEnabled(true);
-        deleteButton.setSelected(false);
+        editButton.setEnabled(true);
+        editButton.setSelected(false);
         deleteButton.setEnabled(true);
     }//GEN-LAST:event_revertButtonActionPerformed
 
-    private void editButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_editButton1ActionPerformed
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        editButton.setSelected(true);
+        editButton.setEnabled(false);
+        unlockFields();
+        saveButton.setVisible(true);
+        revertButton.setVisible(true);
+    }//GEN-LAST:event_editButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -444,7 +460,7 @@ public class EMSEditorFTE extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton deleteButton;
-    private javax.swing.JToggleButton editButton1;
+    private javax.swing.JToggleButton editButton;
     private javax.swing.JLabel employeeEditorLabel;
     private javax.swing.JTextField employeeNumberField;
     private javax.swing.JLabel employeeNumberLabel;
