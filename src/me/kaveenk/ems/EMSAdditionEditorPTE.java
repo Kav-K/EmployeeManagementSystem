@@ -15,22 +15,21 @@ import javax.swing.JTable;
  *
  * @author kaveen
  */
-public class EMSEditorPTE extends javax.swing.JFrame {
+public class EMSAdditionEditorPTE extends javax.swing.JFrame {
 
-    private static PartTimeEmployee employee;
+   
     private static JTable employeeJTable;
 
     /**
      * Creates new form EMSEditorFTE
      */
-    public EMSEditorPTE(PartTimeEmployee employee, JTable employeeJTable) {
-        this.employee = employee;
+    public EMSAdditionEditorPTE(JTable employeeJTable) {
+       
         this.employeeJTable = employeeJTable;
         initComponents();
         center();
 
         lockFields();
-        setFields();
         this.addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent event) {
@@ -41,19 +40,6 @@ public class EMSEditorPTE extends javax.swing.JFrame {
 
     }
 
-    private void unlockFields() {
-        workLocationField.setEnabled(true);
-        firstNameField.setEnabled(true);
-        lastNameField.setEnabled(true);
-        employeeNumberField.setEnabled(true);
-        hourlyWageField.setEnabled(true);
-        maleButton.setEnabled(true);
-        femaleButton.setEnabled(true);
-        hourlyWageField.setEnabled(true);
-        hoursPerWeekField.setEnabled(true);
-        weeksPerYearField.setEnabled(true);
-    }
-
     private void lockFields() {
         workLocationField.setMaximumSize(workLocationField.getPreferredScrollableViewportSize());
         firstNameField.setMaximumSize(firstNameField.getPreferredScrollableViewportSize());
@@ -62,34 +48,6 @@ public class EMSEditorPTE extends javax.swing.JFrame {
         hourlyWageField.setMaximumSize(hourlyWageField.getPreferredScrollableViewportSize());
         hoursPerWeekField.setMaximumSize(hoursPerWeekField.getPreferredScrollableViewportSize());
         weeksPerYearField.setMaximumSize(weeksPerYearField.getPreferredScrollableViewportSize());
-        hoursPerWeekField.setEnabled(false);
-        weeksPerYearField.setEnabled(false);
-        workLocationField.setEnabled(false);
-        firstNameField.setEnabled(false);
-        lastNameField.setEnabled(false);
-        employeeNumberField.setEnabled(false);
-        hourlyWageField.setEnabled(false);
-        maleButton.setEnabled(false);
-        femaleButton.setEnabled(false);
-        saveButton.setVisible(false);
-        revertButton.setVisible(false);
-
-    }
-
-    private void setFields() {
-        firstNameField.setText(employee.getFirstName());
-        lastNameField.setText(employee.getLastName());
-        employeeNumberField.setText("" + employee.getEmployeeNumber());
-        if (employee.getSex() == 0) {
-            maleButton.setSelected(true);
-        } else {
-            femaleButton.setSelected(true);
-        }
-        workLocationField.setText(employee.getWorkLocation());
-        hourlyWageField.setText("" + employee.getHourlyWage());
-        hoursPerWeekField.setText("" + employee.getHoursPerWeek());
-        weeksPerYearField.setText("" + employee.getWeeksPerYear());
-        return;
 
     }
 
@@ -121,11 +79,8 @@ public class EMSEditorPTE extends javax.swing.JFrame {
         hourlyWageField = new javax.swing.JTextField();
         maleButton = new javax.swing.JRadioButton();
         femaleButton = new javax.swing.JRadioButton();
-        saveButton = new javax.swing.JButton();
-        revertButton = new javax.swing.JButton();
         errorLabel = new javax.swing.JLabel();
-        deleteButton = new javax.swing.JToggleButton();
-        editButton = new javax.swing.JToggleButton();
+        addButton = new javax.swing.JToggleButton();
         hoursPerWeekLabel = new javax.swing.JLabel();
         weeksPerYearLabel = new javax.swing.JLabel();
         hoursPerWeekField = new javax.swing.JTextField();
@@ -134,7 +89,7 @@ public class EMSEditorPTE extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         employeeEditorLabel.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        employeeEditorLabel.setText("Employee Viewer (Part Time)");
+        employeeEditorLabel.setText("Employee Addition (Part Time)");
 
         firstNameLabel.setText("First Name:");
 
@@ -148,7 +103,6 @@ public class EMSEditorPTE extends javax.swing.JFrame {
 
         hourlyWageLabel.setText("Hourly Wage:");
 
-        firstNameField.setText("jTextField1");
         firstNameField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
         firstNameField.setPreferredSize(new java.awt.Dimension(177, 33));
         firstNameField.addActionListener(new java.awt.event.ActionListener() {
@@ -157,19 +111,16 @@ public class EMSEditorPTE extends javax.swing.JFrame {
             }
         });
 
-        lastNameField.setText("jTextField2");
         lastNameField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
         lastNameField.setPreferredSize(new java.awt.Dimension(177, 33));
 
-        employeeNumberField.setText("jTextField3");
         employeeNumberField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
         employeeNumberField.setPreferredSize(new java.awt.Dimension(177, 33));
 
-        workLocationField.setText("jTextField5");
         workLocationField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
         workLocationField.setPreferredSize(new java.awt.Dimension(177, 33));
 
-        hourlyWageField.setText("jTextField6");
+        hourlyWageField.setToolTipText("");
         hourlyWageField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
         hourlyWageField.setPreferredSize(new java.awt.Dimension(177, 33));
         hourlyWageField.addActionListener(new java.awt.event.ActionListener() {
@@ -193,38 +144,14 @@ public class EMSEditorPTE extends javax.swing.JFrame {
             }
         });
 
-        saveButton.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
-        saveButton.setText("Save Changes");
-        saveButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveButtonActionPerformed(evt);
-            }
-        });
-
-        revertButton.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        revertButton.setText("Revert Changes");
-        revertButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                revertButtonActionPerformed(evt);
-            }
-        });
-
         errorLabel.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
         errorLabel.setForeground(new java.awt.Color(255, 34, 0));
 
-        deleteButton.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
-        deleteButton.setText("Delete");
-        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+        addButton.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
+        addButton.setText("ADD");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteButtonActionPerformed(evt);
-            }
-        });
-
-        editButton.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
-        editButton.setText("Edit");
-        editButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editButtonActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
 
@@ -232,7 +159,6 @@ public class EMSEditorPTE extends javax.swing.JFrame {
 
         weeksPerYearLabel.setText("Weeks/Year:");
 
-        hoursPerWeekField.setText("jTextField6");
         hoursPerWeekField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
         hoursPerWeekField.setPreferredSize(new java.awt.Dimension(177, 33));
         hoursPerWeekField.addActionListener(new java.awt.event.ActionListener() {
@@ -241,7 +167,6 @@ public class EMSEditorPTE extends javax.swing.JFrame {
             }
         });
 
-        weeksPerYearField.setText("jTextField6");
         weeksPerYearField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
         weeksPerYearField.setPreferredSize(new java.awt.Dimension(177, 33));
         weeksPerYearField.addActionListener(new java.awt.event.ActionListener() {
@@ -290,29 +215,22 @@ public class EMSEditorPTE extends javax.swing.JFrame {
                     .addComponent(hourlyWageField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(hoursPerWeekField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(weeksPerYearField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(54, 54, 54)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(revertButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(81, 81, 81))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(editButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteButton)
-                        .addGap(28, 28, 28))
+                        .addComponent(addButton)
+                        .addGap(112, 112, 112))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(employeeEditorLabel)
-                        .addContainerGap())))
+                        .addGap(22, 22, 22))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -331,35 +249,29 @@ public class EMSEditorPTE extends javax.swing.JFrame {
                             .addComponent(sexLabel)
                             .addComponent(maleButton)
                             .addComponent(femaleButton))
-                        .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(workLocationLabel)
-                            .addComponent(workLocationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(hourlyWageLabel)
-                            .addComponent(hourlyWageField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(hoursPerWeekLabel)
-                            .addComponent(hoursPerWeekField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(weeksPerYearLabel)
-                            .addComponent(weeksPerYearField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
+                        .addGap(1, 1, 1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(employeeEditorLabel)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(editButton)
-                            .addComponent(deleteButton))
-                        .addGap(18, 18, 18)
-                        .addComponent(revertButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(saveButton)))
+                        .addGap(18, 18, 18)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(workLocationLabel)
+                    .addComponent(workLocationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addButton))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(hourlyWageLabel)
+                    .addComponent(hourlyWageField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(hoursPerWeekLabel)
+                    .addComponent(hoursPerWeekField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(weeksPerYearLabel)
+                    .addComponent(weeksPerYearField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -391,12 +303,24 @@ public class EMSEditorPTE extends javax.swing.JFrame {
     private void firstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_firstNameFieldActionPerformed
-    private boolean validate(String employeeNumber, String hourlyWage, String hoursPerWeek, String weeksPerYear) {
+    private boolean validate(String firstName, String lastName, String workLocation, String employeeNumber, String hourlyWage, String hoursPerWeek, String weeksPerYear) {
         int employeeNumParsed;
         try {
             employeeNumParsed = Integer.parseInt(employeeNumber);
         } catch (Exception e) {
             errorLabel.setText("Invalid employee number.");
+            return false;
+        }
+        if (firstName.isEmpty()) {
+            errorLabel.setText("Invalid first name.");
+            return false;
+        }
+        if (lastName.isEmpty()) {
+            errorLabel.setText("Invalid last name.");
+            return false;
+        }
+        if (workLocation.isEmpty()) {
+            errorLabel.setText("Invalid work location.");
             return false;
         }
 
@@ -419,73 +343,33 @@ public class EMSEditorPTE extends javax.swing.JFrame {
             return false;
         }
 
-        if ((employeeNumParsed != employee.getEmployeeNumber()) && EMSMainAndLogin.employeeTable.toArray().contains(EMSMainAndLogin.employeeTable.get(employeeNumParsed))) {
+        if ((!EMSMainAndLogin.employeeTable.toArray().contains(EMSMainAndLogin.employeeTable.get(employeeNumParsed))) && EMSMainAndLogin.employeeTable.toArray().contains(EMSMainAndLogin.employeeTable.get(employeeNumParsed))) {
             errorLabel.setText("Employee number already exists");
             return false;
 
         }
         return true;
     }
-    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        if (validate(employeeNumberField.getText(), hourlyWageField.getText(), hoursPerWeekField.getText(), weeksPerYearField.getText())) {
-
-            employee.setEmployeeNumber(Integer.parseInt(employeeNumberField.getText()));
-            employee.setFirstName(firstNameField.getText());
-            employee.setLastName(lastNameField.getText());
-            if (maleButton.isSelected()) {
-                employee.setSex(0);
-            } else {
-                employee.setSex(1);
-            }
-            employee.setWorkLocation(workLocationField.getText());
-            employee.setHourlyWage(Double.parseDouble(hourlyWageField.getText()));
-            employee.setHoursPerWeek(Double.parseDouble(hoursPerWeekField.getText()));
-            employee.setWeeksPerYear(Double.parseDouble(weeksPerYearField.getText()));
-            Employee.serialize();
-            //this.setVisible(false);
-            EMSMainAndLogin.employeeTable.populateJFrameTable(this.employeeJTable);
-            editButton.setEnabled(true);
-            editButton.setSelected(false);
-            saveButton.setVisible(false);
-            revertButton.setVisible(false);
-            deleteButton.setEnabled(true);
-
-            lockFields();
-            setFields();
-
-        }
-
-
-    }//GEN-LAST:event_saveButtonActionPerformed
-
     private void hourlyWageFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hourlyWageFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_hourlyWageFieldActionPerformed
 
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        EMSMainAndLogin.employeeTable.remove(employee.getEmployeeNumber());
-        Employee.serialize();
-        EMSMainAndLogin.employeeTable.populateJFrameTable(employeeJTable);
-        this.setVisible(false);
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
 
-
-    }//GEN-LAST:event_deleteButtonActionPerformed
-
-    private void revertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revertButtonActionPerformed
-        setFields();
-        lockFields();
-        editButton.setEnabled(true);
-        editButton.setSelected(false);
-        deleteButton.setEnabled(true);
-    }//GEN-LAST:event_revertButtonActionPerformed
-
-    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        editButton.setSelected(true);
-        editButton.setEnabled(false);
-        unlockFields();
-        saveButton.setVisible(true);
-        revertButton.setVisible(true);
-    }//GEN-LAST:event_editButtonActionPerformed
+        if (validate(firstNameField.getText(), lastNameField.getText(), workLocationField.getText(), employeeNumberField.getText(), hourlyWageField.getText(), hoursPerWeekField.getText(), weeksPerYearField.getText())) {
+            int sex = 0;
+            if (maleButton.isSelected()) {
+                sex = 0;
+            } else {
+                sex = 1;
+            }
+            PartTimeEmployee e = new PartTimeEmployee(firstNameField.getText(), lastNameField.getText(), Integer.parseInt(employeeNumberField.getText()), sex, workLocationField.getText(), Double.parseDouble(hourlyWageField.getText()), Double.parseDouble(hoursPerWeekField.getText()), Double.parseDouble(weeksPerYearField.getText()));
+            EMSMainAndLogin.employeeTable.addToTable(e);
+            Employee.serialize();
+            EMSMainAndLogin.employeeTable.populateJFrameTable(employeeJTable);
+            this.dispose();
+        }
+    }//GEN-LAST:event_addButtonActionPerformed
 
     private void hoursPerWeekFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hoursPerWeekFieldActionPerformed
         // TODO add your handling code here:
@@ -512,29 +396,30 @@ public class EMSEditorPTE extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EMSEditorPTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EMSAdditionEditorPTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EMSEditorPTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EMSAdditionEditorPTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EMSEditorPTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EMSAdditionEditorPTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EMSEditorPTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EMSAdditionEditorPTE.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EMSEditorPTE(employee, employeeJTable).setVisible(true);
+                new EMSAdditionEditorPTE(employeeJTable).setVisible(true);
 
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton deleteButton;
-    private javax.swing.JToggleButton editButton;
+    private javax.swing.JToggleButton addButton;
     private javax.swing.JLabel employeeEditorLabel;
     private javax.swing.JTextField employeeNumberField;
     private javax.swing.JLabel employeeNumberLabel;
@@ -549,8 +434,6 @@ public class EMSEditorPTE extends javax.swing.JFrame {
     private javax.swing.JTextField lastNameField;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JRadioButton maleButton;
-    private javax.swing.JButton revertButton;
-    private javax.swing.JButton saveButton;
     private javax.swing.JLabel sexLabel;
     private javax.swing.JTextField weeksPerYearField;
     private javax.swing.JLabel weeksPerYearLabel;

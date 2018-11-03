@@ -45,6 +45,8 @@ public class EMSMainMenu extends javax.swing.JFrame {
         tableScrollPane = new javax.swing.JScrollPane();
         employeeJTable = new javax.swing.JTable();
         mainLabel = new javax.swing.JLabel();
+        viewEditButton = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,9 +90,8 @@ public class EMSMainMenu extends javax.swing.JFrame {
         tablePanel.setLayout(tablePanelLayout);
         tablePanelLayout.setHorizontalGroup(
             tablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(tablePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tableScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tablePanelLayout.createSequentialGroup()
+                .addComponent(tableScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
                 .addContainerGap())
         );
         tablePanelLayout.setVerticalGroup(
@@ -102,16 +103,38 @@ public class EMSMainMenu extends javax.swing.JFrame {
         );
 
         mainLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        mainLabel.setText("EMS Functions");
+        mainLabel.setText("Employee Management System");
+
+        viewEditButton.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        viewEditButton.setText("View/Edit");
+        viewEditButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewEditButtonActionPerformed(evt);
+            }
+        });
+
+        addButton.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(mainLabel)
-                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mainLabel)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(viewEditButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(128, 128, 128)
+                        .addComponent(addButton)))
+                .addGap(2, 2, 2)
                 .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -119,13 +142,16 @@ public class EMSMainMenu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(mainLabel)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(tablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(150, 150, 150)
+                .addComponent(mainLabel)
+                .addGap(18, 18, 18)
+                .addComponent(viewEditButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -143,7 +169,6 @@ public class EMSMainMenu extends javax.swing.JFrame {
             new EMSEditorPTE((PartTimeEmployee) employee, employeeJTable).setVisible(true);
             activeEditor = true;
         }
-       
 
     }
     private void employeeJTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_employeeJTableMouseClicked
@@ -151,12 +176,34 @@ public class EMSMainMenu extends javax.swing.JFrame {
         if (evt.getClickCount() == 2) {
             JTable source = (JTable) evt.getSource();
             int row = source.rowAtPoint(evt.getPoint());
-            if (!activeEditor)
-            initializeEditor(EMSMainAndLogin.employeeTable.toArray().get(row));
+            if (!activeEditor) {
+                initializeEditor(EMSMainAndLogin.employeeTable.toArray().get(row));
+            }
 
         }
 
     }//GEN-LAST:event_employeeJTableMouseClicked
+
+    private void viewEditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewEditButtonActionPerformed
+        JOptionPane.showMessageDialog(null, "To view or edit an employees details, simply double click their entry in the table to the right of the main page.");
+    }//GEN-LAST:event_viewEditButtonActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        String[] options = new String[]{"Part Time", "Full Time"};
+        int response = JOptionPane.showOptionDialog(null, "What type of employee would you like to add?", "Employee Addition",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                null, options, options[0]);
+        if (response == 0) {
+            //Part Time
+            new EMSAdditionEditorPTE(employeeJTable).setVisible(true);
+            activeEditor = true;
+
+        } else if (response == 1) {
+            //Full Time
+        }
+
+
+    }//GEN-LAST:event_addButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -194,9 +241,11 @@ public class EMSMainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
     private javax.swing.JTable employeeJTable;
     private javax.swing.JLabel mainLabel;
     private javax.swing.JPanel tablePanel;
     private javax.swing.JScrollPane tableScrollPane;
+    private javax.swing.JButton viewEditButton;
     // End of variables declaration//GEN-END:variables
 }
