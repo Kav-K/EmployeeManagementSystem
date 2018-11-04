@@ -20,7 +20,8 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
     private static JTable employeeJTable;
 
     /**
-     * Creates new form EMSEditorFTE
+     * Creates new FTE Addition Editor
+     * @param employeeJTable Instance of Main Menu JTable
      */
     public FTEAdditionEditor(JTable employeeJTable) {
 

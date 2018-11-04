@@ -48,6 +48,7 @@ public class EMSMain extends javax.swing.JFrame {
             //TODO recovery
             System.out.println("fail!");
         }
+        
         JLabel backgroundlabel = new JLabel(new ImageIcon(background));
         backgroundlabel.setBounds(0, 0, backgroundlabel.getPreferredSize().width, backgroundlabel.getPreferredSize().height);
         //Pane initialization
@@ -67,7 +68,9 @@ public class EMSMain extends javax.swing.JFrame {
         this.repaint();
         center();
     }
-
+   /**
+    * Center the JFrame to the monitor's middle.
+    */
     private void center() {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);

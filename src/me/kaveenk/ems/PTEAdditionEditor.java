@@ -21,7 +21,8 @@ public class PTEAdditionEditor extends javax.swing.JFrame {
     private static JTable employeeJTable;
 
     /**
-     * Creates new form EMSEditorFTE
+     * Create new PTE addition editor
+     * @param employeeJTable Instance of Main Menu JTable
      */
     public PTEAdditionEditor(JTable employeeJTable) {
        

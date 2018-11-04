@@ -21,7 +21,10 @@ public class PTEEditor extends javax.swing.JFrame {
     private static JTable employeeJTable;
 
     /**
-     * Creates new form EMSEditorFTE
+     * Creates new JFrame PTEEditor
+     * 
+     * @param employee Employee object being edited
+     * @param employeeJTable instance of the Main Menu JTable
      */
     public PTEEditor(PartTimeEmployee employee, JTable employeeJTable) {
         this.employee = employee;

@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -39,11 +40,12 @@ import javax.swing.table.DefaultTableModel;
 public class MainMenu extends javax.swing.JFrame {
 
     public static boolean activeEditor = false;
+    public static boolean activeHelp = false;
     private static boolean searchEnabled = true;
     static Point mouseDownCompCoords = null;
 
     /**
-     * Creates new form EMSMainMenu
+     * Creates new JFrame MainMenu
      */
     public MainMenu() {
         this.setUndecorated(true);
@@ -62,27 +64,24 @@ public class MainMenu extends javax.swing.JFrame {
         backgroundlabel.setBounds(0, 0, backgroundlabel.getPreferredSize().width, backgroundlabel.getPreferredSize().height);
         //Pane initialization
         initComponents();
-        mainLabel.setForeground(new Color(230,230,230));
-        
-        addButton.setBackground(new Color(17,17,17));
-        viewEditButton.setBackground(new Color(17,17,17));
-        addButton.setForeground(new Color(230,230,230));
-        viewEditButton.setForeground(new Color(230,230,230));
-        
-        searchButton.setBackground(new Color(17,17,17));
-        searchButton.setForeground(new Color(230,230,230));
-        
-        searchField.setBackground(new Color(17,17,17));
-        searchField.setForeground(new Color(230,230,230));
-        
-        
-        exitButton.setBackground(new Color(1,1,1));
-        minimizeButton.setBackground(new Color(1,1,1));
+        mainLabel.setForeground(new Color(230, 230, 230));
+
+        addButton.setBackground(new Color(17, 17, 17));
+        viewEditButton.setBackground(new Color(17, 17, 17));
+        addButton.setForeground(new Color(230, 230, 230));
+        viewEditButton.setForeground(new Color(230, 230, 230));
+
+        searchButton.setBackground(new Color(17, 17, 17));
+        searchButton.setForeground(new Color(230, 230, 230));
+
+        searchField.setBackground(new Color(17, 17, 17));
+        searchField.setForeground(new Color(230, 230, 230));
+
+        exitButton.setBackground(new Color(1, 1, 1));
+        minimizeButton.setBackground(new Color(1, 1, 1));
         exitButton.setForeground(Color.WHITE);
         minimizeButton.setForeground(Color.WHITE);
-        
-        
-        
+
         this.getContentPane().add(backgroundlabel);
         this.revalidate();
         this.repaint();
@@ -451,27 +450,68 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_minimizeButtonActionPerformed
 
     private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
-         Browser browser = new Browser();
-        BrowserView view = new BrowserView(browser);
-
-        JFrame frame = new JFrame("Employee Management System Help");
-        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        frame.add(view, BorderLayout.CENTER);
-        frame.setSize(800, 700);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        
-        frame.addWindowListener(new WindowAdapter() {
-        @Override
-        public void windowClosing(WindowEvent event) {
-            MainMenu.activeEditor = false;
-            event.getWindow().dispose();
+        if (activeHelp) {
+            System.out.println(activeHelp);
+            return;
         }
-    });
-        
-        
 
-        browser.loadURL("https://kaveenk.me/ics4uo/emshelp/");
+        try {
+            activeHelp = true;
+            Browser browser = new Browser();
+            BrowserView view = new BrowserView(browser);
+
+            JFrame frame = new JFrame("Employee Management System Help");
+            frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            JButton closeButton = new JButton("Close Manual");
+
+            closeButton.setBackground(new Color(17, 17, 17));
+            closeButton.setForeground(new Color(230, 230, 230));
+            closeButton.addActionListener((e) -> {
+                browser.dispose();
+                frame.dispose();
+                activeHelp = false;
+            });
+
+            JButton backButton = new JButton("Back");
+            backButton.setBackground(new Color(17, 17, 17));
+            backButton.setForeground(new Color(230, 230, 230));
+            backButton.addActionListener((e) -> {
+                if (!browser.getURL().equals("https://kaveenk.me/ics4uo/emshelp/")) {
+                    browser.goBack();
+                }
+
+            });
+            frame.add(backButton, BorderLayout.AFTER_LAST_LINE);
+
+            frame.add(closeButton, BorderLayout.BEFORE_FIRST_LINE);
+
+            frame.add(view, BorderLayout.CENTER);
+            frame.setSize(500, 700);
+            frame.setLocationRelativeTo(null);
+            frame.setResizable(false);
+            frame.setUndecorated(true);
+            frame.setVisible(true);
+
+            frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent event) {
+
+                    MainMenu.activeHelp = false;
+                    System.out.println("falsed");
+                    browser.dispose();
+                    frame.dispose();
+                    event.getWindow().dispose();
+                }
+            });
+
+            browser.getCacheStorage().clearCache();
+            browser.loadURL("https://kaveenk.me/ics4uo/emshelp/");
+            browser.getCacheStorage().clearCache();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Something went wrong with JxBrowser's license.");
+        }
     }//GEN-LAST:event_helpButtonActionPerformed
 
     /**

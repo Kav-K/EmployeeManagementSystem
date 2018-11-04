@@ -13,7 +13,6 @@ public class HashTable {
     /**
      * @author Kaveen Kumarasinghe
      * @version 1.0
-     * @date 10/17/2018
      *
      * HashTable implementation for ICS4UO - Mr. Dutton
      *
@@ -28,7 +27,11 @@ public class HashTable {
         }
 
     }
-
+    /**
+     * Adds an employee to a bucket
+     * 
+     * @param addition Employee variable to add to the table
+     */
     public void addToTable(Employee addition) {
         int toPlace = addition.getEmployeeNumber() % length;
 
@@ -42,7 +45,12 @@ public class HashTable {
         }
 
     }
-
+    /**
+     * Searches the HashTable for an Employee object containing the param lastName
+     * 
+     * @param lastName String last name to search
+     * @return ArrayList(Employee) object
+     */
     public ArrayList<Employee> getByLastName(String lastName) {
         ArrayList<Employee> resultList = new ArrayList<Employee>();
         for (int i = 0; i < length; i++) {
@@ -59,6 +67,13 @@ public class HashTable {
         return resultList;
     }
 
+    /**
+     * Get an Employee object by employeeNumber
+     * 
+     * @param employeeNumber integer employeeNumber to get the object by
+     * @return Employee object
+     */
+    
     public Employee get(int employeeNumber) {
         int toRetrieve = employeeNumber % length;
         for (int i = 0; i < length; i++) {
@@ -76,7 +91,11 @@ public class HashTable {
         return null;
 
     }
-
+    /**
+     * Remove an Employee object by employeeNumber
+     * 
+     * @param employeeNumber integer employee number associated with the object you wish to remove
+     */
     public void remove(int employeeNumber) {
         int toRemove = employeeNumber % length;
         for (int i = 0; i < length; i++) {
@@ -95,7 +114,11 @@ public class HashTable {
         }
 
     }
-
+    /**
+     * Turn the hashtable into a single ArrayList(Employee) object for ease of serialization
+     * 
+     * @return ArrayList(Employee) object
+     */
     public ArrayList<Employee> toArray() {
         ArrayList<Employee> employeeList = new ArrayList<Employee>();
         for (int i = 0; i < length; i++) {
@@ -114,6 +137,11 @@ public class HashTable {
 
     }
 
+    /**
+     * Iterate through the HashTable, populating the Main Menu's JTable upon each iteration.
+     * 
+     * @param table JTable to populate
+     */
     public void populateJFrameTable(JTable table) {
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -141,7 +169,10 @@ public class HashTable {
         }
 
     }
-
+    /**
+     * Not used in the actual GUI, but just available as a debug function.
+     * 
+     */
     public void displayTable() {
         for (int i = 0; i < length; i++) {
 
@@ -160,7 +191,10 @@ public class HashTable {
         }
 
     }
-
+    /**
+     * Checks if the HashTable is empty
+     * @return boolean signifying if the HashTable is empty or not.
+     */
     public boolean isEmpty() {
         boolean isEmpty = true;
         for (int i = 0; i < length; i++) {

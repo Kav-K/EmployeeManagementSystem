@@ -17,6 +17,12 @@ import java.security.NoSuchAlgorithmException;
  */
 public class CryptographyUtils {
     
+    
+    /**
+     * Generate a SHA-256 byte array for a given String.
+     * @param toHash String value to hash
+     * @return byteArray in String format
+     */
     public static String hash(String toHash) {
         MessageDigest digest;
         try {
@@ -30,6 +36,11 @@ public class CryptographyUtils {
         toHash.getBytes(StandardCharsets.UTF_8)));
     }
     
+    /**
+     * Converts a byte array to hexadecimal format used as the final check for a password.
+     * @param hash the byte array to convert to Hexadecimal
+     * @return String of the hexadecimal value of the bytearray.
+     */
     private static String bytesToHex(byte[] hash) {
     StringBuffer hexString = new StringBuffer();
     for (int i = 0; i < hash.length; i++) {

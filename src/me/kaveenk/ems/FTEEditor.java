@@ -20,7 +20,9 @@ public class FTEEditor extends javax.swing.JFrame {
     private static FullTimeEmployee employee;
     private static JTable employeeJTable;
     /**
-     * Creates new form EMSEditorFTE
+     * Creates new FTEEditor JFrame
+     * @param employee Employee object being edited
+     * @param employeeJTable Instance of main menu JTable
      */
     public FTEEditor(FullTimeEmployee employee,JTable employeeJTable) {
         this.employee = employee;
