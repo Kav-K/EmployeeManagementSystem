@@ -10,8 +10,10 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.PrintWriter;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -34,10 +36,9 @@ public class EMSMain extends javax.swing.JFrame {
 
         new Employee(this);
         employeeTable = new HashTable(NUM_BUCKETS);
-       
+
         Employee.load();
-        
-        
+
         this.setResizable(false);
         BufferedImage background = null;
         try {
@@ -66,11 +67,16 @@ public class EMSMain extends javax.swing.JFrame {
         this.getContentPane().add(backgroundlabel);
         this.revalidate();
         this.repaint();
-        center();
+        center(); 
+       
+     
+        
+
     }
-   /**
-    * Center the JFrame to the monitor's middle.
-    */
+
+    /**
+     * Center the JFrame to the monitor's middle.
+     */
     private void center() {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);

@@ -20,18 +20,22 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import static me.kaveenk.ems.EMSMain.employeeTable;
 
 /**
  *
@@ -71,6 +75,9 @@ public class MainMenu extends javax.swing.JFrame {
         addButton.setForeground(new Color(230, 230, 230));
         viewEditButton.setForeground(new Color(230, 230, 230));
 
+        exportButton.setBackground(new Color(17,17,17));
+        exportButton.setForeground(new Color(230,230,230));
+        
         searchButton.setBackground(new Color(17, 17, 17));
         searchButton.setForeground(new Color(230, 230, 230));
 
@@ -149,6 +156,7 @@ public class MainMenu extends javax.swing.JFrame {
         exitButton = new javax.swing.JButton();
         minimizeButton = new javax.swing.JButton();
         helpButton = new javax.swing.JButton();
+        exportButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -254,6 +262,14 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        exportButton.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        exportButton.setText("Export");
+        exportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -267,6 +283,8 @@ public class MainMenu extends javax.swing.JFrame {
                                 .addComponent(addButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(viewEditButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(exportButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -303,7 +321,8 @@ public class MainMenu extends javax.swing.JFrame {
                             .addComponent(searchButton)
                             .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(viewEditButton)
-                            .addComponent(addButton))
+                            .addComponent(addButton)
+                            .addComponent(exportButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tableScrollPane))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -514,9 +533,133 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_helpButtonActionPerformed
 
+    private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv", "csv");
+        chooser.setFileFilter(filter);
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Choose Export Location");
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            export(chooser.getSelectedFile().getAbsolutePath());
+        } else {
+            //No Selection, silence!
+
+        }
+
+    }//GEN-LAST:event_exportButtonActionPerformed
+
     /**
-     * @param args the command line arguments
+     * Export the employeeTable hashtable to a file in CSV format (spreadsheet)
+     * @param exportFile the absolute path of the file to be output to
      */
+    private void export(String exportFile) {
+        if (!exportFile.toLowerCase().endsWith(".csv")) {
+            exportFile = exportFile + ".csv";
+        }
+
+        try {
+            if (new File(exportFile).exists()) {
+                if (JOptionPane.showConfirmDialog(null, "File already exists, would you like to overwrite it?", "WARNING",
+                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    //Just continue
+                } else {
+                    return;
+                }
+            }
+            PrintWriter pw = new PrintWriter(new File(exportFile));
+            StringBuilder sb = new StringBuilder();
+            sb.append("Type");
+            sb.append(',');
+            sb.append("First Name");
+            sb.append(',');
+            sb.append("Last Name");
+            sb.append(',');
+            sb.append("Employee Number");
+            sb.append(',');
+            sb.append("Work Location");
+            sb.append(',');
+            sb.append("Sex");
+            sb.append(',');
+            sb.append("Yearly Salary");
+            sb.append(',');
+            sb.append("Hourly Wage");
+            sb.append(',');
+            sb.append("Hours Per Week");
+            sb.append(',');
+            sb.append("Weeks Per Year");
+            sb.append('\n');
+
+            for (Employee e : employeeTable.toArray()) {
+                if (e instanceof FullTimeEmployee) {
+                    FullTimeEmployee e2 = (FullTimeEmployee) e;
+
+                    sb.append("Full Time");
+                    sb.append(",");
+                    sb.append(e2.getFirstName());
+                    sb.append(",");
+                    sb.append(e2.getLastName());
+                    sb.append(",");
+                    sb.append(e2.getEmployeeNumber());
+                    sb.append(",");
+                    sb.append(e2.getWorkLocation());
+                    sb.append(",");
+                    if (e.getSex() == 0) {
+                        sb.append("Male");
+                    } else {
+                        sb.append("Female");
+                    }
+                    sb.append(",");
+                    sb.append(e2.getYearlySalary());
+                    sb.append(",");
+                    sb.append("N/A");
+                    sb.append(",");
+                    sb.append("N/A");
+                    sb.append(",");
+                    sb.append("N/A");
+                    sb.append("\n");
+                } else {
+                    PartTimeEmployee e2 = (PartTimeEmployee) e;
+                    sb.append("Part Time");
+                    sb.append(",");
+                    sb.append(e2.getFirstName());
+                    sb.append(",");
+                    sb.append(e2.getLastName());
+                    sb.append(",");
+                    sb.append(e2.getEmployeeNumber());
+                    sb.append(",");
+                    sb.append(e2.getWorkLocation());
+                    sb.append(",");
+                    if (e.getSex() == 0) {
+                        sb.append("Male");
+                    } else {
+                        sb.append("Female");
+                    }
+                    sb.append(",");
+                    sb.append(e2.getHourlyWage() * e2.getHoursPerWeek() * e2.getWeeksPerYear());
+                    sb.append(",");
+                    sb.append(e2.getHourlyWage());
+                    sb.append(",");
+                    sb.append(e2.getHoursPerWeek());
+                    sb.append(",");
+                    sb.append(e2.getWeeksPerYear());
+                    sb.append("\n");
+                }
+            }
+
+            pw.write(sb.toString());
+            pw.close();
+            JOptionPane.showMessageDialog(null, "Successfully exported file to: " + exportFile);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "There was an error while exporting! Check your filesystem permissions and choose another directory.");
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -562,6 +705,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton addButton;
     private javax.swing.JTable employeeJTable;
     private javax.swing.JButton exitButton;
+    private javax.swing.JButton exportButton;
     private javax.swing.JButton helpButton;
     private javax.swing.JLabel mainLabel;
     private javax.swing.JButton minimizeButton;
