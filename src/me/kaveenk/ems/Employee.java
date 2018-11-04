@@ -16,8 +16,8 @@ public class Employee implements Serializable {
         private int sex;
         private String workLocation;
         
-        public static EMSMainAndLogin mainInstance;
-        public Employee(EMSMainAndLogin instance) {
+        public static EMSMain mainInstance;
+        public Employee(EMSMain instance) {
             this.mainInstance = instance;
         }
         
