@@ -128,7 +128,7 @@ public class HashTable {
             for (int k = 0; k < buckets[i].size(); k++) {
                 if (buckets[i].get(k) instanceof PartTimeEmployee) {
                     PartTimeEmployee employee = (PartTimeEmployee) buckets[i].get(k);
-                    model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(), "Part Time", 123});
+                    model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(), "Part Time", employee.getHourlyWage()*employee.getHoursPerWeek()*employee.getWeeksPerYear()});
                 } else if (buckets[i].get(k) instanceof FullTimeEmployee) {
                     FullTimeEmployee employee = (FullTimeEmployee) buckets[i].get(k);
                     model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(), "Full Time", employee.getYearlySalary()});

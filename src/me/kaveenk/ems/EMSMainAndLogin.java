@@ -5,35 +5,70 @@
  */
 package me.kaveenk.ems;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author Kaveen Kumarasinghe
- * The password for purposes of demonstration is currently "securepassword123".
- * 
+ * @author Kaveen Kumarasinghe The password for purposes of demonstration is
+ * currently "securepassword123".
+ *
  */
 public class EMSMainAndLogin extends javax.swing.JFrame {
+
     public static HashTable employeeTable;
     final static int NUM_BUCKETS = 5;
     public static final String VALID_PASSWORD = "dda69783f28fdf6f1c5a83e8400f2472e9300887d1dffffe12a07b92a3d0aa25";
-   
+
     /**
      * Creates new form EMSMain
      */
     public EMSMainAndLogin() {
+
+        new Employee(this);
+        employeeTable = new HashTable(NUM_BUCKETS);
+       
+        Employee.load();
         
         
-      new Employee(this);
-      employeeTable = new HashTable(NUM_BUCKETS);
-      
-      Employee.load();
-      initComponents();
-      center();
+        this.setResizable(false);
+        BufferedImage background = null;
+        try {
+            background = ImageIO.read(new File("resources/bg.jpg"));
+
+        } catch (Exception e) {
+            //Replace this later this is just for testing
+            //TODO recovery
+            System.out.println("fail!");
+        }
+        JLabel backgroundlabel = new JLabel(new ImageIcon(background));
+        backgroundlabel.setBounds(0, 0, backgroundlabel.getPreferredSize().width, backgroundlabel.getPreferredSize().height);
+        //Pane initialization
+        initComponents();
+        titleLabel.setForeground(new Color(230,230,230));
+    
+        
+        loginButton.setBackground(new Color(17,17,17));
+        loginButton.setForeground(new Color(230,230,230));
+        
+        passwordField.setForeground(new Color(230,230,230));
+        passwordField.setBackground(new Color(17,17,17));
+        
+     
+        this.getContentPane().add(backgroundlabel);
+        this.revalidate();
+        this.repaint();
+        center();
     }
-     private void center() {
+
+    private void center() {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
     }
@@ -49,13 +84,12 @@ public class EMSMainAndLogin extends javax.swing.JFrame {
 
         titleLabel = new javax.swing.JLabel();
         passwordField = new javax.swing.JPasswordField();
-        loginLabel = new javax.swing.JLabel();
         loginButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("emsMain"); // NOI18N
 
-        titleLabel.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
+        titleLabel.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
         titleLabel.setText("Employee Management System");
 
         passwordField.addActionListener(new java.awt.event.ActionListener() {
@@ -63,8 +97,6 @@ public class EMSMainAndLogin extends javax.swing.JFrame {
                 passwordFieldActionPerformed(evt);
             }
         });
-
-        loginLabel.setText("Please Login");
 
         loginButton.setText("Login");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
@@ -78,20 +110,14 @@ public class EMSMainAndLogin extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 27, Short.MAX_VALUE)
+                .addGap(38, 38, 38)
                 .addComponent(titleLabel)
-                .addGap(43, 43, 43))
+                .addGap(38, 38, 38))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(162, 162, 162)
-                        .addComponent(loginLabel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(180, 180, 180)
-                        .addComponent(loginButton)))
+                .addGap(98, 98, 98)
+                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loginButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -99,12 +125,11 @@ public class EMSMainAndLogin extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(titleLabel)
-                .addGap(26, 26, 26)
-                .addComponent(loginLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(loginButton))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(loginButton))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -125,7 +150,7 @@ public class EMSMainAndLogin extends javax.swing.JFrame {
             new EMSMainMenu().setVisible(true);
             this.setVisible(false);
         }
-        
+
     }//GEN-LAST:event_loginButtonActionPerformed
 
     /**
@@ -168,12 +193,11 @@ public class EMSMainAndLogin extends javax.swing.JFrame {
                 new EMSMainAndLogin().setVisible(true);
             }
         });
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton loginButton;
-    private javax.swing.JLabel loginLabel;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables

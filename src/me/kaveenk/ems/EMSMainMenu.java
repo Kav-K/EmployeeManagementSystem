@@ -22,6 +22,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -54,7 +55,27 @@ public class EMSMainMenu extends javax.swing.JFrame {
         backgroundlabel.setBounds(0, 0, backgroundlabel.getPreferredSize().width, backgroundlabel.getPreferredSize().height);
         //Pane initialization
         initComponents();
-        mainLabel.setForeground(Color.WHITE);
+        mainLabel.setForeground(new Color(230,230,230));
+        
+        addButton.setBackground(new Color(17,17,17));
+        viewEditButton.setBackground(new Color(17,17,17));
+        addButton.setForeground(new Color(230,230,230));
+        viewEditButton.setForeground(new Color(230,230,230));
+        
+        searchButton.setBackground(new Color(17,17,17));
+        searchButton.setForeground(new Color(230,230,230));
+        
+        searchField.setBackground(new Color(17,17,17));
+        searchField.setForeground(new Color(230,230,230));
+        
+        
+        exitButton.setBackground(new Color(1,1,1));
+        minimizeButton.setBackground(new Color(1,1,1));
+        exitButton.setForeground(Color.WHITE);
+        minimizeButton.setForeground(Color.WHITE);
+        
+        
+        
         this.getContentPane().add(backgroundlabel);
         this.revalidate();
         this.repaint();
@@ -114,7 +135,7 @@ public class EMSMainMenu extends javax.swing.JFrame {
         tablePanel = new javax.swing.JPanel();
         mainLabel = new javax.swing.JLabel();
         viewEditButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
         tableScrollPane = new javax.swing.JScrollPane();
         employeeJTable = new javax.swing.JTable();
         searchField = new javax.swing.JTextField();
@@ -147,11 +168,11 @@ public class EMSMainMenu extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
-        jButton2.setText("Add");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        addButton.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
 
@@ -230,7 +251,7 @@ public class EMSMainMenu extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(tableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1005, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
+                                .addComponent(addButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(viewEditButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -263,7 +284,7 @@ public class EMSMainMenu extends javax.swing.JFrame {
                             .addComponent(searchButton)
                             .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(viewEditButton)
-                            .addComponent(jButton2))
+                            .addComponent(addButton))
                         .addGap(2, 2, 2)
                         .addComponent(tableScrollPane))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -306,7 +327,7 @@ public class EMSMainMenu extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "To view or edit an employees details, simply double click their entry in the table to the right of the main page.");
     }//GEN-LAST:event_viewEditButtonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         String[] options = new String[]{"Part Time", "Full Time"};
         int response = JOptionPane.showOptionDialog(null, "What type of employee would you like to add?", "Employee Addition",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
@@ -322,7 +343,7 @@ public class EMSMainMenu extends javax.swing.JFrame {
         }
 
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_addButtonActionPerformed
 
     private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
         // TODO add your handling code here:
@@ -453,9 +474,9 @@ public class EMSMainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
     private javax.swing.JTable employeeJTable;
     private javax.swing.JButton exitButton;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel mainLabel;
     private javax.swing.JButton minimizeButton;
     private javax.swing.JButton searchButton;
