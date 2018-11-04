@@ -33,13 +33,40 @@ public class EMSMain extends javax.swing.JFrame {
      * Creates new form EMSMain
      */
     public EMSMain() {
+        this.setResizable(false);
 
+        //Load Data
         new Employee(this);
         employeeTable = new HashTable(NUM_BUCKETS);
-
         Employee.load();
+        //End load data
 
-        this.setResizable(false);
+        //Extra styles
+        initComponents();
+        stylizeLabels();
+        setBackgroundLabel();
+        center();
+        reDraw();
+        //End extra styles
+
+    }
+
+    private void stylizeLabels() {
+        titleLabel.setForeground(new Color(230, 230, 230));
+
+        loginButton.setBackground(new Color(17, 17, 17));
+        loginButton.setForeground(new Color(230, 230, 230));
+
+        passwordField.setForeground(new Color(230, 230, 230));
+        passwordField.setBackground(new Color(17, 17, 17));
+    }
+
+    private void reDraw() {
+        this.revalidate();
+        this.repaint();
+    }
+
+    private void setBackgroundLabel() {
         BufferedImage background = null;
         try {
             background = ImageIO.read(new File("resources/bg.jpg"));
@@ -49,28 +76,10 @@ public class EMSMain extends javax.swing.JFrame {
             //TODO recovery
             System.out.println("fail!");
         }
-        
-        JLabel backgroundlabel = new JLabel(new ImageIcon(background));
-        backgroundlabel.setBounds(0, 0, backgroundlabel.getPreferredSize().width, backgroundlabel.getPreferredSize().height);
-        //Pane initialization
-        initComponents();
-        titleLabel.setForeground(new Color(230,230,230));
-    
-        
-        loginButton.setBackground(new Color(17,17,17));
-        loginButton.setForeground(new Color(230,230,230));
-        
-        passwordField.setForeground(new Color(230,230,230));
-        passwordField.setBackground(new Color(17,17,17));
-        
-     
-        this.getContentPane().add(backgroundlabel);
-        this.revalidate();
-        this.repaint();
-        center(); 
-       
-     
-        
+
+        JLabel backgroundLabel = new JLabel(new ImageIcon(background));
+        backgroundLabel.setBounds(0, 0, backgroundLabel.getPreferredSize().width, backgroundLabel.getPreferredSize().height);
+        this.getContentPane().add(backgroundLabel);
 
     }
 

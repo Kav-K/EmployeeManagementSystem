@@ -52,50 +52,33 @@ public class MainMenu extends javax.swing.JFrame {
      * Creates new JFrame MainMenu
      */
     public MainMenu() {
+
         this.setUndecorated(true);
         this.setResizable(false);
-        BufferedImage background = null;
-
-        try {
-            background = ImageIO.read(new File("resources/bg.jpg"));
-
-        } catch (Exception e) {
-            //Replace this later this is just for testing
-            //TODO recovery
-            System.out.println("fail!");
-        }
-        JLabel backgroundlabel = new JLabel(new ImageIcon(background));
-        backgroundlabel.setBounds(0, 0, backgroundlabel.getPreferredSize().width, backgroundlabel.getPreferredSize().height);
-        //Pane initialization
+        //Extra styling
         initComponents();
-        mainLabel.setForeground(new Color(230, 230, 230));
-
-        addButton.setBackground(new Color(17, 17, 17));
-        viewEditButton.setBackground(new Color(17, 17, 17));
-        addButton.setForeground(new Color(230, 230, 230));
-        viewEditButton.setForeground(new Color(230, 230, 230));
-
-        exportButton.setBackground(new Color(17,17,17));
-        exportButton.setForeground(new Color(230,230,230));
-        
-        searchButton.setBackground(new Color(17, 17, 17));
-        searchButton.setForeground(new Color(230, 230, 230));
-
-        searchField.setBackground(new Color(17, 17, 17));
-        searchField.setForeground(new Color(230, 230, 230));
-
-        exitButton.setBackground(new Color(1, 1, 1));
-        minimizeButton.setBackground(new Color(1, 1, 1));
-        exitButton.setForeground(Color.WHITE);
-        minimizeButton.setForeground(Color.WHITE);
-
-        this.getContentPane().add(backgroundlabel);
-        this.revalidate();
-        this.repaint();
+        stylizeLabels();
+        setBackgroundLabel();
+        center();
+        reDraw();
+        //End extra styling
 
         EMSMain.employeeTable.populateJFrameTable(employeeJTable);
-        center();
 
+        
+        initMouseListener();
+
+    }
+
+    private void reDraw() {
+        this.revalidate();
+        this.repaint();
+    }
+    /**
+     * Mouse listener to allow the window to be draggable even though it is undecorated and unresizable.
+     * 
+     */
+    private void initMouseListener() {
         try {
             this.addMouseListener(new MouseListener() {
                 public void mouseReleased(MouseEvent e) {
@@ -129,6 +112,47 @@ public class MainMenu extends javax.swing.JFrame {
             //Silence
         }
 
+    }
+
+    private void stylizeLabels() {
+        mainLabel.setForeground(new Color(230, 230, 230));
+
+        addButton.setBackground(new Color(17, 17, 17));
+        viewEditButton.setBackground(new Color(17, 17, 17));
+        addButton.setForeground(new Color(230, 230, 230));
+        viewEditButton.setForeground(new Color(230, 230, 230));
+
+        exportButton.setBackground(new Color(17, 17, 17));
+        exportButton.setForeground(new Color(230, 230, 230));
+
+        searchButton.setBackground(new Color(17, 17, 17));
+        searchButton.setForeground(new Color(230, 230, 230));
+
+        searchField.setBackground(new Color(17, 17, 17));
+        searchField.setForeground(new Color(230, 230, 230));
+
+        exitButton.setBackground(new Color(1, 1, 1));
+        minimizeButton.setBackground(new Color(1, 1, 1));
+        exitButton.setForeground(Color.WHITE);
+        minimizeButton.setForeground(Color.WHITE);
+
+    }
+
+    private void setBackgroundLabel() {
+        BufferedImage background = null;
+
+        try {
+            background = ImageIO.read(new File("resources/bg.jpg"));
+
+        } catch (Exception e) {
+            //Replace this later this is just for testing
+            //TODO recovery
+            System.out.println("fail!");
+        }
+        JLabel backgroundLabel = new JLabel(new ImageIcon(background));
+        backgroundLabel.setBounds(0, 0, backgroundLabel.getPreferredSize().width, backgroundLabel.getPreferredSize().height);
+
+        this.getContentPane().add(backgroundLabel);
     }
 
     private void center() {
@@ -554,6 +578,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     /**
      * Export the employeeTable hashtable to a file in CSV format (spreadsheet)
+     *
      * @param exportFile the absolute path of the file to be output to
      */
     private void export(String exportFile) {
