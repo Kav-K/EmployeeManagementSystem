@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -17,6 +18,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.PrintWriter;
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -27,8 +30,8 @@ import static me.kaveenk.ems.MainMenu.mouseDownCompCoords;
  *
  * @author Kaveen Kumarasinghe The password for purposes of demonstration is
  * currently "securepassword123".
- * 
- * 
+ *
+ *
  * TODO: Resource packaging within the JAR file itself.
  *
  */
@@ -59,11 +62,25 @@ public class EMSMain extends javax.swing.JFrame {
         center();
         reDraw();
         //End extra styles
-        
+
         initMouseListener();
+        initFieldListener();
+        passwordField.requestFocus();
+
     }
 
-            private void initMouseListener() {
+    private void initFieldListener() {
+        Action action = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                validatePassword();
+            }
+        };
+
+        passwordField.addActionListener(action);
+    }
+
+    private void initMouseListener() {
         try {
             this.addMouseListener(new MouseListener() {
                 public void mouseReleased(MouseEvent e) {
@@ -97,16 +114,14 @@ public class EMSMain extends javax.swing.JFrame {
             //Silence
         }
 
-    
     }
-    
+
     private void stylizeButtons() {
-        exitButton.setBackground(new Color(1,1,1));
-        exitButton.setForeground(new Color(230,230,230));
-        minimizeButton.setBackground(new Color(1,1,1));
-        minimizeButton.setForeground(new Color(230,230,230));
-        
-        
+        exitButton.setBackground(new Color(1, 1, 1));
+        exitButton.setForeground(new Color(230, 230, 230));
+        minimizeButton.setBackground(new Color(1, 1, 1));
+        minimizeButton.setForeground(new Color(230, 230, 230));
+
     }
 
     private void stylizeLabels() {
@@ -122,6 +137,19 @@ public class EMSMain extends javax.swing.JFrame {
     private void reDraw() {
         this.revalidate();
         this.repaint();
+    }
+
+    private void validatePassword() {
+        if (passwordField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "You didn't enter a password.");
+            return;
+        }
+        if (!(CryptographyUtils.hash(passwordField.getText()).equals(VALID_PASSWORD))) {
+            JOptionPane.showMessageDialog(this, "Invalid Password.");
+        } else {
+            new MainMenu().setVisible(true);
+            this.setVisible(false);
+        }
     }
 
     private void setBackgroundLabel() {
@@ -244,16 +272,7 @@ public class EMSMain extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
-        if (passwordField.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "You didn't enter a password.");
-            return;
-        }
-        if (!(CryptographyUtils.hash(passwordField.getText()).equals(VALID_PASSWORD))) {
-            JOptionPane.showMessageDialog(this, "Invalid Password.");
-        } else {
-            new MainMenu().setVisible(true);
-            this.setVisible(false);
-        }
+        validatePassword();
 
     }//GEN-LAST:event_loginButtonActionPerformed
 

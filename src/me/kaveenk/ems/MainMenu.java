@@ -65,8 +65,8 @@ public class MainMenu extends javax.swing.JFrame {
 
         EMSMain.employeeTable.populateJFrameTable(employeeJTable);
 
-        
         initMouseListener();
+        employeeJTable.setAutoCreateRowSorter(true);
 
     }
 
@@ -74,9 +74,11 @@ public class MainMenu extends javax.swing.JFrame {
         this.revalidate();
         this.repaint();
     }
+
     /**
-     * Mouse listener to allow the window to be draggable even though it is undecorated and unresizable.
-     * 
+     * Mouse listener to allow the window to be draggable even though it is
+     * undecorated and unresizable.
+     *
      */
     private void initMouseListener() {
         try {
