@@ -27,6 +27,9 @@ import static me.kaveenk.ems.MainMenu.mouseDownCompCoords;
  *
  * @author Kaveen Kumarasinghe The password for purposes of demonstration is
  * currently "securepassword123".
+ * 
+ * 
+ * TODO: Resource packaging within the JAR file itself.
  *
  */
 public class EMSMain extends javax.swing.JFrame {
