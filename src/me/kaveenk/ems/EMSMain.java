@@ -10,13 +10,18 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -28,13 +33,19 @@ import static me.kaveenk.ems.MainMenu.mouseDownCompCoords;
  * @author Kaveen Kumarasinghe The password for purposes of demonstration is
  * currently "securepassword123".
  *
+ *
+ * TODO: Resource packaging within the JAR file itself.
+ *
  */
 public class EMSMain extends javax.swing.JFrame {
 
     public static HashTable employeeTable;
     final static int NUM_BUCKETS = 5;
     public static final String VALID_PASSWORD = "dda69783f28fdf6f1c5a83e8400f2472e9300887d1dffffe12a07b92a3d0aa25";
-
+    public static final String LOG_FILE = "log.txt";
+    private static final int AUTO_SAVE_INTERVAL = 30;
+    public static LogHandler logger = new LogHandler(LOG_FILE);
+    private TimerTask saveTask;
     /**
      * Creates new form EMSMain
      */
@@ -45,7 +56,7 @@ public class EMSMain extends javax.swing.JFrame {
         //Load Data
         new Employee(this);
         employeeTable = new HashTable(NUM_BUCKETS);
-        Employee.load();
+        Employee.load(Employee.SERIAL_FILE);
         //End load data
 
         //Extra styles
@@ -56,11 +67,38 @@ public class EMSMain extends javax.swing.JFrame {
         center();
         reDraw();
         //End extra styles
-        
+
         initMouseListener();
+        initFieldListener();
+        passwordField.requestFocus();
+        
+        
+        startRedundantSaving();
+        logger.info("Program successfully initialized.");
+        
+        
+
+    }
+    private void startRedundantSaving() {
+        saveTask = new RedundantSavingTask(AUTO_SAVE_INTERVAL);
+        //running timer task as daemon thread
+        Timer timer = new Timer(true);
+        timer.scheduleAtFixedRate(saveTask, 0, AUTO_SAVE_INTERVAL*1000);
+        
     }
 
-            private void initMouseListener() {
+    private void initFieldListener() {
+        Action action = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                validatePassword();
+            }
+        };
+
+        passwordField.addActionListener(action);
+    }
+
+    private void initMouseListener() {
         try {
             this.addMouseListener(new MouseListener() {
                 public void mouseReleased(MouseEvent e) {
@@ -94,16 +132,14 @@ public class EMSMain extends javax.swing.JFrame {
             //Silence
         }
 
-    
     }
-    
+
     private void stylizeButtons() {
-        exitButton.setBackground(new Color(1,1,1));
-        exitButton.setForeground(new Color(230,230,230));
-        minimizeButton.setBackground(new Color(1,1,1));
-        minimizeButton.setForeground(new Color(230,230,230));
-        
-        
+        exitButton.setBackground(new Color(1, 1, 1));
+        exitButton.setForeground(new Color(230, 230, 230));
+        minimizeButton.setBackground(new Color(1, 1, 1));
+        minimizeButton.setForeground(new Color(230, 230, 230));
+
     }
 
     private void stylizeLabels() {
@@ -121,15 +157,28 @@ public class EMSMain extends javax.swing.JFrame {
         this.repaint();
     }
 
+    private void validatePassword() {
+        if (passwordField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "You didn't enter a password.");
+            return;
+        }
+        if (!(CryptographyUtils.hash(passwordField.getText()).equals(VALID_PASSWORD))) {
+            JOptionPane.showMessageDialog(this, "Invalid Password.");
+        } else {
+            logger.info("User successfully authenticated.");
+            new MainMenu().setVisible(true);
+            this.setVisible(false);
+        }
+    }
+
     private void setBackgroundLabel() {
         BufferedImage background = null;
         try {
             background = ImageIO.read(new File("resources/bg.jpg"));
 
         } catch (Exception e) {
-            //Replace this later this is just for testing
-            //TODO recovery
-            System.out.println("fail!");
+            
+            logger.error("There was an error in loading the background image for the program!", e);
         }
 
         JLabel backgroundLabel = new JLabel(new ImageIcon(background));
@@ -241,20 +290,15 @@ public class EMSMain extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
-        if (passwordField.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "You didn't enter a password.");
-            return;
-        }
-        if (!(CryptographyUtils.hash(passwordField.getText()).equals(VALID_PASSWORD))) {
-            JOptionPane.showMessageDialog(this, "Invalid Password.");
-        } else {
-            new MainMenu().setVisible(true);
-            this.setVisible(false);
-        }
+        validatePassword();
 
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+        saveTask.cancel();
+        Employee.serialize();
+        Employee.serialize(Employee.BACKUP_SERIAL_FILE);
+        logger.info("System gracefully exiting");
         System.exit(0);
     }//GEN-LAST:event_exitButtonActionPerformed
 

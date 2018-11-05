@@ -21,6 +21,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import static me.kaveenk.ems.EMSMain.logger;
 import static me.kaveenk.ems.MainMenu.mouseDownCompCoords;
 
 /**
@@ -167,9 +168,7 @@ public class PTEEditor extends javax.swing.JFrame {
             background = ImageIO.read(new File("resources/bg.jpg"));
 
         } catch (Exception e) {
-            //Replace this later this is just for testing
-            //TODO recovery
-            System.out.println("fail!");
+            logger.error("There was an error in loading the background image for the program!", e);
         }
 
         JLabel backgroundLabel = new JLabel(new ImageIcon(background));
@@ -613,6 +612,7 @@ public class PTEEditor extends javax.swing.JFrame {
 
             lockFields();
             setFields();
+            EMSMain.logger.info("The employee "+employee.getFirstName()+" "+employee.getLastName()+" has been edited.");
 
         }
 
