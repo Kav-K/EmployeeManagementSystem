@@ -17,6 +17,8 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -40,7 +42,10 @@ public class EMSMain extends javax.swing.JFrame {
     public static HashTable employeeTable;
     final static int NUM_BUCKETS = 5;
     public static final String VALID_PASSWORD = "dda69783f28fdf6f1c5a83e8400f2472e9300887d1dffffe12a07b92a3d0aa25";
-
+    public static final String LOG_FILE = "log.txt";
+    private static final int AUTO_SAVE_INTERVAL = 30;
+    public static LogHandler logger = new LogHandler(LOG_FILE);
+    private TimerTask saveTask;
     /**
      * Creates new form EMSMain
      */
@@ -51,7 +56,7 @@ public class EMSMain extends javax.swing.JFrame {
         //Load Data
         new Employee(this);
         employeeTable = new HashTable(NUM_BUCKETS);
-        Employee.load();
+        Employee.load(Employee.SERIAL_FILE);
         //End load data
 
         //Extra styles
@@ -66,7 +71,20 @@ public class EMSMain extends javax.swing.JFrame {
         initMouseListener();
         initFieldListener();
         passwordField.requestFocus();
+        
+        
+        startRedundantSaving();
+        logger.info("Program successfully initialized.");
+        
+        
 
+    }
+    private void startRedundantSaving() {
+        saveTask = new RedundantSavingTask(AUTO_SAVE_INTERVAL);
+        //running timer task as daemon thread
+        Timer timer = new Timer(true);
+        timer.scheduleAtFixedRate(saveTask, 0, AUTO_SAVE_INTERVAL*1000);
+        
     }
 
     private void initFieldListener() {
@@ -147,6 +165,7 @@ public class EMSMain extends javax.swing.JFrame {
         if (!(CryptographyUtils.hash(passwordField.getText()).equals(VALID_PASSWORD))) {
             JOptionPane.showMessageDialog(this, "Invalid Password.");
         } else {
+            logger.info("User successfully authenticated.");
             new MainMenu().setVisible(true);
             this.setVisible(false);
         }
@@ -158,9 +177,8 @@ public class EMSMain extends javax.swing.JFrame {
             background = ImageIO.read(new File("resources/bg.jpg"));
 
         } catch (Exception e) {
-            //Replace this later this is just for testing
-            //TODO recovery
-            System.out.println("fail!");
+            
+            logger.error("There was an error in loading the background image for the program!", e);
         }
 
         JLabel backgroundLabel = new JLabel(new ImageIcon(background));
@@ -277,6 +295,10 @@ public class EMSMain extends javax.swing.JFrame {
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+        saveTask.cancel();
+        Employee.serialize();
+        Employee.serialize(Employee.BACKUP_SERIAL_FILE);
+        logger.info("System gracefully exiting");
         System.exit(0);
     }//GEN-LAST:event_exitButtonActionPerformed
 

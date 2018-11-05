@@ -8,6 +8,7 @@ package me.kaveenk.ems;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import static me.kaveenk.ems.EMSMain.logger;
 
 /**
  *
@@ -29,7 +30,7 @@ public class CryptographyUtils {
         digest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
             System.out.println("Failed to find the SHA-256 algorithm");
-            e.printStackTrace();
+            logger.error("There was an error in loading the SHA-256 algorithm. Because of security risk, login has now been disabled.", e);
             return "error";
         }
         return bytesToHex(digest.digest(

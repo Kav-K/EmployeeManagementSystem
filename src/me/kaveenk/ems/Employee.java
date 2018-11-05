@@ -7,10 +7,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class Employee implements Serializable {
 
+    private static int loadFailures = 0;
     private static final long serialVersionUID = -2722972583608119832L;
+    public static final String SERIAL_FILE = "employeeData.ser";
+    public static final String BACKUP_SERIAL_FILE = "employeeData.ser.backup";
     private String firstName;
     private String lastName;
     private int employeeNum;
@@ -18,20 +22,24 @@ public class Employee implements Serializable {
     private String workLocation;
 
     public static EMSMain mainInstance;
+
     /**
      * Overload to pass an instance of the main class to Employee.java
+     *
      * @param instance Main class instance
      */
     public Employee(EMSMain instance) {
         this.mainInstance = instance;
     }
+
     /**
      * Create new Employee object
+     *
      * @param firstName
      * @param lastName
      * @param employeeNum
      * @param sex
-     * @param workLocation 
+     * @param workLocation
      */
     public Employee(String firstName, String lastName, int employeeNum, int sex, String workLocation) {
         this.firstName = firstName;
@@ -89,14 +97,28 @@ public class Employee implements Serializable {
      */
     public static void serialize() {
         try {
-            FileOutputStream fileOut = new FileOutputStream("employeeData.ser");
+            FileOutputStream fileOut = new FileOutputStream(SERIAL_FILE);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(mainInstance.employeeTable.toArray());
             out.close();
             fileOut.close();
-            System.out.printf("Serialized to employeeData.ser");
+            EMSMain.logger.info("EMS Data has been serialized to " + SERIAL_FILE);
         } catch (IOException i) {
-            i.printStackTrace();
+            EMSMain.logger.error("There was an error during serialization", i);
+            
+        }
+    }
+    //Overload for serialize
+    public static void serialize(String fileName) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(fileName);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(mainInstance.employeeTable.toArray());
+            out.close();
+            fileOut.close();
+            EMSMain.logger.info("EMS Data has been serialized to "+fileName);
+        } catch (IOException i) {
+            EMSMain.logger.error("There was an error during serialization", i);
         }
     }
 
@@ -105,9 +127,9 @@ public class Employee implements Serializable {
      * ArrayList(Employee), then iterates through that arraylist and adds it to
      * the HashTable.
      */
-    public static void load() {
+    public static void load(String fileName) {
         try {
-            FileInputStream fileIn = new FileInputStream("employeeData.ser");
+            FileInputStream fileIn = new FileInputStream(fileName);
 
             ObjectInputStream in = new ObjectInputStream(fileIn);
 
@@ -130,13 +152,23 @@ public class Employee implements Serializable {
                 continue;
 
             }
+            Employee.serialize();
 
         } catch (IOException i) {
-            i.printStackTrace();
+            if (loadFailures == 0) {
+                loadFailures++;
+                EMSMain.logger.severe("There was an error loading the main serial file, trying the backup.");
+                load(Employee.BACKUP_SERIAL_FILE);
+                
+            } else if (loadFailures > 0) {
+                JOptionPane.showMessageDialog(null, "A valid serial file could not be loaded. Initializing from empty..");
+                EMSMain.logger.severe("A valid serial file was not loaded so an empty one has been created from scratch.");
+                Employee.serialize();
+                return;
+            }
             return;
         } catch (ClassNotFoundException c) {
-            System.out.println("Class Failure");
-            c.printStackTrace();
+            EMSMain.logger.error("There was an error finding the Employee class for deserialization", c);
             return;
         }
     }

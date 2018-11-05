@@ -43,6 +43,7 @@ public class HashTable {
             break;
 
         }
+        
 
     }
     /**
@@ -105,6 +106,7 @@ public class HashTable {
             for (Employee info : buckets[i]) {
                 if (info.getEmployeeNumber() == employeeNumber) {
                     buckets[i].remove(info);
+                    EMSMain.logger.warning("The employee "+info.getFirstName()+" "+info.getLastName()+" has been removed from the system.");
                     return;
 
                 }
@@ -143,7 +145,7 @@ public class HashTable {
      * @param table JTable to populate
      */
     public void populateJFrameTable(JTable table) {
-
+        EMSMain.logger.info("Preparing to populate JTable");
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         for (int i = 0; i < length; i++) {
@@ -165,6 +167,7 @@ public class HashTable {
                 }
 
             }
+            EMSMain.logger.info("The Main Menu JTable has been populated.");
 
         }
 
@@ -193,7 +196,7 @@ public class HashTable {
     }
     /**
      * Checks if the HashTable is empty
-     * @return boolean signifying if the HashTable is empty or not.
+     * @return boolean signifyiheng if the HashTable is empty or not.
      */
     public boolean isEmpty() {
         boolean isEmpty = true;

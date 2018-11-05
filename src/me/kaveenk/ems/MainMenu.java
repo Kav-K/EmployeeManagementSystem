@@ -36,6 +36,7 @@ import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import static me.kaveenk.ems.EMSMain.employeeTable;
+import static me.kaveenk.ems.EMSMain.logger;
 
 /**
  *
@@ -147,9 +148,7 @@ public class MainMenu extends javax.swing.JFrame {
             background = ImageIO.read(new File("resources/bg.jpg"));
 
         } catch (Exception e) {
-            //Replace this later this is just for testing
-            //TODO recovery
-            System.out.println("fail!");
+           logger.error("There was an error in loading the background image for the program!", e);
         }
         JLabel backgroundLabel = new JLabel(new ImageIcon(background));
         backgroundLabel.setBounds(0, 0, backgroundLabel.getPreferredSize().width, backgroundLabel.getPreferredSize().height);
@@ -487,6 +486,9 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
         Employee.serialize();
+        Employee.serialize(Employee.BACKUP_SERIAL_FILE);
+        logger.info("System gracefully exiting");
+        
         System.exit(0);
     }//GEN-LAST:event_exitButtonActionPerformed
 
@@ -554,7 +556,7 @@ public class MainMenu extends javax.swing.JFrame {
             browser.getCacheStorage().clearCache();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("There was an error in opening the JxBrowser library's functionalities!", e);
             JOptionPane.showMessageDialog(null, "Something went wrong with JxBrowser's license.");
         }
     }//GEN-LAST:event_helpButtonActionPerformed
@@ -571,6 +573,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             export(chooser.getSelectedFile().getAbsolutePath());
+           
         } else {
             //No Selection, silence!
 
@@ -587,7 +590,7 @@ public class MainMenu extends javax.swing.JFrame {
         if (!exportFile.toLowerCase().endsWith(".csv")) {
             exportFile = exportFile + ".csv";
         }
-
+        logger.info("Exporting data to "+exportFile);
         try {
             if (new File(exportFile).exists()) {
                 if (JOptionPane.showConfirmDialog(null, "File already exists, would you like to overwrite it?", "WARNING",
@@ -679,11 +682,12 @@ public class MainMenu extends javax.swing.JFrame {
 
             pw.write(sb.toString());
             pw.close();
+            logger.info("Successfuly exported data");
             JOptionPane.showMessageDialog(null, "Successfully exported file to: " + exportFile);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "There was an error while exporting! Check your filesystem permissions and choose another directory.");
-            e.printStackTrace();
+            logger.error("There was an error exporting data",e);
         }
     }
 
