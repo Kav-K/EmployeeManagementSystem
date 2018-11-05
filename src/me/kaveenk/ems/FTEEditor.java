@@ -5,11 +5,23 @@
  */
 package me.kaveenk.ems;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import static me.kaveenk.ems.MainMenu.mouseDownCompCoords;
 
 /**
  *
@@ -19,30 +31,150 @@ public class FTEEditor extends javax.swing.JFrame {
 
     private static FullTimeEmployee employee;
     private static JTable employeeJTable;
+
     /**
      * Creates new FTEEditor JFrame
+     *
      * @param employee Employee object being edited
      * @param employeeJTable Instance of main menu JTable
      */
-    public FTEEditor(FullTimeEmployee employee,JTable employeeJTable) {
+    public FTEEditor(FullTimeEmployee employee, JTable employeeJTable) {
+        this.setResizable(false);
+        this.setUndecorated(true);
+
         this.employee = employee;
         this.employeeJTable = employeeJTable;
+
         initComponents();
+
+        //Extra stylizing
+        setBackgroundLabel();
+        stylizeLabels();
+        stylizeButtons();
+        stylizeFields();
         center();
-        
+        reDraw();
+
         lockFields();
         setFields();
-        
-    this.addWindowListener(new WindowAdapter() {
-        @Override
-        public void windowClosing(WindowEvent event) {
-            MainMenu.activeEditor = false;
-            event.getWindow().dispose();
-        }
-    });
-        
-       
+        initWindowListener();
+        initMouseListener();
+
     }
+
+    private void initMouseListener() {
+        try {
+            this.addMouseListener(new MouseListener() {
+                public void mouseReleased(MouseEvent e) {
+                    mouseDownCompCoords = null;
+                }
+
+                public void mousePressed(MouseEvent e) {
+                    mouseDownCompCoords = e.getPoint();
+                }
+
+                public void mouseExited(MouseEvent e) {
+                }
+
+                public void mouseEntered(MouseEvent e) {
+                }
+
+                public void mouseClicked(MouseEvent e) {
+                }
+            });
+
+            this.addMouseMotionListener(new MouseMotionListener() {
+                public void mouseMoved(MouseEvent e) {
+                }
+
+                public void mouseDragged(MouseEvent e) {
+                    Point currCoords = e.getLocationOnScreen();
+                    setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
+                }
+            });
+        } catch (Exception e) {
+            //Silence
+        }
+
+    }
+    private void stylizeFields() {
+        firstNameField.setBackground(new Color(17,17,17));
+        firstNameField.setForeground(new Color(230,230,230));
+        lastNameField.setBackground(new Color(17,17,17));
+        lastNameField.setForeground(new Color(230,230,230));
+        employeeNumberField.setBackground(new Color(17,17,17));
+        employeeNumberField.setForeground(new Color(230,230,230));
+        workLocationField.setBackground(new Color(17,17,17));
+        workLocationField.setForeground(new Color(230,230,230));
+        yearlySalaryField.setBackground(new Color(17,17,17));
+        yearlySalaryField.setForeground(new Color(230,230,230));
+        
+        
+        
+    }
+    private void stylizeLabels() {
+        firstNameLabel.setForeground(new Color(230, 230, 230));
+        lastNameLabel.setForeground(new Color(230, 230, 230));
+        employeeNumberLabel.setForeground(new Color(230, 230, 230));
+        sexLabel.setForeground(new Color(230, 230, 230));
+        workLocationLabel.setForeground(new Color(230, 230, 230));
+        yearlySalaryLabel.setForeground(new Color(230, 230, 230));
+        firstNameLabel.setForeground(new Color(230, 230, 230));
+        employeeEditorLabel.setForeground(new Color(230, 230, 230));
+        femaleButton.setForeground(new Color(230, 230, 230));
+        maleButton.setForeground(new Color(230, 230, 230));
+
+    }
+
+    private void stylizeButtons() {
+        editButton.setBackground(new Color(17, 17, 17));
+        editButton.setForeground(new Color(230, 230, 230));
+        deleteButton.setBackground(new Color(17, 17, 17));
+        deleteButton.setForeground(new Color(230, 230, 230));
+        saveButton.setBackground(new Color(17, 17, 17));
+        saveButton.setForeground(new Color(230, 230, 230));
+        revertButton.setBackground(new Color(17, 17, 17));
+        revertButton.setForeground(new Color(230, 230, 230));
+
+        exitButton.setBackground(new Color(1, 1, 1));
+        exitButton.setForeground(new Color(230, 230, 230));
+        minimizeButton.setBackground(new Color(1, 1, 1));
+        minimizeButton.setForeground(new Color(230, 230, 230));
+    }
+
+    private void initWindowListener() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                MainMenu.activeEditor = false;
+                event.getWindow().dispose();
+            }
+        });
+
+    }
+
+    private void reDraw() {
+        this.revalidate();
+        this.repaint();
+    }
+
+    private void setBackgroundLabel() {
+        BufferedImage background = null;
+        try {
+            background = ImageIO.read(new File("resources/bg.jpg"));
+
+        } catch (Exception e) {
+            //Replace this later this is just for testing
+            //TODO recovery
+            System.out.println("fail!");
+        }
+
+        JLabel backgroundLabel = new JLabel(new ImageIcon(background));
+        backgroundLabel.setBounds(0, 0, backgroundLabel.getPreferredSize().width, backgroundLabel.getPreferredSize().height);
+        this.getContentPane().add(backgroundLabel);
+
+    }
+
     private void unlockFields() {
         workLocationField.setEnabled(true);
         firstNameField.setEnabled(true);
@@ -52,7 +184,7 @@ public class FTEEditor extends javax.swing.JFrame {
         maleButton.setEnabled(true);
         femaleButton.setEnabled(true);
     }
-    
+
     private void lockFields() {
         workLocationField.setMaximumSize(workLocationField.getPreferredScrollableViewportSize());
         firstNameField.setMaximumSize(firstNameField.getPreferredScrollableViewportSize());
@@ -119,6 +251,8 @@ public class FTEEditor extends javax.swing.JFrame {
         errorLabel = new javax.swing.JLabel();
         deleteButton = new javax.swing.JToggleButton();
         editButton = new javax.swing.JToggleButton();
+        exitButton = new javax.swing.JButton();
+        minimizeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -217,6 +351,22 @@ public class FTEEditor extends javax.swing.JFrame {
             }
         });
 
+        exitButton.setText("X");
+        exitButton.setToolTipText("");
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitButtonActionPerformed(evt);
+            }
+        });
+
+        minimizeButton.setText("-");
+        minimizeButton.setToolTipText("");
+        minimizeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                minimizeButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -254,31 +404,33 @@ public class FTEEditor extends javax.swing.JFrame {
                     .addComponent(yearlySalaryField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(revertButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(saveButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(69, 69, 69))
-                                    .addComponent(errorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(editButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(deleteButton)
-                                .addGap(28, 28, 28)))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(employeeEditorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(errorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(editButton)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(deleteButton)
+                                    .addGap(28, 28, 28))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(minimizeButton)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(exitButton)))
+                            .addComponent(revertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(saveButton))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(exitButton)
+                    .addComponent(minimizeButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(firstNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(firstNameLabel)
@@ -313,9 +465,9 @@ public class FTEEditor extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(deleteButton)
                             .addComponent(editButton))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(revertButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(revertButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(saveButton)
                         .addGap(44, 44, 44))))
         );
@@ -330,8 +482,8 @@ public class FTEEditor extends javax.swing.JFrame {
             maleButton.setSelected(true);
         } else if (!(femaleButton.isSelected() && maleButton.isSelected())) {
             maleButton.setSelected(true);
-        }   
-        
+        }
+
     }//GEN-LAST:event_maleButtonActionPerformed
 
     private void femaleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_femaleButtonActionPerformed
@@ -342,7 +494,7 @@ public class FTEEditor extends javax.swing.JFrame {
         } else if (!(femaleButton.isSelected() && maleButton.isSelected())) {
             femaleButton.setSelected(true);
         }
-        
+
     }//GEN-LAST:event_femaleButtonActionPerformed
 
     private void firstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameFieldActionPerformed
@@ -366,13 +518,13 @@ public class FTEEditor extends javax.swing.JFrame {
         if ((employeeNumParsed != employee.getEmployeeNumber()) && EMSMain.employeeTable.toArray().contains(EMSMain.employeeTable.get(employeeNumParsed))) {
             errorLabel.setText("Employee number already exists");
             return false;
-            
+
         }
         return true;
     }
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        if (validate(employeeNumberField.getText(),yearlySalaryField.getText())) {
-            
+        if (validate(employeeNumberField.getText(), yearlySalaryField.getText())) {
+
             employee.setEmployeeNumber(Integer.parseInt(employeeNumberField.getText()));
             employee.setFirstName(firstNameField.getText());
             employee.setLastName(lastNameField.getText());
@@ -391,14 +543,13 @@ public class FTEEditor extends javax.swing.JFrame {
             saveButton.setVisible(false);
             revertButton.setVisible(false);
             deleteButton.setEnabled(true);
-            
+
             lockFields();
             setFields();
-            
+
         }
-        
-        
-        
+
+
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void yearlySalaryFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearlySalaryFieldActionPerformed
@@ -406,13 +557,13 @@ public class FTEEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_yearlySalaryFieldActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-         EMSMain.employeeTable.remove(employee.getEmployeeNumber());
-         Employee.serialize();
-         EMSMain.employeeTable.populateJFrameTable(employeeJTable);
-         MainMenu.activeEditor = false;
-         this.dispose();
-            
-        
+        EMSMain.employeeTable.remove(employee.getEmployeeNumber());
+        Employee.serialize();
+        EMSMain.employeeTable.populateJFrameTable(employeeJTable);
+        MainMenu.activeEditor = false;
+        this.dispose();
+
+
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void revertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_revertButtonActionPerformed
@@ -430,6 +581,17 @@ public class FTEEditor extends javax.swing.JFrame {
         saveButton.setVisible(true);
         revertButton.setVisible(true);
     }//GEN-LAST:event_editButtonActionPerformed
+
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+        MainMenu.activeEditor = false;
+        this.dispose();
+
+
+    }//GEN-LAST:event_exitButtonActionPerformed
+
+    private void minimizeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minimizeButtonActionPerformed
+        this.setState(Frame.ICONIFIED);
+    }//GEN-LAST:event_minimizeButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -462,7 +624,7 @@ public class FTEEditor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FTEEditor(employee,employeeJTable).setVisible(true);
+                new FTEEditor(employee, employeeJTable).setVisible(true);
 
             }
         });
@@ -475,12 +637,14 @@ public class FTEEditor extends javax.swing.JFrame {
     private javax.swing.JTextField employeeNumberField;
     private javax.swing.JLabel employeeNumberLabel;
     private javax.swing.JLabel errorLabel;
+    private javax.swing.JButton exitButton;
     private javax.swing.JRadioButton femaleButton;
     private javax.swing.JTextField firstNameField;
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JTextField lastNameField;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JRadioButton maleButton;
+    private javax.swing.JButton minimizeButton;
     private javax.swing.JButton revertButton;
     private javax.swing.JButton saveButton;
     private javax.swing.JLabel sexLabel;

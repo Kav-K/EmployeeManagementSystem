@@ -7,7 +7,12 @@ package me.kaveenk.ems;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.PrintWriter;
@@ -16,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import static me.kaveenk.ems.MainMenu.mouseDownCompCoords;
 
 /**
  *
@@ -34,6 +40,7 @@ public class EMSMain extends javax.swing.JFrame {
      */
     public EMSMain() {
         this.setResizable(false);
+        this.setUndecorated(true);
 
         //Load Data
         new Employee(this);
@@ -44,11 +51,59 @@ public class EMSMain extends javax.swing.JFrame {
         //Extra styles
         initComponents();
         stylizeLabels();
+        stylizeButtons();
         setBackgroundLabel();
         center();
         reDraw();
         //End extra styles
+        
+        initMouseListener();
+    }
 
+            private void initMouseListener() {
+        try {
+            this.addMouseListener(new MouseListener() {
+                public void mouseReleased(MouseEvent e) {
+                    mouseDownCompCoords = null;
+                }
+
+                public void mousePressed(MouseEvent e) {
+                    mouseDownCompCoords = e.getPoint();
+                }
+
+                public void mouseExited(MouseEvent e) {
+                }
+
+                public void mouseEntered(MouseEvent e) {
+                }
+
+                public void mouseClicked(MouseEvent e) {
+                }
+            });
+
+            this.addMouseMotionListener(new MouseMotionListener() {
+                public void mouseMoved(MouseEvent e) {
+                }
+
+                public void mouseDragged(MouseEvent e) {
+                    Point currCoords = e.getLocationOnScreen();
+                    setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
+                }
+            });
+        } catch (Exception e) {
+            //Silence
+        }
+
+    
+    }
+    
+    private void stylizeButtons() {
+        exitButton.setBackground(new Color(1,1,1));
+        exitButton.setForeground(new Color(230,230,230));
+        minimizeButton.setBackground(new Color(1,1,1));
+        minimizeButton.setForeground(new Color(230,230,230));
+        
+        
     }
 
     private void stylizeLabels() {
@@ -103,6 +158,8 @@ public class EMSMain extends javax.swing.JFrame {
         titleLabel = new javax.swing.JLabel();
         passwordField = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
+        exitButton = new javax.swing.JButton();
+        minimizeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("emsMain"); // NOI18N
@@ -123,31 +180,56 @@ public class EMSMain extends javax.swing.JFrame {
             }
         });
 
+        exitButton.setText("X");
+        exitButton.setToolTipText("");
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitButtonActionPerformed(evt);
+            }
+        });
+
+        minimizeButton.setText("-");
+        minimizeButton.setToolTipText("");
+        minimizeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                minimizeButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(titleLabel)
-                .addGap(38, 38, 38))
             .addGroup(layout.createSequentialGroup()
-                .addGap(98, 98, 98)
+                .addGap(119, 119, 119)
                 .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loginButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(55, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(minimizeButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(exitButton))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(titleLabel)
+                        .addGap(49, 49, 49))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(titleLabel)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loginButton))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addComponent(exitButton)
+                    .addComponent(minimizeButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(titleLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(loginButton)
+                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20))
         );
 
         pack();
@@ -161,6 +243,7 @@ public class EMSMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (passwordField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "You didn't enter a password.");
+            return;
         }
         if (!(CryptographyUtils.hash(passwordField.getText()).equals(VALID_PASSWORD))) {
             JOptionPane.showMessageDialog(this, "Invalid Password.");
@@ -170,6 +253,14 @@ public class EMSMain extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_exitButtonActionPerformed
+
+    private void minimizeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minimizeButtonActionPerformed
+        this.setState(Frame.ICONIFIED);
+    }//GEN-LAST:event_minimizeButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,7 +314,9 @@ public class EMSMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton exitButton;
     private javax.swing.JButton loginButton;
+    private javax.swing.JButton minimizeButton;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables
