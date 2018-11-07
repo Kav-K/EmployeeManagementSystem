@@ -164,12 +164,15 @@ public class HashTable {
             for (int k = 0; k < buckets[i].size(); k++) {
                 if (buckets[i].get(k) instanceof PartTimeEmployee) {
                     PartTimeEmployee employee = (PartTimeEmployee) buckets[i].get(k);
-                    model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(), "Part Time", (employee.getHourlyWage() * employee.getHoursPerWeek() * employee.getWeeksPerYear()) * (100 / employee.getDeductionRate())});
+
+                    double salaryCalculated = (employee.getHourlyWage() * employee.getHoursPerWeek() * employee.getWeeksPerYear()) * (employee.getDeductionRate() / 100);
+                    model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(), "Part Time", salaryCalculated});
                 } else if (buckets[i].get(k) instanceof FullTimeEmployee) {
                     FullTimeEmployee employee = (FullTimeEmployee) buckets[i].get(k);
-                    model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(), "Full Time", employee.getYearlySalary() * (100 / employee.getDeductionRate())});
+                    double salaryCalculated = employee.getYearlySalary() * (employee.getDeductionRate() / 100);
+                    model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(), "Full Time", salaryCalculated});
                 } else {
-                    Employee employee = (Employee) buckets[i].get(k);
+                   //Silence
                 }
 
             }

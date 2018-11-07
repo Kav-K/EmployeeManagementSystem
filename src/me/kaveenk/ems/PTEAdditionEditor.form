@@ -160,6 +160,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
+              <EmptySpace pref="5" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="weeksPerYearField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="weeksPerYearLabel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -169,7 +170,7 @@
                   <Component id="deductionRateField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="deductionRateLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="28" max="32767" attributes="0"/>
+              <EmptySpace pref="23" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
