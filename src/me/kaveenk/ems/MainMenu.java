@@ -13,17 +13,23 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -59,6 +65,8 @@ public class MainMenu extends javax.swing.JFrame {
         //Extra styling
         initComponents();
         stylizeLabels();
+        stylizeButtons();
+        stylizeFields();
         setBackgroundLabel();
         center();
         reDraw();
@@ -67,7 +75,23 @@ public class MainMenu extends javax.swing.JFrame {
         EMSMain.employeeTable.populateJFrameTable(employeeJTable);
 
         initMouseListener();
+        initSearchFieldListener();
         employeeJTable.setAutoCreateRowSorter(true);
+
+    }
+
+    private void initSearchFieldListener() {
+
+        Action action = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (searchEnabled) {
+                    search(searchField.getText());
+                }
+            }
+        };
+
+        searchField.addActionListener(action);
 
     }
 
@@ -120,6 +144,9 @@ public class MainMenu extends javax.swing.JFrame {
     private void stylizeLabels() {
         mainLabel.setForeground(new Color(230, 230, 230));
 
+    }
+
+    private void stylizeButtons() {
         addButton.setBackground(new Color(17, 17, 17));
         viewEditButton.setBackground(new Color(17, 17, 17));
         addButton.setForeground(new Color(230, 230, 230));
@@ -131,14 +158,19 @@ public class MainMenu extends javax.swing.JFrame {
         searchButton.setBackground(new Color(17, 17, 17));
         searchButton.setForeground(new Color(230, 230, 230));
 
-        searchField.setBackground(new Color(17, 17, 17));
-        searchField.setForeground(new Color(230, 230, 230));
-
         exitButton.setBackground(new Color(1, 1, 1));
         minimizeButton.setBackground(new Color(1, 1, 1));
         exitButton.setForeground(Color.WHITE);
         minimizeButton.setForeground(Color.WHITE);
 
+        importButton.setBackground(new Color(17, 17, 17));
+        importButton.setForeground(new Color(230, 230, 230));
+
+    }
+
+    private void stylizeFields() {
+        searchField.setBackground(new Color(17, 17, 17));
+        searchField.setForeground(new Color(230, 230, 230));
     }
 
     private void setBackgroundLabel() {
@@ -148,7 +180,7 @@ public class MainMenu extends javax.swing.JFrame {
             background = ImageIO.read(new File("resources/bg.jpg"));
 
         } catch (Exception e) {
-           logger.error("There was an error in loading the background image for the program!", e);
+            logger.error("There was an error in loading the background image for the program!", e);
         }
         JLabel backgroundLabel = new JLabel(new ImageIcon(background));
         backgroundLabel.setBounds(0, 0, backgroundLabel.getPreferredSize().width, backgroundLabel.getPreferredSize().height);
@@ -182,6 +214,7 @@ public class MainMenu extends javax.swing.JFrame {
         minimizeButton = new javax.swing.JButton();
         helpButton = new javax.swing.JButton();
         exportButton = new javax.swing.JButton();
+        importButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -295,6 +328,14 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        importButton.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        importButton.setText("Import");
+        importButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -310,8 +351,10 @@ public class MainMenu extends javax.swing.JFrame {
                                 .addComponent(viewEditButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(exportButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(importButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(searchField)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
@@ -347,7 +390,8 @@ public class MainMenu extends javax.swing.JFrame {
                             .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(viewEditButton)
                             .addComponent(addButton)
-                            .addComponent(exportButton))
+                            .addComponent(exportButton)
+                            .addComponent(importButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tableScrollPane))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -412,29 +456,52 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_searchFieldActionPerformed
 
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        if (searchEnabled) {
-            String searchText = searchField.getText();
+    private void search(String searchText) {
+        boolean isNumber = false;
+        try {
+            Integer.parseInt(searchText);
+            isNumber = true;
+        } catch (Exception e) {
+            isNumber = false;
+        }
 
-            boolean isNumber = false;
-            try {
-                Integer.parseInt(searchText);
-                isNumber = true;
-            } catch (Exception e) {
-                isNumber = false;
+        if (isNumber) {
+            int searchNumber = Integer.parseInt(searchText);
+
+            if (EMSMain.employeeTable.get(searchNumber) == null) {
+                JOptionPane.showMessageDialog(null, "No results found!");
+                return;
             }
 
-            if (isNumber) {
-                int searchNumber = Integer.parseInt(searchText);
+            DefaultTableModel model = (DefaultTableModel) employeeJTable.getModel();
+            model.setRowCount(0);
+            Employee employee = EMSMain.employeeTable.get(searchNumber);
+            if (employee instanceof PartTimeEmployee) {
+                PartTimeEmployee e = (PartTimeEmployee) employee;
+                model.addRow(new Object[]{e.getFirstName(), e.getLastName(), e.getEmployeeNumber(), "Part Time", 123});
+            } else if (employee instanceof FullTimeEmployee) {
+                FullTimeEmployee e = (FullTimeEmployee) employee;
+                model.addRow(new Object[]{e.getFirstName(), e.getLastName(), e.getEmployeeNumber(), "Full Time", e.getYearlySalary()});
+            }
 
-                if (EMSMain.employeeTable.get(searchNumber) == null) {
-                    JOptionPane.showMessageDialog(null, "No results found!");
-                    return;
-                }
+            searchEnabled = false;
+            searchButton.setText("Reset Table");
+            return;
+        }
 
-                DefaultTableModel model = (DefaultTableModel) employeeJTable.getModel();
-                model.setRowCount(0);
-                Employee employee = EMSMain.employeeTable.get(searchNumber);
+        //Last Name Search
+        ArrayList<Employee> resultList = EMSMain.employeeTable.getByLastName(searchText);
+
+        if (resultList.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No results found!");
+            return;
+        } else {
+            searchEnabled = false;
+            searchButton.setText("Reset Table");
+            DefaultTableModel model = (DefaultTableModel) employeeJTable.getModel();
+            model.setRowCount(0);
+            for (Employee employee : resultList) {
+
                 if (employee instanceof PartTimeEmployee) {
                     PartTimeEmployee e = (PartTimeEmployee) employee;
                     model.addRow(new Object[]{e.getFirstName(), e.getLastName(), e.getEmployeeNumber(), "Part Time", 123});
@@ -443,35 +510,13 @@ public class MainMenu extends javax.swing.JFrame {
                     model.addRow(new Object[]{e.getFirstName(), e.getLastName(), e.getEmployeeNumber(), "Full Time", e.getYearlySalary()});
                 }
 
-                searchEnabled = false;
-                searchButton.setText("Reset Table");
-                return;
             }
 
-            //Last Name Search
-            ArrayList<Employee> resultList = EMSMain.employeeTable.getByLastName(searchText);
-
-            if (resultList.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "No results found!");
-                return;
-            } else {
-                searchEnabled = false;
-                searchButton.setText("Reset Table");
-                DefaultTableModel model = (DefaultTableModel) employeeJTable.getModel();
-                model.setRowCount(0);
-                for (Employee employee : resultList) {
-
-                    if (employee instanceof PartTimeEmployee) {
-                        PartTimeEmployee e = (PartTimeEmployee) employee;
-                        model.addRow(new Object[]{e.getFirstName(), e.getLastName(), e.getEmployeeNumber(), "Part Time", 123});
-                    } else if (employee instanceof FullTimeEmployee) {
-                        FullTimeEmployee e = (FullTimeEmployee) employee;
-                        model.addRow(new Object[]{e.getFirstName(), e.getLastName(), e.getEmployeeNumber(), "Full Time", e.getYearlySalary()});
-                    }
-
-                }
-
-            }
+        }
+    }
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        if (searchEnabled) {
+            search(searchField.getText());
 
         } else {
             searchField.setText("");
@@ -488,7 +533,7 @@ public class MainMenu extends javax.swing.JFrame {
         Employee.serialize();
         Employee.serialize(Employee.BACKUP_SERIAL_FILE);
         logger.info("System gracefully exiting");
-        
+
         System.exit(0);
     }//GEN-LAST:event_exitButtonActionPerformed
 
@@ -573,13 +618,32 @@ public class MainMenu extends javax.swing.JFrame {
 
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             export(chooser.getSelectedFile().getAbsolutePath());
-           
+
         } else {
             //No Selection, silence!
 
         }
 
     }//GEN-LAST:event_exportButtonActionPerformed
+
+    private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importButtonActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv", "csv");
+        chooser.setFileFilter(filter);
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Choose Import File");
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            importFromCSV(chooser.getSelectedFile().getAbsolutePath());
+
+        } else {
+            //No Selection, silence!
+
+        }
+    }//GEN-LAST:event_importButtonActionPerformed
 
     /**
      * Export the employeeTable hashtable to a file in CSV format (spreadsheet)
@@ -590,7 +654,7 @@ public class MainMenu extends javax.swing.JFrame {
         if (!exportFile.toLowerCase().endsWith(".csv")) {
             exportFile = exportFile + ".csv";
         }
-        logger.info("Exporting data to "+exportFile);
+        logger.info("Exporting data to " + exportFile);
         try {
             if (new File(exportFile).exists()) {
                 if (JOptionPane.showConfirmDialog(null, "File already exists, would you like to overwrite it?", "WARNING",
@@ -687,7 +751,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "There was an error while exporting! Check your filesystem permissions and choose another directory.");
-            logger.error("There was an error exporting data",e);
+            logger.error("There was an error exporting data", e);
         }
     }
 
@@ -738,6 +802,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton exitButton;
     private javax.swing.JButton exportButton;
     private javax.swing.JButton helpButton;
+    private javax.swing.JButton importButton;
     private javax.swing.JLabel mainLabel;
     private javax.swing.JButton minimizeButton;
     private javax.swing.JButton searchButton;
@@ -746,4 +811,76 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JScrollPane tableScrollPane;
     private javax.swing.JButton viewEditButton;
     // End of variables declaration//GEN-END:variables
+
+    private void importFromCSV(String absolutePath) {
+
+        try (BufferedReader br = new BufferedReader(new FileReader(absolutePath))) {
+            String line = "nothing";
+            ArrayList<Employee> importArray = new ArrayList<Employee>();
+            int counter = 0;
+            while ((line = br.readLine()) != null) {
+                if (counter == 0) {
+                    counter++;
+                    continue;
+                }
+
+                // use comma as separator
+                String[] employeeUnparsed = line.split(",");
+                String firstName = employeeUnparsed[1];
+                String lastName = employeeUnparsed[2];
+                int employeeNumber = Integer.parseInt(employeeUnparsed[3]);
+                String workLocation = employeeUnparsed[4];
+                int sex = 0;
+                String sexString = employeeUnparsed[5];
+                if (sexString.toLowerCase().contains("male")) {
+                    sex = 0;
+                } else {
+                    sex = 1;
+                }
+
+                if (line.toLowerCase().contains("n/a")) {
+                    double yearlySalary = Double.parseDouble(employeeUnparsed[6]);
+                    FullTimeEmployee addition = new FullTimeEmployee(firstName, lastName, employeeNumber, sex, workLocation, yearlySalary);
+                    importArray.add(addition);
+                } else {
+                    double hourlyWage = Double.parseDouble(employeeUnparsed[7]);
+                    double hoursPerWeek = Double.parseDouble(employeeUnparsed[8]);
+                    double weeksPerYear = Double.parseDouble(employeeUnparsed[9]);
+                    PartTimeEmployee addition = new PartTimeEmployee(firstName, lastName, employeeNumber, sex, workLocation, hourlyWage, hoursPerWeek, weeksPerYear);
+                    importArray.add(addition);
+                }
+
+            }
+
+            JOptionPane.showMessageDialog(null, "Please choose where to back up your old data");
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv", "csv");
+            chooser.setFileFilter(filter);
+            chooser.setCurrentDirectory(new java.io.File("."));
+            chooser.setDialogTitle("Choose Old Data Backup Location");
+            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+            chooser.setAcceptAllFileFilterUsed(false);
+
+            if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                export(chooser.getSelectedFile().getAbsolutePath());
+
+            } else {
+                return;
+
+            }
+
+            EMSMain.employeeTable = new HashTable(EMSMain.NUM_BUCKETS);
+            importArray.forEach((employee) -> {
+                employeeTable.addToTable(employee);
+            });
+            JOptionPane.showMessageDialog(null, "Successfully imported.");
+            EMSMain.employeeTable.populateJFrameTable(employeeJTable);
+            Employee.serialize();
+
+        } catch (Exception e) {
+            logger.error("There was an error importing data.", e);
+            JOptionPane.showMessageDialog(null, "There was an error importing data! Please check that your CSV file is in the proper format.");
+        }
+    }
 }

@@ -34,8 +34,10 @@
                               <Component id="viewEditButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="exportButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="searchField" min="-2" pref="316" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="importButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="searchField" max="32767" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="searchButton" min="-2" pref="166" max="-2" attributes="0"/>
                           </Group>
@@ -47,7 +49,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="tablePanel" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Component id="mainLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="helpButton" min="-2" max="-2" attributes="0"/>
@@ -83,6 +85,7 @@
                           <Component id="viewEditButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="addButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="exportButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="importButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="tableScrollPane" max="32767" attributes="0"/>
@@ -254,6 +257,17 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="importButton">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Ubuntu" size="24" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Import"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="importButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

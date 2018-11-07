@@ -551,12 +551,28 @@ public class PTEEditor extends javax.swing.JFrame {
     private void firstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_firstNameFieldActionPerformed
-    private boolean validate(String employeeNumber, String hourlyWage, String hoursPerWeek, String weeksPerYear) {
+    private boolean validate(String firstName, String lastName, String workLocation, String employeeNumber, String hourlyWage, String hoursPerWeek, String weeksPerYear) {
         int employeeNumParsed;
         try {
             employeeNumParsed = Integer.parseInt(employeeNumber);
+            if (employeeNumParsed <= 0) {
+                errorLabel.setText("Invalid employee number.");
+                return false;
+            }
         } catch (Exception e) {
             errorLabel.setText("Invalid employee number.");
+            return false;
+        }
+        if (firstName.isEmpty() || EMSMain.regexNameValidate(firstName)) {
+            errorLabel.setText("Invalid first name.");
+            return false;
+        }
+        if (lastName.isEmpty() || EMSMain.regexNameValidate(lastName)) {
+            errorLabel.setText("Invalid last name.");
+            return false;
+        }
+        if (workLocation.isEmpty()) {
+            errorLabel.setText("Invalid work location.");
             return false;
         }
 
@@ -587,7 +603,7 @@ public class PTEEditor extends javax.swing.JFrame {
         return true;
     }
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        if (validate(employeeNumberField.getText(), hourlyWageField.getText(), hoursPerWeekField.getText(), weeksPerYearField.getText())) {
+        if (validate(firstNameField.getText(), lastNameField.getText(), workLocationField.getText(), employeeNumberField.getText(), hourlyWageField.getText(), hoursPerWeekField.getText(), weeksPerYearField.getText())) {
 
             employee.setEmployeeNumber(Integer.parseInt(employeeNumberField.getText()));
             employee.setFirstName(firstNameField.getText());
@@ -612,7 +628,7 @@ public class PTEEditor extends javax.swing.JFrame {
 
             lockFields();
             setFields();
-            EMSMain.logger.info("The employee "+employee.getFirstName()+" "+employee.getLastName()+" has been edited.");
+            EMSMain.logger.info("The employee " + employee.getFirstName() + " " + employee.getLastName() + " has been edited.");
 
         }
 

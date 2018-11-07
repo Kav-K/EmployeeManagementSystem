@@ -34,15 +34,16 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
 
     /**
      * Creates new FTE Addition Editor
+     *
      * @param employeeJTable Instance of Main Menu JTable
      */
     public FTEAdditionEditor(JTable employeeJTable) {
         this.setUndecorated(true);
         this.setResizable(false);
-        
+
         this.employeeJTable = employeeJTable;
         initComponents();
-        
+
         stylizeFields();
         stylizeLabels();
         stylizeButtons();
@@ -50,12 +51,13 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
         center();
 
         lockFields();
-        
+
         initMouseListener();
         initWindowListener();
 
     }
-     private void initMouseListener() {
+
+    private void initMouseListener() {
         try {
             this.addMouseListener(new MouseListener() {
                 public void mouseReleased(MouseEvent e) {
@@ -90,21 +92,21 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
         }
 
     }
+
     private void stylizeFields() {
-        firstNameField.setBackground(new Color(17,17,17));
-        firstNameField.setForeground(new Color(230,230,230));
-        lastNameField.setBackground(new Color(17,17,17));
-        lastNameField.setForeground(new Color(230,230,230));
-        employeeNumberField.setBackground(new Color(17,17,17));
-        employeeNumberField.setForeground(new Color(230,230,230));
-        workLocationField.setBackground(new Color(17,17,17));
-        workLocationField.setForeground(new Color(230,230,230));
-        yearlySalaryField.setBackground(new Color(17,17,17));
-        yearlySalaryField.setForeground(new Color(230,230,230));
-        
-        
-        
+        firstNameField.setBackground(new Color(17, 17, 17));
+        firstNameField.setForeground(new Color(230, 230, 230));
+        lastNameField.setBackground(new Color(17, 17, 17));
+        lastNameField.setForeground(new Color(230, 230, 230));
+        employeeNumberField.setBackground(new Color(17, 17, 17));
+        employeeNumberField.setForeground(new Color(230, 230, 230));
+        workLocationField.setBackground(new Color(17, 17, 17));
+        workLocationField.setForeground(new Color(230, 230, 230));
+        yearlySalaryField.setBackground(new Color(17, 17, 17));
+        yearlySalaryField.setForeground(new Color(230, 230, 230));
+
     }
+
     private void stylizeLabels() {
         firstNameLabel.setForeground(new Color(230, 230, 230));
         lastNameLabel.setForeground(new Color(230, 230, 230));
@@ -122,7 +124,6 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
     private void stylizeButtons() {
         addButton.setBackground(new Color(17, 17, 17));
         addButton.setForeground(new Color(230, 230, 230));
-
 
         exitButton.setBackground(new Color(1, 1, 1));
         exitButton.setForeground(new Color(230, 230, 230));
@@ -399,19 +400,24 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
     private void firstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_firstNameFieldActionPerformed
+
     private boolean validate(String firstName, String lastName, String workLocation, String employeeNumber, String yearlySalary) {
         int employeeNumParsed;
         try {
             employeeNumParsed = Integer.parseInt(employeeNumber);
+            if (employeeNumParsed <= 0) {
+                errorLabel.setText("Invalid employee number.");
+                return false;
+            }
         } catch (Exception e) {
             errorLabel.setText("Invalid employee number.");
             return false;
         }
-        if (firstName.isEmpty()) {
+        if (firstName.isEmpty() || EMSMain.regexNameValidate(firstName)) {
             errorLabel.setText("Invalid first name.");
             return false;
         }
-        if (lastName.isEmpty()) {
+        if (lastName.isEmpty() || EMSMain.regexNameValidate(lastName)) {
             errorLabel.setText("Invalid last name.");
             return false;
         }
@@ -426,10 +432,9 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
             errorLabel.setText("Invalid yearly salary.");
             return false;
         }
-        
-        
+
         if (EMSMain.employeeTable.toArray().contains(EMSMain.employeeTable.get(employeeNumParsed))) {
-            errorLabel.setText("Employee number already exists");
+            errorLabel.setText("Employee number already exists.");
             return false;
 
         }
@@ -453,7 +458,7 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
             Employee.serialize();
             EMSMain.employeeTable.populateJFrameTable(employeeJTable);
             MainMenu.activeEditor = false;
-            EMSMain.logger.info("The employee "+e.getFirstName()+" "+e.getLastName()+" has been added into the system.");
+            EMSMain.logger.info("The employee " + e.getFirstName() + " " + e.getLastName() + " has been added into the system.");
             this.dispose();
         }
     }//GEN-LAST:event_addButtonActionPerformed
