@@ -14,7 +14,18 @@ public class PartTimeEmployee extends Employee {
     private double hourlyWage;
     private double hoursPerWeek;
     private double weeksPerYear;
-
+    
+    /**
+     * Create a new PartTimeEmployee with the given parameters.
+     * @param firstName
+     * @param lastName
+     * @param employeeNum
+     * @param sex
+     * @param workLocation
+     * @param hourlyWage
+     * @param hoursPerWeek
+     * @param weeksPerYear 
+     */
     public PartTimeEmployee(String firstName, String lastName, int employeeNum, int sex, String workLocation, double hourlyWage, double hoursPerWeek, double weeksPerYear) {
         super(firstName, lastName, employeeNum, sex, workLocation);
         this.hourlyWage = hourlyWage;

@@ -14,33 +14,51 @@ import java.util.logging.SimpleFormatter;
 
 /**
  *
- * @author Kaveen Kumarasinghe
+ * @author Kaveen Kumarasinghe Custom logger class to handle outputs to the log
+ * file and to console.
  */
 public class LogHandler {
 
     private String logFile;
     private Logger logger;
 
+    /**
+     * Initialize a new LogHandler that will log to the param logFile
+     *
+     * @param logFile the file to log data to.
+     */
     public LogHandler(String logFile) {
-       
+
         this.logFile = logFile;
         initialize();
     }
+
+    /**
+     * Log an error
+     *
+     * @param logMessage The message to log
+     * @param t The throwable from the error to log
+     */
     public void error(String logMessage, Throwable t) {
-        logger.log(Level.SEVERE, new Date() +": "+logMessage, t);
+        logger.log(Level.SEVERE, new Date() + ": " + logMessage, t);
     }
 
     public void info(String logMessage) {
-        logger.info(new Date() +":  " + logMessage);
+        logger.info(new Date() + ":  " + logMessage);
     }
-    public void warning(String logMessage) {
-        logger.log(Level.WARNING, new Date() +": "+logMessage);
-    }
-    public void severe(String logMessage) {
-        logger.log(Level.SEVERE,new Date() +": "+logMessage);
-    }
-    
 
+    public void warning(String logMessage) {
+        logger.log(Level.WARNING, new Date() + ": " + logMessage);
+    }
+
+    public void severe(String logMessage) {
+        logger.log(Level.SEVERE, new Date() + ": " + logMessage);
+    }
+
+    /**
+     * Initialize the logger and connect it to a FileHandler that logs to the
+     * desired output file.
+     */
     private void initialize() {
         logger = Logger.getLogger("EMS Log");
         FileHandler fh;
@@ -61,7 +79,6 @@ public class LogHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
 
     }
 

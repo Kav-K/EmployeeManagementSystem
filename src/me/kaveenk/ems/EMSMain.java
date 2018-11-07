@@ -1,7 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/** MIT License
+ *
+ * Copyright (c) 2018 Kaveen Kumarasinghe
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ * “Commons Clause” License Condition v1.0
+ * The Software is provided to you by the Licensor under the License, as defined below, subject to the following condition.
+ * Without limiting other conditions in the License, the grant of rights under the License will not include, and the License does not grant to you, the right to Sell the Software.
+ * For purposes of the foregoing, “Sell” means practicing any or all of the rights granted to you under the License to provide to third parties, for a fee or other consideration (including without limitation fees for hosting or consulting/ support services related to the Software), a product or service whose value derives, entirely or substantially, from the functionality of the Software. Any license notice or attribution required by the License must also include this Commons Cause License Condition notice.
+ *
+ * Software: EmployeeManagementSystem
+ *
+ * License: MIT License
+ *
+ * Licensor: Kaveen Kumarasinghe
  */
 package me.kaveenk.ems;
 
@@ -32,8 +60,20 @@ import static me.kaveenk.ems.MainMenu.mouseDownCompCoords;
 
 /**
  *
- * @author Kaveen Kumarasinghe The password for purposes of demonstration is
- * currently "securepassword123".
+ * @author Kaveen Kumarasinghe
+ *
+ * This is the EmployeeManagementSystem project for ICS4UO - Mr. Dutton (Fall
+ * 2018)
+ *
+ * A Github repository and timeline for this project is available at
+ * https://github.com/Kav-K/EmployeeManagementSystem
+ *
+ * A manual and javadoc repository is available at
+ * https://kaveenk.me/ics4uo/emshelp.
+ *
+ * The password for purposes of demonstration is currently "securepassword123".
+ * To change the password, a new SHA-512 hash must be generated with the desired
+ * password and put into the VALID_PASSWORD field.
  *
  *
  * TODO: Resource packaging within the JAR file itself.
@@ -50,7 +90,7 @@ public class EMSMain extends javax.swing.JFrame {
     private TimerTask saveTask;
 
     /**
-     * Creates new form EMSMain
+     * Creates the initial login JFrame.
      */
     public EMSMain() {
         this.setResizable(false);
@@ -80,6 +120,9 @@ public class EMSMain extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Start the redundant saving task as defined in RedundantSavingTask.java
+     */
     private void startRedundantSaving() {
         saveTask = new RedundantSavingTask(AUTO_SAVE_INTERVAL);
         //running timer task as daemon thread
@@ -88,6 +131,10 @@ public class EMSMain extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Initialize a field listener for the passwordField in order to allow login
+     * by pressing the enter key.
+     */
     private void initFieldListener() {
         Action action = new AbstractAction() {
             @Override
@@ -99,6 +146,9 @@ public class EMSMain extends javax.swing.JFrame {
         passwordField.addActionListener(action);
     }
 
+    /**
+     * Make the undecorated JFrame draggable.
+     */
     private void initMouseListener() {
         try {
             this.addMouseListener(new MouseListener() {
@@ -158,6 +208,10 @@ public class EMSMain extends javax.swing.JFrame {
         this.repaint();
     }
 
+    /**
+     * Validate the password entered by the user by converting it into an SHA
+     * hash and comparing it against the VALID_PASSWORD field.
+     */
     private void validatePassword() {
         if (passwordField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "You didn't enter a password.");
@@ -188,6 +242,13 @@ public class EMSMain extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Check if there are any invalid characters input into the param text
+     * (name)
+     *
+     * @param name The String to check for invalid characters against
+     * @return Boolean signifying if the text is invalid or not.
+     */
     public static boolean regexNameValidate(String name) {
         Pattern p = Pattern.compile("[^a-z-0-9- ]", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(name);

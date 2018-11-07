@@ -458,7 +458,18 @@ public class PTEAdditionEditor extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_firstNameFieldActionPerformed
     
-    
+    /**
+     * Validate if the entries into each of the fields of the editor are
+     * possible to put into the HashTable and are accepted values.
+     * @param firstName
+     * @param lastName
+     * @param workLocation
+     * @param employeeNumber
+     * @param hourlyWage
+     * @param hoursPerWeek
+     * @param weeksPerYear
+     * @return boolean signifying if the entered params are valid or not.
+     */
     private boolean validate(String firstName, String lastName, String workLocation, String employeeNumber, String hourlyWage, String hoursPerWeek, String weeksPerYear) {
         int employeeNumParsed;
         try {

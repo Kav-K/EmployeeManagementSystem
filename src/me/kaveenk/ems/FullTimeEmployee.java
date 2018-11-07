@@ -12,14 +12,16 @@ package me.kaveenk.ems;
 public class FullTimeEmployee extends Employee {
 
     private double yearlySalary;
+
     /**
-     * New FullTimeEmployee object
+     * Create a new FullTimeEmployee object with the given parameters.
+     *
      * @param firstName
      * @param lastName
      * @param employeeNum
      * @param sex
      * @param workLocation
-     * @param yearlySalary 
+     * @param yearlySalary
      */
     public FullTimeEmployee(String firstName, String lastName, int employeeNum, int sex, String workLocation, double yearlySalary) {
         super(firstName, lastName, employeeNum, sex, workLocation);

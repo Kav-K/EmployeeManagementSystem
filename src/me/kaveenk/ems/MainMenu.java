@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package me.kaveenk.ems;
 
 import com.teamdev.jxbrowser.chromium.Browser;
@@ -46,7 +42,9 @@ import static me.kaveenk.ems.EMSMain.logger;
 
 /**
  *
- * @author kaveen
+ * @author Kaveen Kumarasinghe
+ *
+ * The main menu displayed after a user logs into the system.
  */
 public class MainMenu extends javax.swing.JFrame {
 
@@ -80,6 +78,10 @@ public class MainMenu extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Initialize the listener that allows search functionality when pressing
+     * the enter key.
+     */
     private void initSearchFieldListener() {
 
         Action action = new AbstractAction() {
@@ -173,6 +175,10 @@ public class MainMenu extends javax.swing.JFrame {
         searchField.setForeground(new Color(230, 230, 230));
     }
 
+    /**
+     * Obtain background label from the resources folder and set it as the
+     * background overlay of the JFrame by spoofing it as a JLabel.
+     */
     private void setBackgroundLabel() {
         BufferedImage background = null;
 
@@ -407,6 +413,12 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_employeeJTablePropertyChange
+
+    /**
+     * Start a new instance of an editor panel.
+     *
+     * @param employee The employee that is about to be edited.
+     */
     private void initializeEditor(Employee employee) {
         if (employee instanceof FullTimeEmployee) {
             new FTEEditor((FullTimeEmployee) employee, employeeJTable).setVisible(true);
@@ -455,7 +467,11 @@ public class MainMenu extends javax.swing.JFrame {
     private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_searchFieldActionPerformed
-
+    /**
+     * Search by employee number or by name.
+     *
+     * @param searchText The text entered in the searchField field.
+     */
     private void search(String searchText) {
         boolean isNumber = false;
         try {
@@ -541,6 +557,13 @@ public class MainMenu extends javax.swing.JFrame {
         this.setState(Frame.ICONIFIED);
     }//GEN-LAST:event_minimizeButtonActionPerformed
 
+    /**
+     * Opens a new JxBrowser instance when pressing the help button that leads
+     * to the emshelp page that is set up on the web server at
+     * https://kaveenk.me/ics4uo/emshelp.
+     *
+     * @param evt
+     */
     private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
         if (activeHelp) {
             System.out.println(activeHelp);
@@ -812,6 +835,12 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton viewEditButton;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Import a comma separated values file to use in the
+     * employeemanagementsystem
+     *
+     * @param absolutePath The path to the file being imported.
+     */
     private void importFromCSV(String absolutePath) {
 
         try (BufferedReader br = new BufferedReader(new FileReader(absolutePath))) {
