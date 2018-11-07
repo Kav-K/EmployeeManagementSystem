@@ -104,6 +104,8 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
         workLocationField.setForeground(new Color(230, 230, 230));
         yearlySalaryField.setBackground(new Color(17, 17, 17));
         yearlySalaryField.setForeground(new Color(230, 230, 230));
+        deductionRateField.setBackground(new Color(17, 17, 17));
+        deductionRateField.setForeground(new Color(230, 230, 230));
 
     }
 
@@ -118,6 +120,7 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
         employeeEditorLabel.setForeground(new Color(230, 230, 230));
         femaleButton.setForeground(new Color(230, 230, 230));
         maleButton.setForeground(new Color(230, 230, 230));
+        deductionRateLabel.setForeground(new Color(230,230,230));
 
     }
 
@@ -203,6 +206,8 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
         addButton = new javax.swing.JToggleButton();
         exitButton = new javax.swing.JButton();
         minimizeButton = new javax.swing.JButton();
+        deductionRateField = new javax.swing.JTextField();
+        deductionRateLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -287,6 +292,17 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
             }
         });
 
+        deductionRateField.setToolTipText("");
+        deductionRateField.setDisabledTextColor(new java.awt.Color(62, 62, 62));
+        deductionRateField.setPreferredSize(new java.awt.Dimension(177, 33));
+        deductionRateField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deductionRateFieldActionPerformed(evt);
+            }
+        });
+
+        deductionRateLabel.setText("Deduction Rate:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -303,7 +319,8 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
                             .addComponent(yearlySalaryLabel, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lastNameLabel, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(employeeNumberLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(firstNameLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(firstNameLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(deductionRateLabel, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -314,21 +331,25 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
                     .addComponent(lastNameField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(employeeNumberField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(workLocationField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(yearlySalaryField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                    .addComponent(yearlySalaryField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deductionRateField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(employeeEditorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(22, 22, 22))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(minimizeButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(exitButton))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(employeeEditorLabel)
+                                .addGap(22, 22, 22))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(minimizeButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(exitButton))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,18 +379,22 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(yearlySalaryField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(yearlySalaryLabel))
-                .addGap(0, 27, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(deductionRateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deductionRateLabel))
+                .addGap(0, 32, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(minimizeButton)
                     .addComponent(exitButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(employeeEditorLabel)
-                .addGap(18, 18, 18)
-                .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(addButton)
-                .addGap(68, 68, 68))
+                .addGap(94, 94, 94))
         );
 
         pack();
@@ -411,7 +436,7 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
      * @param yearlySalary
      * @return boolean signifying if the entered params are valid or not.
      */
-    private boolean validate(String firstName, String lastName, String workLocation, String employeeNumber, String yearlySalary) {
+    private boolean validate(String firstName, String lastName, String workLocation, String employeeNumber, String yearlySalary, String deductionRate) {
         int employeeNumParsed;
         try {
             employeeNumParsed = Integer.parseInt(employeeNumber);
@@ -423,6 +448,19 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
             errorLabel.setText("Invalid employee number.");
             return false;
         }
+        double deductionRateDouble;
+        try {
+            deductionRateDouble = Double.parseDouble(deductionRate);
+            if (deductionRateDouble < 0 || deductionRateDouble > 100) {
+                errorLabel.setText("Invalid deduction rate.");
+                return false;
+            }
+
+        } catch (Exception e) {
+            errorLabel.setText("Invalid deduction rate.");
+            return false;
+        }
+
         if (firstName.isEmpty() || EMSMain.regexNameValidate(firstName)) {
             errorLabel.setText("Invalid first name.");
             return false;
@@ -456,14 +494,14 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         addButton.setSelected(false);
-        if (validate(firstNameField.getText(), lastNameField.getText(), workLocationField.getText(), employeeNumberField.getText(), yearlySalaryField.getText())) {
+        if (validate(firstNameField.getText(), lastNameField.getText(), workLocationField.getText(), employeeNumberField.getText(), yearlySalaryField.getText(), deductionRateField.getText())) {
             int sex = 0;
             if (maleButton.isSelected()) {
                 sex = 0;
             } else {
                 sex = 1;
             }
-            FullTimeEmployee e = new FullTimeEmployee(firstNameField.getText(), lastNameField.getText(), Integer.parseInt(employeeNumberField.getText()), sex, workLocationField.getText(), Double.parseDouble(yearlySalaryField.getText()));
+            FullTimeEmployee e = new FullTimeEmployee(firstNameField.getText(), lastNameField.getText(), Integer.parseInt(employeeNumberField.getText()), sex, workLocationField.getText(), Double.parseDouble(yearlySalaryField.getText()), Double.parseDouble(deductionRateField.getText()));
             EMSMain.employeeTable.addToTable(e);
             Employee.serialize();
             EMSMain.employeeTable.populateJFrameTable(employeeJTable);
@@ -481,6 +519,10 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
     private void minimizeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minimizeButtonActionPerformed
         this.setState(Frame.ICONIFIED);
     }//GEN-LAST:event_minimizeButtonActionPerformed
+
+    private void deductionRateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deductionRateFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deductionRateFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -535,6 +577,8 @@ public class FTEAdditionEditor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton addButton;
+    private javax.swing.JTextField deductionRateField;
+    private javax.swing.JLabel deductionRateLabel;
     private javax.swing.JLabel employeeEditorLabel;
     private javax.swing.JTextField employeeNumberField;
     private javax.swing.JLabel employeeNumberLabel;

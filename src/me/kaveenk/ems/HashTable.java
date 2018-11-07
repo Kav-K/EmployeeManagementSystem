@@ -27,9 +27,10 @@ public class HashTable {
         }
 
     }
+
     /**
      * Adds an employee to a bucket
-     * 
+     *
      * @param addition Employee variable to add to the table
      */
     public void addToTable(Employee addition) {
@@ -43,12 +44,13 @@ public class HashTable {
             break;
 
         }
-        
 
     }
+
     /**
-     * Searches the HashTable for an Employee object containing the param lastName
-     * 
+     * Searches the HashTable for an Employee object containing the param
+     * lastName
+     *
      * @param lastName String last name to search
      * @return ArrayList(Employee) object
      */
@@ -70,11 +72,10 @@ public class HashTable {
 
     /**
      * Get an Employee object by employeeNumber
-     * 
+     *
      * @param employeeNumber integer employeeNumber to get the object by
      * @return Employee object
      */
-    
     public Employee get(int employeeNumber) {
         int toRetrieve = employeeNumber % length;
         for (int i = 0; i < length; i++) {
@@ -92,10 +93,12 @@ public class HashTable {
         return null;
 
     }
+
     /**
      * Remove an Employee object by employeeNumber
-     * 
-     * @param employeeNumber integer employee number associated with the object you wish to remove
+     *
+     * @param employeeNumber integer employee number associated with the object
+     * you wish to remove
      */
     public void remove(int employeeNumber) {
         int toRemove = employeeNumber % length;
@@ -106,7 +109,7 @@ public class HashTable {
             for (Employee info : buckets[i]) {
                 if (info.getEmployeeNumber() == employeeNumber) {
                     buckets[i].remove(info);
-                    EMSMain.logger.warning("The employee "+info.getFirstName()+" "+info.getLastName()+" has been removed from the system.");
+                    EMSMain.logger.warning("The employee " + info.getFirstName() + " " + info.getLastName() + " has been removed from the system.");
                     return;
 
                 }
@@ -116,9 +119,11 @@ public class HashTable {
         }
 
     }
+
     /**
-     * Turn the hashtable into a single ArrayList(Employee) object for ease of serialization
-     * 
+     * Turn the hashtable into a single ArrayList(Employee) object for ease of
+     * serialization
+     *
      * @return ArrayList(Employee) object
      */
     public ArrayList<Employee> toArray() {
@@ -140,8 +145,9 @@ public class HashTable {
     }
 
     /**
-     * Iterate through the HashTable, populating the Main Menu's JTable upon each iteration.
-     * 
+     * Iterate through the HashTable, populating the Main Menu's JTable upon
+     * each iteration.
+     *
      * @param table JTable to populate
      */
     public void populateJFrameTable(JTable table) {
@@ -158,7 +164,7 @@ public class HashTable {
             for (int k = 0; k < buckets[i].size(); k++) {
                 if (buckets[i].get(k) instanceof PartTimeEmployee) {
                     PartTimeEmployee employee = (PartTimeEmployee) buckets[i].get(k);
-                    model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(), "Part Time", employee.getHourlyWage()*employee.getHoursPerWeek()*employee.getWeeksPerYear()});
+                    model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(), "Part Time", (employee.getHourlyWage() * employee.getHoursPerWeek() * employee.getWeeksPerYear()) * 100 / employee.getDeductionRate()});
                 } else if (buckets[i].get(k) instanceof FullTimeEmployee) {
                     FullTimeEmployee employee = (FullTimeEmployee) buckets[i].get(k);
                     model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(), "Full Time", employee.getYearlySalary()});
@@ -172,9 +178,10 @@ public class HashTable {
         }
 
     }
+
     /**
      * Not used in the actual GUI, but just available as a debug function.
-     * 
+     *
      */
     public void displayTable() {
         for (int i = 0; i < length; i++) {
@@ -194,8 +201,10 @@ public class HashTable {
         }
 
     }
+
     /**
      * Checks if the HashTable is empty
+     *
      * @return boolean signifyiheng if the HashTable is empty or not.
      */
     public boolean isEmpty() {

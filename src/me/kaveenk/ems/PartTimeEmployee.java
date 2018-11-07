@@ -26,8 +26,8 @@ public class PartTimeEmployee extends Employee {
      * @param hoursPerWeek
      * @param weeksPerYear 
      */
-    public PartTimeEmployee(String firstName, String lastName, int employeeNum, int sex, String workLocation, double hourlyWage, double hoursPerWeek, double weeksPerYear) {
-        super(firstName, lastName, employeeNum, sex, workLocation);
+    public PartTimeEmployee(String firstName, String lastName, int employeeNum, int sex, String workLocation, double hourlyWage, double hoursPerWeek, double weeksPerYear, double deductionRate) {
+        super(firstName, lastName, employeeNum, sex, workLocation,deductionRate);
         this.hourlyWage = hourlyWage;
         this.hoursPerWeek = hoursPerWeek;
         this.weeksPerYear = weeksPerYear;

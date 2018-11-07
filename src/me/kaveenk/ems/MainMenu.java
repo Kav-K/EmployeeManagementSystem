@@ -701,6 +701,8 @@ public class MainMenu extends javax.swing.JFrame {
             sb.append(',');
             sb.append("Sex");
             sb.append(',');
+            sb.append("Deduction Rate");
+            sb.append(',');
             sb.append("Yearly Salary");
             sb.append(',');
             sb.append("Hourly Wage");
@@ -730,7 +732,9 @@ public class MainMenu extends javax.swing.JFrame {
                         sb.append("Female");
                     }
                     sb.append(",");
-                    sb.append(e2.getYearlySalary());
+                    sb.append(e2.getDeductionRate());
+                    sb.append(",");
+                     sb.append(e2.getYearlySalary());
                     sb.append(",");
                     sb.append("N/A");
                     sb.append(",");
@@ -750,11 +754,13 @@ public class MainMenu extends javax.swing.JFrame {
                     sb.append(",");
                     sb.append(e2.getWorkLocation());
                     sb.append(",");
-                    if (e.getSex() == 0) {
+                   if (e.getSex() == 0) {
                         sb.append("Male");
                     } else {
                         sb.append("Female");
                     }
+                    sb.append(",");
+                    sb.append(e2.getDeductionRate());
                     sb.append(",");
                     sb.append(e2.getHourlyWage() * e2.getHoursPerWeek() * e2.getWeeksPerYear());
                     sb.append(",");
@@ -866,16 +872,17 @@ public class MainMenu extends javax.swing.JFrame {
                 } else {
                     sex = 1;
                 }
+                double deductionRate = Double.parseDouble(employeeUnparsed[6]);
 
                 if (line.toLowerCase().contains("n/a")) {
-                    double yearlySalary = Double.parseDouble(employeeUnparsed[6]);
-                    FullTimeEmployee addition = new FullTimeEmployee(firstName, lastName, employeeNumber, sex, workLocation, yearlySalary);
+                    double yearlySalary = Double.parseDouble(employeeUnparsed[7]);
+                    FullTimeEmployee addition = new FullTimeEmployee(firstName, lastName, employeeNumber, sex, workLocation, yearlySalary,deductionRate);
                     importArray.add(addition);
                 } else {
-                    double hourlyWage = Double.parseDouble(employeeUnparsed[7]);
-                    double hoursPerWeek = Double.parseDouble(employeeUnparsed[8]);
-                    double weeksPerYear = Double.parseDouble(employeeUnparsed[9]);
-                    PartTimeEmployee addition = new PartTimeEmployee(firstName, lastName, employeeNumber, sex, workLocation, hourlyWage, hoursPerWeek, weeksPerYear);
+                    double hourlyWage = Double.parseDouble(employeeUnparsed[8]);
+                    double hoursPerWeek = Double.parseDouble(employeeUnparsed[9]);
+                    double weeksPerYear = Double.parseDouble(employeeUnparsed[10]);
+                    PartTimeEmployee addition = new PartTimeEmployee(firstName, lastName, employeeNumber, sex, workLocation, hourlyWage, hoursPerWeek, weeksPerYear,deductionRate);
                     importArray.add(addition);
                 }
 

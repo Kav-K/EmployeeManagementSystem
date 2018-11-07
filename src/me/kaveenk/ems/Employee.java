@@ -20,6 +20,7 @@ public class Employee implements Serializable {
     private int employeeNum;
     private int sex;
     private String workLocation;
+    private double deductionRate;
 
     public static EMSMain mainInstance;
 
@@ -41,12 +42,17 @@ public class Employee implements Serializable {
      * @param sex
      * @param workLocation
      */
-    public Employee(String firstName, String lastName, int employeeNum, int sex, String workLocation) {
+    public Employee(String firstName, String lastName, int employeeNum, int sex, String workLocation, double deductionRate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.employeeNum = employeeNum;
         this.sex = sex;
         this.workLocation = workLocation;
+        this.deductionRate = deductionRate;
+    }
+
+    public double getDeductionRate() {
+        return this.deductionRate;
     }
 
     public String getFirstName() {
@@ -89,6 +95,10 @@ public class Employee implements Serializable {
 
     public void setSex(int sex) {
         this.sex = sex;
+    }
+
+    public void setDeductionRate(double deductionRate) {
+        this.deductionRate = deductionRate;
     }
 
     /**
