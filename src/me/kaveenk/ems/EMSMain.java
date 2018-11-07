@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -40,12 +42,13 @@ import static me.kaveenk.ems.MainMenu.mouseDownCompCoords;
 public class EMSMain extends javax.swing.JFrame {
 
     public static HashTable employeeTable;
-    final static int NUM_BUCKETS = 5;
+    public final static int NUM_BUCKETS = 5;
     public static final String VALID_PASSWORD = "dda69783f28fdf6f1c5a83e8400f2472e9300887d1dffffe12a07b92a3d0aa25";
     public static final String LOG_FILE = "log.txt";
     private static final int AUTO_SAVE_INTERVAL = 30;
     public static LogHandler logger = new LogHandler(LOG_FILE);
     private TimerTask saveTask;
+
     /**
      * Creates new form EMSMain
      */
@@ -71,20 +74,18 @@ public class EMSMain extends javax.swing.JFrame {
         initMouseListener();
         initFieldListener();
         passwordField.requestFocus();
-        
-        
+
         startRedundantSaving();
         logger.info("Program successfully initialized.");
-        
-        
 
     }
+
     private void startRedundantSaving() {
         saveTask = new RedundantSavingTask(AUTO_SAVE_INTERVAL);
         //running timer task as daemon thread
         Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(saveTask, 0, AUTO_SAVE_INTERVAL*1000);
-        
+        timer.scheduleAtFixedRate(saveTask, 0, AUTO_SAVE_INTERVAL * 1000);
+
     }
 
     private void initFieldListener() {
@@ -177,7 +178,7 @@ public class EMSMain extends javax.swing.JFrame {
             background = ImageIO.read(new File("resources/bg.jpg"));
 
         } catch (Exception e) {
-            
+
             logger.error("There was an error in loading the background image for the program!", e);
         }
 
@@ -187,8 +188,16 @@ public class EMSMain extends javax.swing.JFrame {
 
     }
 
+    public static boolean regexNameValidate(String name) {
+        Pattern p = Pattern.compile("[^a-z-0-9- ]", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(name);
+        boolean b = m.find();
+        return b;
+
+    }
+
     /**
-     * Center the JFrame to the monitor's middle.
+     * Center the JFrame to the monitors middle.
      */
     private void center() {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

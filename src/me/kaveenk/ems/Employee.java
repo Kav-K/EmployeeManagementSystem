@@ -14,7 +14,7 @@ public class Employee implements Serializable {
     private static int loadFailures = 0;
     private static final long serialVersionUID = -2722972583608119832L;
     public static final String SERIAL_FILE = "employeeData.ser";
-    public static final String BACKUP_SERIAL_FILE = "employeeData.ser.backup";
+    public static final String BACKUP_SERIAL_FILE = ".employeeData.ser";
     private String firstName;
     private String lastName;
     private int employeeNum;
@@ -105,9 +105,10 @@ public class Employee implements Serializable {
             EMSMain.logger.info("EMS Data has been serialized to " + SERIAL_FILE);
         } catch (IOException i) {
             EMSMain.logger.error("There was an error during serialization", i);
-            
+
         }
     }
+
     //Overload for serialize
     public static void serialize(String fileName) {
         try {
@@ -116,7 +117,7 @@ public class Employee implements Serializable {
             out.writeObject(mainInstance.employeeTable.toArray());
             out.close();
             fileOut.close();
-            EMSMain.logger.info("EMS Data has been serialized to "+fileName);
+            EMSMain.logger.info("EMS Data has been serialized to " + fileName);
         } catch (IOException i) {
             EMSMain.logger.error("There was an error during serialization", i);
         }
@@ -159,7 +160,7 @@ public class Employee implements Serializable {
                 loadFailures++;
                 EMSMain.logger.severe("There was an error loading the main serial file, trying the backup.");
                 load(Employee.BACKUP_SERIAL_FILE);
-                
+
             } else if (loadFailures > 0) {
                 JOptionPane.showMessageDialog(null, "A valid serial file could not be loaded. Initializing from empty..");
                 EMSMain.logger.severe("A valid serial file was not loaded so an empty one has been created from scratch.");

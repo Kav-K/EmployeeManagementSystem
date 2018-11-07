@@ -457,19 +457,25 @@ public class PTEAdditionEditor extends javax.swing.JFrame {
     private void firstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_firstNameFieldActionPerformed
+    
+    
     private boolean validate(String firstName, String lastName, String workLocation, String employeeNumber, String hourlyWage, String hoursPerWeek, String weeksPerYear) {
         int employeeNumParsed;
         try {
             employeeNumParsed = Integer.parseInt(employeeNumber);
+             if (employeeNumParsed <=0 ) {
+                errorLabel.setText("Invalid employee number.");
+                return false;
+            }
         } catch (Exception e) {
             errorLabel.setText("Invalid employee number.");
             return false;
         }
-        if (firstName.isEmpty()) {
+        if (firstName.isEmpty() || EMSMain.regexNameValidate(firstName)) {
             errorLabel.setText("Invalid first name.");
             return false;
         }
-        if (lastName.isEmpty()) {
+        if (lastName.isEmpty()|| EMSMain.regexNameValidate(lastName)) {
             errorLabel.setText("Invalid last name.");
             return false;
         }

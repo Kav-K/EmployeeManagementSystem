@@ -98,21 +98,21 @@ public class FTEEditor extends javax.swing.JFrame {
         }
 
     }
+
     private void stylizeFields() {
-        firstNameField.setBackground(new Color(17,17,17));
-        firstNameField.setForeground(new Color(230,230,230));
-        lastNameField.setBackground(new Color(17,17,17));
-        lastNameField.setForeground(new Color(230,230,230));
-        employeeNumberField.setBackground(new Color(17,17,17));
-        employeeNumberField.setForeground(new Color(230,230,230));
-        workLocationField.setBackground(new Color(17,17,17));
-        workLocationField.setForeground(new Color(230,230,230));
-        yearlySalaryField.setBackground(new Color(17,17,17));
-        yearlySalaryField.setForeground(new Color(230,230,230));
-        
-        
-        
+        firstNameField.setBackground(new Color(17, 17, 17));
+        firstNameField.setForeground(new Color(230, 230, 230));
+        lastNameField.setBackground(new Color(17, 17, 17));
+        lastNameField.setForeground(new Color(230, 230, 230));
+        employeeNumberField.setBackground(new Color(17, 17, 17));
+        employeeNumberField.setForeground(new Color(230, 230, 230));
+        workLocationField.setBackground(new Color(17, 17, 17));
+        workLocationField.setForeground(new Color(230, 230, 230));
+        yearlySalaryField.setBackground(new Color(17, 17, 17));
+        yearlySalaryField.setForeground(new Color(230, 230, 230));
+
     }
+
     private void stylizeLabels() {
         firstNameLabel.setForeground(new Color(230, 230, 230));
         lastNameLabel.setForeground(new Color(230, 230, 230));
@@ -165,7 +165,7 @@ public class FTEEditor extends javax.swing.JFrame {
             background = ImageIO.read(new File("resources/bg.jpg"));
 
         } catch (Exception e) {
-           logger.error("There was an error in loading the background image for the program!", e);
+            logger.error("There was an error in loading the background image for the program!", e);
         }
 
         JLabel backgroundLabel = new JLabel(new ImageIcon(background));
@@ -499,14 +499,31 @@ public class FTEEditor extends javax.swing.JFrame {
     private void firstNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_firstNameFieldActionPerformed
-    private boolean validate(String employeeNumber, String yearlySalary) {
+    private boolean validate(String firstName, String lastName, String workLocation, String employeeNumber, String yearlySalary) {
         int employeeNumParsed;
         try {
             employeeNumParsed = Integer.parseInt(employeeNumber);
+            if (employeeNumParsed <= 0) {
+                errorLabel.setText("Invalid employee number.");
+                return false;
+            }
         } catch (Exception e) {
             errorLabel.setText("Invalid employee number.");
             return false;
         }
+        if (firstName.isEmpty() || EMSMain.regexNameValidate(firstName)) {
+            errorLabel.setText("Invalid first name.");
+            return false;
+        }
+        if (lastName.isEmpty() || EMSMain.regexNameValidate(lastName)) {
+            errorLabel.setText("Invalid last name.");
+            return false;
+        }
+        if (workLocation.isEmpty()) {
+            errorLabel.setText("Invalid work location.");
+            return false;
+        }
+
         double yearlySalaryParsed;
         try {
             Double.parseDouble(yearlySalary);
@@ -522,7 +539,7 @@ public class FTEEditor extends javax.swing.JFrame {
         return true;
     }
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        if (validate(employeeNumberField.getText(), yearlySalaryField.getText())) {
+        if (validate(firstNameField.getText(), lastNameField.getText(), workLocationField.getText(), employeeNumberField.getText(), yearlySalaryField.getText())) {
 
             employee.setEmployeeNumber(Integer.parseInt(employeeNumberField.getText()));
             employee.setFirstName(firstNameField.getText());
@@ -542,10 +559,10 @@ public class FTEEditor extends javax.swing.JFrame {
             saveButton.setVisible(false);
             revertButton.setVisible(false);
             deleteButton.setEnabled(true);
-            
+
             lockFields();
             setFields();
-            EMSMain.logger.info("The employee "+employee.getFirstName()+" "+employee.getLastName()+" has been edited.");
+            EMSMain.logger.info("The employee " + employee.getFirstName() + " " + employee.getLastName() + " has been edited.");
 
         }
 
