@@ -1,4 +1,3 @@
-
 package me.kaveenk.ems.gui;
 
 import me.kaveenk.ems.main.EMSMain;
@@ -439,7 +438,7 @@ public class MainMenu extends javax.swing.JFrame {
             JTable source = (JTable) evt.getSource();
             int row = source.rowAtPoint(evt.getPoint());
             if (!activeEditor) {
-                initializeEditor(EMSMain.employeeTable.toArray().get(row));
+                initializeEditor(EMSMain.employeeTable.get((int) employeeJTable.getValueAt(row, 2)));
             }
 
         }
@@ -738,7 +737,7 @@ public class MainMenu extends javax.swing.JFrame {
                     sb.append(",");
                     sb.append(e2.getDeductionRate());
                     sb.append(",");
-                     sb.append(e2.getYearlySalary());
+                    sb.append(e2.getYearlySalary());
                     sb.append(",");
                     sb.append("N/A");
                     sb.append(",");
@@ -758,7 +757,7 @@ public class MainMenu extends javax.swing.JFrame {
                     sb.append(",");
                     sb.append(e2.getWorkLocation());
                     sb.append(",");
-                   if (e.getSex() == 0) {
+                    if (e.getSex() == 0) {
                         sb.append("Male");
                     } else {
                         sb.append("Female");
@@ -880,13 +879,13 @@ public class MainMenu extends javax.swing.JFrame {
 
                 if (line.toLowerCase().contains("n/a")) {
                     double yearlySalary = Double.parseDouble(employeeUnparsed[7]);
-                    FullTimeEmployee addition = new FullTimeEmployee(firstName, lastName, employeeNumber, sex, workLocation, yearlySalary,deductionRate);
+                    FullTimeEmployee addition = new FullTimeEmployee(firstName, lastName, employeeNumber, sex, workLocation, yearlySalary, deductionRate);
                     importArray.add(addition);
                 } else {
                     double hourlyWage = Double.parseDouble(employeeUnparsed[8]);
                     double hoursPerWeek = Double.parseDouble(employeeUnparsed[9]);
                     double weeksPerYear = Double.parseDouble(employeeUnparsed[10]);
-                    PartTimeEmployee addition = new PartTimeEmployee(firstName, lastName, employeeNumber, sex, workLocation, hourlyWage, hoursPerWeek, weeksPerYear,deductionRate);
+                    PartTimeEmployee addition = new PartTimeEmployee(firstName, lastName, employeeNumber, sex, workLocation, hourlyWage, hoursPerWeek, weeksPerYear, deductionRate);
                     importArray.add(addition);
                 }
 
