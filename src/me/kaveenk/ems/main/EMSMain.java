@@ -108,7 +108,6 @@ public class EMSMain extends javax.swing.JFrame {
             System.exit(0);
 
         }
-        
 
         this.setResizable(false);
         this.setUndecorated(true);
@@ -119,13 +118,6 @@ public class EMSMain extends javax.swing.JFrame {
         Employee.load(Employee.SERIAL_FILE);
         //End load data
 
-        for (int i = 0; i <200;i++) {
-            FullTimeEmployee e = new FullTimeEmployee("Kaveen", "Kumarasinghe", i*2, 0, "Test", i*5, 30);
-            employeeTable.addToTable(e);
-        }
-        Employee.serialize();
-        
-        
         //Extra styles
         initComponents();
         stylizeLabels();
