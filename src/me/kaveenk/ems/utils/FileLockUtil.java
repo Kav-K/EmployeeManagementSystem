@@ -20,7 +20,7 @@ public class FileLockUtil {
      */
     public FileLockUtil(String appID) {
         this.appID = appID;
-        file = new File(System.getProperty("user.home"), appID + ".tmp");
+        file = new File(appID + ".tmp");
         try {
             channel = new RandomAccessFile(file, "rw").getChannel();
             //Try to lock the file, it will error if it is already locked.
