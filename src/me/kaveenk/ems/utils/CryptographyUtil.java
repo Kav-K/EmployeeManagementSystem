@@ -16,7 +16,7 @@ import static me.kaveenk.ems.main.EMSMain.logger;
  * Modifications by:
  * @author Kaveen Kumarasinghe
  */
-public class CryptographyUtils {
+public class CryptographyUtil {
     
     
     /**

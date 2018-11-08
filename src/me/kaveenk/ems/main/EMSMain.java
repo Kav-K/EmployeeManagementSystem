@@ -36,7 +36,7 @@ package me.kaveenk.ems.main;
 import me.kaveenk.ems.types.Employee;
 import me.kaveenk.ems.utils.HashTable;
 import me.kaveenk.ems.utils.LogHandler;
-import me.kaveenk.ems.utils.CryptographyUtils;
+import me.kaveenk.ems.utils.CryptographyUtil;
 import me.kaveenk.ems.utils.RedundantSavingTask;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -62,6 +62,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import me.kaveenk.ems.gui.MainMenu;
+import me.kaveenk.ems.utils.FileLockUtil;
 
 /**
  *
@@ -99,6 +100,15 @@ public class EMSMain extends javax.swing.JFrame {
      * Creates the initial login JFrame.
      */
     public EMSMain() {
+        //Check if the program is already active
+        FileLockUtil fLockUtil = new FileLockUtil("EmployeeManagementSystem");
+        if (fLockUtil.isAppAlreadyRunning()) {
+            JOptionPane.showMessageDialog(null, "The program is already running. Please close any other instances of EmployeeManagementSystem before starting a new one.");
+            System.exit(0);
+
+        }
+        System.out.println(fLockUtil.isAppAlreadyRunning());
+
         this.setResizable(false);
         this.setUndecorated(true);
 
@@ -223,7 +233,7 @@ public class EMSMain extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "You didn't enter a password.");
             return;
         }
-        if (!(CryptographyUtils.hash(passwordField.getText()).equals(VALID_PASSWORD))) {
+        if (!(CryptographyUtil.hash(passwordField.getText()).equals(VALID_PASSWORD))) {
             JOptionPane.showMessageDialog(this, "Invalid Password.");
         } else {
             logger.info("User successfully authenticated.");
