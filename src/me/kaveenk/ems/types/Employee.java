@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import me.kaveenk.ems.main.EMSMain;
+import me.kaveenk.ems.utils.SaveThread;
 
 public class Employee implements Serializable {
 
@@ -106,34 +107,21 @@ public class Employee implements Serializable {
 
     /**
      * Serializes the HashTable by obtaining a single ArrayList(Employee) object
-     * and writing it to a file using an ObjectOutputStream.
+     * and writing it to a file using an ObjectOutputStream. It is in a thread
+     * and runs multi-threaded so it is a non-blocking action and will not cause
+     * latency within the application.
+     *
      */
     public static void serialize() {
-        try {
-            FileOutputStream fileOut = new FileOutputStream(SERIAL_FILE);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(mainInstance.employeeTable.toArray());
-            out.close();
-            fileOut.close();
-            EMSMain.logger.info("EMS Data has been serialized to " + SERIAL_FILE);
-        } catch (IOException i) {
-            EMSMain.logger.error("There was an error during serialization", i);
 
-        }
+        Thread saveThread = new SaveThread(SERIAL_FILE, EMSMain.employeeTable.toArray());
+        saveThread.start();
     }
 
     //Overload for serialize
     public static void serialize(String fileName) {
-        try {
-            FileOutputStream fileOut = new FileOutputStream(fileName);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(mainInstance.employeeTable.toArray());
-            out.close();
-            fileOut.close();
-            EMSMain.logger.info("EMS Data has been serialized to " + fileName);
-        } catch (IOException i) {
-            EMSMain.logger.error("There was an error during serialization", i);
-        }
+        Thread saveThread = new SaveThread(fileName, EMSMain.employeeTable.toArray());
+        saveThread.start();
     }
 
     /**
