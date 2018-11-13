@@ -24,15 +24,16 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import static me.kaveenk.ems.main.EMSMain.logger;
-
 
 /**
  *
  * @author kaveen
  */
 public class PTEEditor extends javax.swing.JFrame {
+
     private static Point mouseDownCompCoords;
     private static PartTimeEmployee employee_s;
     private PartTimeEmployee employee;
@@ -769,6 +770,10 @@ public class PTEEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_hourlyWageFieldActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + employee_s.getFirstName() + " " + employee_s.getLastName() + " from the system?");
+        if (dialogResult != JOptionPane.YES_OPTION) {
+            return;
+        }
         EMSMain.getEmployeeTable().remove(employee_s.getEmployeeNumber());
         Employee.serialize();
         EMSMain.getEmployeeTable().populateJFrameTable(employeeJTable);

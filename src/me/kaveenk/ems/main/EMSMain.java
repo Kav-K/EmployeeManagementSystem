@@ -52,12 +52,14 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -106,7 +108,13 @@ public class EMSMain extends javax.swing.JFrame {
         //Check if the program is already active
         FileLockUtil fLockUtil = new FileLockUtil("EmployeeManagementSystem");
         if (fLockUtil.isAppAlreadyRunning()) {
-            JOptionPane.showMessageDialog(null, "The program is already running. Please close any other instances of EmployeeManagementSystem before starting a new one.");
+            JOptionPane.showMessageDialog(
+                    ((Supplier<JDialog>) () -> {
+                        final JDialog dialog = new JDialog();
+                        dialog.setAlwaysOnTop(true);
+                        return dialog;
+                    }).get(),
+                    "There is already an instance of EMS running. Please close all other instances before starting a new one.");
             System.exit(0);
 
         }

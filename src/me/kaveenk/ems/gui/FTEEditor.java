@@ -28,7 +28,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import static me.kaveenk.ems.main.EMSMain.logger;
 
-
 /**
  *
  * @author kaveen
@@ -696,6 +695,11 @@ public class FTEEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_yearlySalaryFieldActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + employee_s.getFirstName() + " " + employee_s.getLastName() + " from the system?");
+        if (dialogResult != JOptionPane.YES_OPTION) {
+            return;
+        }
         EMSMain.getEmployeeTable().remove(employee_s.getEmployeeNumber());
         Employee.serialize();
         EMSMain.getEmployeeTable().populateJFrameTable(employeeJTable);
