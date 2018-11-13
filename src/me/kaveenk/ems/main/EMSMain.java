@@ -88,14 +88,16 @@ import me.kaveenk.ems.utils.FileLockUtil;
  */
 public class EMSMain extends javax.swing.JFrame {
 
-    public static HashTable employeeTable;
-    public final static int NUM_BUCKETS = 5;
-    public static final String VALID_PASSWORD = "dda69783f28fdf6f1c5a83e8400f2472e9300887d1dffffe12a07b92a3d0aa25";
-    public static final String LOG_FILE = "log.txt";
+    private static HashTable employeeTable;
+    private static final int NUM_BUCKETS = 5;
+    private static final String VALID_PASSWORD = "dda69783f28fdf6f1c5a83e8400f2472e9300887d1dffffe12a07b92a3d0aa25";
+    private static final String LOG_FILE = "log.txt";
     private static final int AUTO_SAVE_INTERVAL = 30;
+
     public static LogHandler logger = new LogHandler(LOG_FILE);
+
     private TimerTask saveTask;
-    static Point mouseDownCompCoords = null;
+    private static Point mouseDownCompCoords = null;
 
     /**
      * Creates the initial login JFrame.
@@ -141,7 +143,7 @@ public class EMSMain extends javax.swing.JFrame {
      */
     private void startRedundantSaving() {
         saveTask = new RedundantSavingTask(AUTO_SAVE_INTERVAL);
-        //running timer task as daemon thread
+        //Running timer task as daemon thread
         Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(saveTask, 0, AUTO_SAVE_INTERVAL * 1000);
 
@@ -240,6 +242,10 @@ public class EMSMain extends javax.swing.JFrame {
             new MainMenu().setVisible(true);
             this.setVisible(false);
         }
+    }
+
+    public static HashTable getEmployeeTable() {
+        return employeeTable;
     }
 
     private void setBackgroundLabel() {
@@ -441,6 +447,10 @@ public class EMSMain extends javax.swing.JFrame {
             }
         });
 
+    }
+
+    public static void resetDeclaredTable() {
+        employeeTable = new HashTable(EMSMain.NUM_BUCKETS);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

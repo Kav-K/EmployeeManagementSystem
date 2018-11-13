@@ -27,7 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import static me.kaveenk.ems.main.EMSMain.logger;
-import static me.kaveenk.ems.gui.MainMenu.mouseDownCompCoords;
+
 
 /**
  *
@@ -38,6 +38,7 @@ public class FTEEditor extends javax.swing.JFrame {
     private static FullTimeEmployee employee_s;
     private FullTimeEmployee employee;
     private static JTable employeeJTable;
+    private static Point mouseDownCompCoords;
 
     /**
      * Creates new FTEEditor JFrame
@@ -649,7 +650,7 @@ public class FTEEditor extends javax.swing.JFrame {
             errorLabel.setText("Invalid yearly salary.");
             return false;
         }
-        if ((employeeNumParsed != employee_s.getEmployeeNumber()) && EMSMain.employeeTable.toArray().contains(EMSMain.employeeTable.get(employeeNumParsed))) {
+        if ((employeeNumParsed != employee_s.getEmployeeNumber()) && EMSMain.getEmployeeTable().toArray().contains(EMSMain.getEmployeeTable().get(employeeNumParsed))) {
             errorLabel.setText("Employee number already exists");
             return false;
 
@@ -672,7 +673,7 @@ public class FTEEditor extends javax.swing.JFrame {
             employee_s.setYearlySalary(Double.parseDouble(yearlySalaryField.getText()));
             Employee.serialize();
             //this.setVisible(false);
-            EMSMain.employeeTable.populateJFrameTable(this.employeeJTable);
+            EMSMain.getEmployeeTable().populateJFrameTable(this.employeeJTable);
             editButton.setEnabled(true);
             editButton.setSelected(false);
             saveButton.setVisible(false);
@@ -695,9 +696,9 @@ public class FTEEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_yearlySalaryFieldActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        EMSMain.employeeTable.remove(employee_s.getEmployeeNumber());
+        EMSMain.getEmployeeTable().remove(employee_s.getEmployeeNumber());
         Employee.serialize();
-        EMSMain.employeeTable.populateJFrameTable(employeeJTable);
+        EMSMain.getEmployeeTable().populateJFrameTable(employeeJTable);
         MainMenu.activeEditor = false;
         this.dispose();
 
@@ -748,12 +749,12 @@ public class FTEEditor extends javax.swing.JFrame {
         }
 
         PartTimeEmployee employee = new PartTimeEmployee(firstNameField.getText(), lastNameField.getText(), Integer.parseInt(employeeNumberField.getText()), sex, workLocationField.getText(), Double.parseDouble(yearlySalaryField.getText()), 1, 1, Double.parseDouble(deductionRateField.getText()));
-        EMSMain.employeeTable.remove(employee.getEmployeeNumber());
-        EMSMain.employeeTable.addToTable(employee);
+        EMSMain.getEmployeeTable().remove(employee.getEmployeeNumber());
+        EMSMain.getEmployeeTable().addToTable(employee);
         new PTEEditor(employee, employeeJTable).setVisible(true);
         this.dispose();
         JOptionPane.showMessageDialog(null, "The employee has successfully been turned into a part-time employee. Please edit the hourly wage, weekly hours, and weeks per year fields!");
-        EMSMain.employeeTable.populateJFrameTable(employeeJTable);
+        EMSMain.getEmployeeTable().populateJFrameTable(employeeJTable);
     }//GEN-LAST:event_makePartTimeButtonActionPerformed
 
     private void grossIncomeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grossIncomeFieldActionPerformed

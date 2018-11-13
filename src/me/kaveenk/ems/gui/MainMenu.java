@@ -41,7 +41,6 @@ import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import static me.kaveenk.ems.main.EMSMain.employeeTable;
 import static me.kaveenk.ems.main.EMSMain.logger;
 
 /**
@@ -54,8 +53,12 @@ public class MainMenu extends javax.swing.JFrame {
 
     public static boolean activeEditor = false;
     public static boolean activeHelp = false;
+    
+    
     private static boolean searchEnabled = true;
-    static Point mouseDownCompCoords = null;
+    
+    
+    private static Point mouseDownCompCoords = null;
 
     /**
      * Creates new JFrame MainMenu
@@ -74,7 +77,7 @@ public class MainMenu extends javax.swing.JFrame {
         reDraw();
         //End extra styling
 
-        EMSMain.employeeTable.populateJFrameTable(employeeJTable);
+        EMSMain.getEmployeeTable().populateJFrameTable(employeeJTable);
 
         initMouseListener();
         initSearchFieldListener();
@@ -438,13 +441,16 @@ public class MainMenu extends javax.swing.JFrame {
             JTable source = (JTable) evt.getSource();
             int row = source.rowAtPoint(evt.getPoint());
             if (!activeEditor) {
-                initializeEditor(EMSMain.employeeTable.get((int) employeeJTable.getValueAt(row, 2)));
+                initializeEditor(EMSMain.getEmployeeTable().get((int) employeeJTable.getValueAt(row, 2)));
             }
 
         }
 
     }//GEN-LAST:event_employeeJTableMouseClicked
 
+    
+ 
+    
     private void viewEditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewEditButtonActionPerformed
         JOptionPane.showMessageDialog(null, "To view or edit an employees details, simply double click their entry in the table to the right of the main page.");
     }//GEN-LAST:event_viewEditButtonActionPerformed
@@ -487,14 +493,14 @@ public class MainMenu extends javax.swing.JFrame {
         if (isNumber) {
             int searchNumber = Integer.parseInt(searchText);
 
-            if (EMSMain.employeeTable.get(searchNumber) == null) {
+            if (EMSMain.getEmployeeTable().get(searchNumber) == null) {
                 JOptionPane.showMessageDialog(null, "No results found!");
                 return;
             }
 
             DefaultTableModel model = (DefaultTableModel) employeeJTable.getModel();
             model.setRowCount(0);
-            Employee employee = EMSMain.employeeTable.get(searchNumber);
+            Employee employee = EMSMain.getEmployeeTable().get(searchNumber);
             if (employee instanceof PartTimeEmployee) {
                 PartTimeEmployee e = (PartTimeEmployee) employee;
                 model.addRow(new Object[]{e.getFirstName(), e.getLastName(), e.getEmployeeNumber(), "Part Time", 123});
@@ -509,7 +515,7 @@ public class MainMenu extends javax.swing.JFrame {
         }
 
         //Last Name Search
-        ArrayList<Employee> resultList = EMSMain.employeeTable.getByLastName(searchText);
+        ArrayList<Employee> resultList = EMSMain.getEmployeeTable().getByLastName(searchText);
 
         if (resultList.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No results found!");
@@ -541,7 +547,7 @@ public class MainMenu extends javax.swing.JFrame {
             searchField.setText("");
             searchEnabled = true;
             searchButton.setText("Search");
-            EMSMain.employeeTable.populateJFrameTable(employeeJTable);
+            EMSMain.getEmployeeTable().populateJFrameTable(employeeJTable);
 
         }
 
@@ -715,7 +721,7 @@ public class MainMenu extends javax.swing.JFrame {
             sb.append("Weeks Per Year");
             sb.append('\n');
 
-            for (Employee e : employeeTable.toArray()) {
+            for (Employee e : EMSMain.getEmployeeTable().toArray()) {
                 if (e instanceof FullTimeEmployee) {
                     FullTimeEmployee e2 = (FullTimeEmployee) e;
 
@@ -909,12 +915,12 @@ public class MainMenu extends javax.swing.JFrame {
 
             }
 
-            EMSMain.employeeTable = new HashTable(EMSMain.NUM_BUCKETS);
+            EMSMain.resetDeclaredTable();
             importArray.forEach((employee) -> {
-                employeeTable.addToTable(employee);
+                EMSMain.getEmployeeTable().addToTable(employee);
             });
             JOptionPane.showMessageDialog(null, "Successfully imported.");
-            EMSMain.employeeTable.populateJFrameTable(employeeJTable);
+            EMSMain.getEmployeeTable().populateJFrameTable(employeeJTable);
             Employee.serialize();
 
         } catch (Exception e) {

@@ -26,14 +26,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import static me.kaveenk.ems.main.EMSMain.logger;
-import static me.kaveenk.ems.gui.MainMenu.mouseDownCompCoords;
+
 
 /**
  *
  * @author kaveen
  */
 public class PTEEditor extends javax.swing.JFrame {
-
+    private static Point mouseDownCompCoords;
     private static PartTimeEmployee employee_s;
     private PartTimeEmployee employee;
     private static JTable employeeJTable;
@@ -47,8 +47,9 @@ public class PTEEditor extends javax.swing.JFrame {
     public PTEEditor(PartTimeEmployee employee, JTable employeeJTable) {
         this.setUndecorated(true);
         this.setResizable(false);
-
+        //Static employee instance
         this.employee_s = employee;
+        //Non-static employee
         this.employee = employee;
 
         this.employeeJTable = employeeJTable;
@@ -721,7 +722,7 @@ public class PTEEditor extends javax.swing.JFrame {
             return false;
         }
 
-        if ((employeeNumParsed != employee_s.getEmployeeNumber()) && EMSMain.employeeTable.toArray().contains(EMSMain.employeeTable.get(employeeNumParsed))) {
+        if ((employeeNumParsed != employee_s.getEmployeeNumber()) && EMSMain.getEmployeeTable().toArray().contains(EMSMain.getEmployeeTable().get(employeeNumParsed))) {
             errorLabel.setText("Employee number already exists");
             return false;
 
@@ -746,7 +747,7 @@ public class PTEEditor extends javax.swing.JFrame {
             employee_s.setDeductionRate(Double.parseDouble(deductionRateField.getText()));
             Employee.serialize();
             //this.setVisible(false);
-            EMSMain.employeeTable.populateJFrameTable(this.employeeJTable);
+            EMSMain.getEmployeeTable().populateJFrameTable(this.employeeJTable);
             editButton.setEnabled(true);
             editButton.setSelected(false);
             saveButton.setVisible(false);
@@ -768,9 +769,9 @@ public class PTEEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_hourlyWageFieldActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        EMSMain.employeeTable.remove(employee_s.getEmployeeNumber());
+        EMSMain.getEmployeeTable().remove(employee_s.getEmployeeNumber());
         Employee.serialize();
-        EMSMain.employeeTable.populateJFrameTable(employeeJTable);
+        EMSMain.getEmployeeTable().populateJFrameTable(employeeJTable);
         MainMenu.activeEditor = false;
         this.dispose();
 
@@ -829,11 +830,11 @@ public class PTEEditor extends javax.swing.JFrame {
         }
 
         FullTimeEmployee employee = new FullTimeEmployee(firstNameField.getText(), lastNameField.getText(), Integer.parseInt(employeeNumberField.getText()), sex, workLocationField.getText(), Double.parseDouble(hourlyWageField.getText()) * Double.parseDouble(hoursPerWeekField.getText()) * Double.parseDouble(weeksPerYearField.getText()), Double.parseDouble(deductionRateField.getText()));
-        EMSMain.employeeTable.remove(employee.getEmployeeNumber());
-        EMSMain.employeeTable.addToTable(employee);
+        EMSMain.getEmployeeTable().remove(employee.getEmployeeNumber());
+        EMSMain.getEmployeeTable().addToTable(employee);
         new FTEEditor(employee, employeeJTable).setVisible(true);
         this.dispose();
-        EMSMain.employeeTable.populateJFrameTable(employeeJTable);
+        EMSMain.getEmployeeTable().populateJFrameTable(employeeJTable);
 
     }//GEN-LAST:event_makeFullTimeButtonActionPerformed
 

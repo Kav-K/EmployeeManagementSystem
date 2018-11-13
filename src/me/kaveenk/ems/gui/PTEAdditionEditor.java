@@ -25,7 +25,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import static me.kaveenk.ems.main.EMSMain.logger;
-import static me.kaveenk.ems.gui.MainMenu.mouseDownCompCoords;
 
 /**
  *
@@ -34,6 +33,7 @@ import static me.kaveenk.ems.gui.MainMenu.mouseDownCompCoords;
 public class PTEAdditionEditor extends javax.swing.JFrame {
 
     private static JTable employeeJTable;
+    private static Point mouseDownCompCoords = null;
 
     /**
      * Create new PTE addition editor
@@ -45,6 +45,7 @@ public class PTEAdditionEditor extends javax.swing.JFrame {
         this.setResizable(false);
 
         this.employeeJTable = employeeJTable;
+        
         initComponents();
 
         stylizeFields();
@@ -573,7 +574,7 @@ public class PTEAdditionEditor extends javax.swing.JFrame {
             return false;
         }
 
-        if (EMSMain.employeeTable.toArray().contains(EMSMain.employeeTable.get(employeeNumParsed))) {
+        if (EMSMain.getEmployeeTable().toArray().contains(EMSMain.getEmployeeTable().get(employeeNumParsed))) {
             errorLabel.setText("Employee number already exists");
             return false;
 
@@ -594,9 +595,9 @@ public class PTEAdditionEditor extends javax.swing.JFrame {
                 sex = 1;
             }
             PartTimeEmployee e = new PartTimeEmployee(firstNameField.getText(), lastNameField.getText(), Integer.parseInt(employeeNumberField.getText()), sex, workLocationField.getText(), Double.parseDouble(hourlyWageField.getText()), Double.parseDouble(hoursPerWeekField.getText()), Double.parseDouble(weeksPerYearField.getText()), Double.parseDouble(deductionRateField.getText()));
-            EMSMain.employeeTable.addToTable(e);
+            EMSMain.getEmployeeTable().addToTable(e);
             Employee.serialize();
-            EMSMain.employeeTable.populateJFrameTable(employeeJTable);
+            EMSMain.getEmployeeTable().populateJFrameTable(employeeJTable);
             MainMenu.activeEditor = false;
             EMSMain.logger.info("The employee " + e.getFirstName() + " " + e.getLastName() + " has been added into the system.");
             this.dispose();

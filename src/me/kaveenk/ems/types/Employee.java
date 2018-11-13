@@ -16,9 +16,12 @@ import me.kaveenk.ems.utils.SaveThread;
 public class Employee implements Serializable {
 
     private static int loadFailures = 0;
-    private static final long serialVersionUID = -2722972583608119832L;
+    
+    protected static final long serialVersionUID = -2722972583608119832L;
+    
     public static final String SERIAL_FILE = "employeeData.ser";
     public static final String BACKUP_SERIAL_FILE = ".employeeData.ser";
+    
     private String firstName;
     private String lastName;
     private int employeeNum;
@@ -26,7 +29,7 @@ public class Employee implements Serializable {
     private String workLocation;
     private double deductionRate;
 
-    public static EMSMain mainInstance;
+
 
     /**
      * Overload to pass an instance of the main class to Employee.java
@@ -34,7 +37,7 @@ public class Employee implements Serializable {
      * @param instance Main class instance
      */
     public Employee(EMSMain instance) {
-        this.mainInstance = instance;
+
     }
 
     /**
@@ -114,13 +117,13 @@ public class Employee implements Serializable {
      */
     public static void serialize() {
 
-        Thread saveThread = new SaveThread(SERIAL_FILE, EMSMain.employeeTable.toArray());
+        Thread saveThread = new SaveThread(SERIAL_FILE, EMSMain.getEmployeeTable().toArray());
         saveThread.start();
     }
 
     //Overload for serialize
     public static void serialize(String fileName) {
-        Thread saveThread = new SaveThread(fileName, EMSMain.employeeTable.toArray());
+        Thread saveThread = new SaveThread(fileName, EMSMain.getEmployeeTable().toArray());
         saveThread.start();
     }
 
@@ -143,13 +146,13 @@ public class Employee implements Serializable {
 
                 if (e instanceof PartTimeEmployee) {
                     PartTimeEmployee addition = (PartTimeEmployee) e;
-                    mainInstance.employeeTable.addToTable(addition);
+                    EMSMain.getEmployeeTable().addToTable(addition);
                 } else if (e instanceof FullTimeEmployee) {
                     FullTimeEmployee addition = (FullTimeEmployee) e;
-                    mainInstance.employeeTable.addToTable(addition);
+                    EMSMain.getEmployeeTable().addToTable(addition);
                 } else {
                     Employee addition = e;
-                    mainInstance.employeeTable.addToTable(addition);
+                    EMSMain.getEmployeeTable().addToTable(addition);
                 }
                 continue;
 

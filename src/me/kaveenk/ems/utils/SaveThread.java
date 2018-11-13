@@ -8,6 +8,7 @@ package me.kaveenk.ems.utils;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import me.kaveenk.ems.main.EMSMain;
 import me.kaveenk.ems.types.Employee;
@@ -37,17 +38,38 @@ public class SaveThread extends Thread {
 
     @Override
     public void run() {
-
+        FileLock lock = null;
+        FileOutputStream fileOut = null;
+        ObjectOutputStream out = null;
         try {
-            FileOutputStream fileOut = new FileOutputStream(serialFile);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            fileOut = new FileOutputStream(serialFile);
+            lock = fileOut.getChannel().lock();
+            out = new ObjectOutputStream(fileOut);
             out.writeObject(employeeList);
-            out.close();
-            fileOut.close();
+
             EMSMain.logger.info("EMS Data has been serialized to " + serialFile);
         } catch (IOException i) {
             EMSMain.logger.error("There was an error during serialization", i);
 
+        } finally {
+
+            //TODO de-generalize exceptions.
+            try {
+                //TODO don't reference a possible null-pointer
+                lock.release();
+            } catch (Exception e) {
+                EMSMain.logger.error("There was an error during file lock release.", e);
+            }
+            try {
+                fileOut.close();
+            } catch (Exception e) {
+                EMSMain.logger.error("There was an error closing the file output stream", e);
+            }
+            try {
+                out.close();
+            } catch (Exception e) {
+                EMSMain.logger.error("There was an error closing the object output stream", e);
+            }
         }
     }
 
