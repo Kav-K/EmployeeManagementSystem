@@ -119,6 +119,9 @@ public class EMSMain extends javax.swing.JFrame {
 
         }
 
+       
+        
+        
         this.setResizable(false);
         this.setUndecorated(true);
 
