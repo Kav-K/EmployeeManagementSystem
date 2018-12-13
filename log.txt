@@ -1,22 +1,22 @@
-Nov 12, 2018 10:52:10 PM me.kaveenk.ems.utils.LogHandler initialize
-INFO: Logger initialized atMon Nov 12 22:52:10 EST 2018
-Nov 12, 2018 10:52:11 PM me.kaveenk.ems.utils.LogHandler info
-INFO: Mon Nov 12 22:52:11 EST 2018:  EMS Data has been serialized to employeeData.ser
-Nov 12, 2018 10:52:11 PM me.kaveenk.ems.utils.LogHandler info
-INFO: Mon Nov 12 22:52:11 EST 2018:  Program successfully initialized.
-Nov 12, 2018 10:52:11 PM me.kaveenk.ems.utils.LogHandler info
-INFO: Mon Nov 12 22:52:11 EST 2018:  30 second saving task started
-Nov 12, 2018 10:52:11 PM me.kaveenk.ems.utils.LogHandler info
-INFO: Mon Nov 12 22:52:11 EST 2018:  EMS Data has been serialized to employeeData.ser
-Nov 12, 2018 10:52:16 PM me.kaveenk.ems.utils.LogHandler info
-INFO: Mon Nov 12 22:52:16 EST 2018:  User successfully authenticated.
-Nov 12, 2018 10:52:16 PM me.kaveenk.ems.utils.LogHandler info
-INFO: Mon Nov 12 22:52:16 EST 2018:  Preparing to populate JTable
-Nov 12, 2018 10:52:16 PM me.kaveenk.ems.utils.LogHandler info
-INFO: Mon Nov 12 22:52:16 EST 2018:  The Main Menu JTable has been populated.
-Nov 12, 2018 10:52:28 PM me.kaveenk.ems.utils.LogHandler info
-INFO: Mon Nov 12 22:52:28 EST 2018:  System gracefully exiting
-Nov 12, 2018 10:52:28 PM me.kaveenk.ems.utils.LogHandler info
-INFO: Mon Nov 12 22:52:28 EST 2018:  EMS Data has been serialized to .employeeData.ser
-Nov 12, 2018 10:52:28 PM me.kaveenk.ems.utils.LogHandler info
-INFO: Mon Nov 12 22:52:28 EST 2018:  EMS Data has been serialized to employeeData.ser
+Dec 13, 2018 12:58:40 PM me.kaveenk.ems.utils.LogHandler initialize
+INFO: Logger initialized atThu Dec 13 12:58:40 EST 2018
+Dec 13, 2018 12:58:40 PM me.kaveenk.ems.utils.LogHandler info
+INFO: Thu Dec 13 12:58:40 EST 2018:  EMS Data has been serialized to employeeData.ser
+Dec 13, 2018 12:58:40 PM me.kaveenk.ems.utils.LogHandler info
+INFO: Thu Dec 13 12:58:40 EST 2018:  Program successfully initialized.
+Dec 13, 2018 12:58:40 PM me.kaveenk.ems.utils.LogHandler info
+INFO: Thu Dec 13 12:58:40 EST 2018:  30 second saving task started
+Dec 13, 2018 12:58:40 PM me.kaveenk.ems.utils.LogHandler info
+INFO: Thu Dec 13 12:58:40 EST 2018:  EMS Data has been serialized to employeeData.ser
+Dec 13, 2018 12:58:43 PM me.kaveenk.ems.utils.LogHandler info
+INFO: Thu Dec 13 12:58:43 EST 2018:  User successfully authenticated.
+Dec 13, 2018 12:58:43 PM me.kaveenk.ems.utils.LogHandler info
+INFO: Thu Dec 13 12:58:43 EST 2018:  Preparing to populate JTable
+Dec 13, 2018 12:58:43 PM me.kaveenk.ems.utils.LogHandler info
+INFO: Thu Dec 13 12:58:43 EST 2018:  The Main Menu JTable has been populated.
+Dec 13, 2018 12:58:54 PM me.kaveenk.ems.utils.LogHandler info
+INFO: Thu Dec 13 12:58:54 EST 2018:  System gracefully exiting
+Dec 13, 2018 12:58:54 PM me.kaveenk.ems.utils.LogHandler info
+INFO: Thu Dec 13 12:58:54 EST 2018:  EMS Data has been serialized to employeeData.ser
+Dec 13, 2018 12:58:54 PM me.kaveenk.ems.utils.LogHandler info
+INFO: Thu Dec 13 12:58:54 EST 2018:  EMS Data has been serialized to .employeeData.ser

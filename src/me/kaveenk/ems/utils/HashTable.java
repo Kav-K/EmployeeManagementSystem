@@ -173,6 +173,7 @@ public class HashTable {
                         salaryCalculated = (employee.getHourlyWage() * employee.getHoursPerWeek() * employee.getWeeksPerYear());
                     } else {
                         salaryCalculated = (employee.getHourlyWage() * employee.getHoursPerWeek() * employee.getWeeksPerYear()) * (employee.getDeductionRate() / 100);
+                        salaryCalculated = (employee.getHourlyWage() * employee.getHoursPerWeek() * employee.getWeeksPerYear()) - salaryCalculated;
                     }
                     model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(), "Part Time", salaryCalculated});
                 } else if (buckets[i].get(k) instanceof FullTimeEmployee) {
@@ -182,6 +183,7 @@ public class HashTable {
                         salaryCalculated = (employee.getYearlySalary());
                     } else {
                         salaryCalculated = (employee.getYearlySalary()) * (employee.getDeductionRate() / 100);
+                        salaryCalculated = (employee.getYearlySalary()) - salaryCalculated;                    
                     }
                     model.addRow(new Object[]{employee.getFirstName(), employee.getLastName(), employee.getEmployeeNumber(), "Full Time", salaryCalculated});
                 } else {
