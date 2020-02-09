@@ -1,7 +1,4 @@
 # EmployeeManagementSystem
-ICS4UO Project (Netbeans & GUI Development)
-
-
 The password, for purposes of testing is securepassword123.
 
 EmployeeManagementSystem uses JxBrowser http://www.teamdev.com/jxbrowser, which is a proprietary software, owned by TeamDev Ltd.
